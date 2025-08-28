@@ -1,9 +1,9 @@
+"use client"
 import Image from "next/image";
 import CustomerSection from "../components/HomePage/customerStories";
 import ServicesSection from "../components/HomePage/serviceSection";
 import AboutSection from "../components/HomePage/aboutSection";
-import FeaturesSection from "../components/HomePage/featureSection";
-import TCSCarousel from "../components/HomePage/tcsCarousel";
+import Carousel from "../components/HomePage/carousel";
 import Header from "../components/header/index";
 import Testimonial from "../components/HomePage/testimonialSectionNew"
 import Footer from "../components/footer/index";
@@ -16,18 +16,18 @@ export default function Home() {
       <Header />
       
       {/* Hero Carousel Section */}
-      <TCSCarousel />
+      <Carousel />
       
       {/* About Section */}
       <div className="mt-0">
         <AboutSection />
       </div>
-      
+
       <div className="">
         <ServicesSection />
       </div>
 
-      <FeaturesSection/>
+
 
       <div className="">
         <CustomerSection />

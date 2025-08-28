@@ -70,13 +70,29 @@ const CustomerStoriesCarousel = () => {
     <AnimatedSection animation="fadeInUp" className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <AnimatedSection animation="fadeInLeft" delay="delay-200" className="flex items-center justify-between mb-12">
-          <h2 className="text-4xl md:text-5xl font-light text-gray-900">
-            Customer Stories
+        <AnimatedSection animation="fadeInUp" delay="delay-200" className="text-center mb-16">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-orange-500/10 backdrop-blur-sm border border-orange-400/20 mb-6 shadow-lg">
+            <div className="w-2 h-2 bg-orange-500 rounded-full mr-2 animate-pulse"></div>
+            <span className="text-sm font-medium text-orange-600 tracking-wider uppercase">CUSTOMER STORIES</span>
+          </div>
+          
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-gray-900">
+            Real Stories from
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-600">
+              Happy Customers
+            </span>
           </h2>
+          
+          <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+            Discover how our solutions have transformed businesses across various industries
+          </p>
+        </AnimatedSection>
 
+        {/* Navigation and Stories Container */}
+        <div className="mb-8">
           {/* Navigation Arrows */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-center space-x-4 mb-8">
             <button
               onClick={goToPrevious}
               disabled={currentIndex === 0}
@@ -101,7 +117,7 @@ const CustomerStoriesCarousel = () => {
               <ChevronRight className="w-6 h-6" />
             </button>
           </div>
-        </AnimatedSection>
+        </div>
 
         {/* Stories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

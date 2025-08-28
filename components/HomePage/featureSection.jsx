@@ -225,21 +225,23 @@ const FeaturesSection = () => {
     <AnimatedSection animation="fadeInUp" className="bg-gray-900 py-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <AnimatedSection animation="fadeInDown" delay="delay-200" className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-500/10 backdrop-blur-sm border border-green-500/20 mb-6">
-            <Zap className="w-4 h-4 text-green-400 mr-2" />
-            <span className="text-sm font-medium text-green-400">
-              Our Features
-            </span>
+        <AnimatedSection animation="fadeInUp" delay="delay-200" className="text-center mb-16">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-orange-500/20 backdrop-blur-sm border border-orange-400/30 mb-6 shadow-lg">
+            <div className="w-2 h-2 bg-orange-400 rounded-full mr-2 animate-pulse"></div>
+            <span className="text-sm font-medium text-orange-200 tracking-wider uppercase">OUR FEATURES</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            Powerful Features to Transform
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white">
+            Powerful Features to
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-              Your E-commerce Business
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-300">
+              Transform Business
             </span>
           </h2>
+          
+          <p className="text-gray-300 text-lg max-w-3xl mx-auto opacity-90">
+            Discover cutting-edge features designed to revolutionize your e-commerce operations
+          </p>
         </AnimatedSection>
 
         {/* Features Grid */}

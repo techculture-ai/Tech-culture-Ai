@@ -2,44 +2,122 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
 
-const TCSCarousel = () => {
+const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isTextAnimating, setIsTextAnimating] = useState(false);
 
-  const slides = [
+  const slides = [
     {
       id: 1,
-      title: "ICICI Lombard reimagines infrastructure resilience",
-      subtitle: "Transforming Digital Experience",
-      description: "Leveraging cloud-native solutions to build scalable and resilient infrastructure for next-generation banking services.",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
-      category: "Financial Services"
+      title: "Unlocking business potential with AI & Data Analytics",
+      subtitle: "Intelligent Insights, Smarter Decisions",
+      description:
+        "Leveraging advanced AI and data analytics to transform raw data into actionable insights, driving growth and operational efficiency.",
+      image:
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      category: "AI & Data Analytics",
     },
     {
       id: 2,
-      title: "Revolutionizing retail with AI-powered insights",
-      subtitle: "Smart Retail Solutions",
-      description: "Implementing intelligent analytics and automation to enhance customer experience and operational efficiency.",
-      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
-      category: "Retail & Consumer"
+      title: "Scalable & resilient infrastructure with Cloud Solutions",
+      subtitle: "Empower Your Digital Transformation",
+      description:
+        "Building modern, scalable cloud infrastructure and migrating legacy systems to the cloud for enhanced performance and security.",
+      image:
+        "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      category: "Cloud Solutions",
     },
     {
       id: 3,
-      title: "Next-generation healthcare transformation",
-      subtitle: "Digital Health Innovation",
-      description: "Building connected healthcare ecosystems that improve patient outcomes and streamline medical operations.",
-      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
-      category: "Healthcare"
+      title: "Strategic IT Consulting for your business needs",
+      subtitle: "Navigating the Digital Landscape",
+      description:
+        "Providing expert guidance to optimize your technology stack, streamline processes, and align your IT strategy with business goals.",
+      image:
+        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      category: "IT Consulting",
     },
     {
       id: 4,
-      title: "Sustainable manufacturing with IoT integration",
-      subtitle: "Industry 4.0 Solutions", 
-      description: "Connecting machines, processes, and people to create intelligent manufacturing environments.",
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
-      category: "Manufacturing"
-    }
+      title: "Protecting your assets with Cybersecurity & Compliance",
+      subtitle: "Fortifying Your Digital Defenses",
+      description:
+        "Implementing robust security protocols and ensuring compliance with industry regulations to protect your data from threats and vulnerabilities.",
+      image:
+        "https://images.unsplash.com/photo-1551288049-629676587f4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      category: "Cybersecurity & Compliance",
+    },
+    {
+      id: 5,
+      title: "Streamlining operations with Enterprise Solutions",
+      subtitle: "Integrated Solutions for Business Growth",
+      description:
+        "Developing and integrating custom enterprise resource planning (ERP) and other solutions to improve efficiency across your organization.",
+      image:
+        "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      category: "Enterprise Solutions",
+    },
+    {
+      id: 6,
+      title: "Custom CRM & LMS Development",
+      subtitle: "Connecting with Customers & Learning",
+      description:
+        "Creating bespoke Customer Relationship Management (CRM) and Learning Management System (LMS) platforms tailored to your unique business processes.",
+      image:
+        "https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      category: "CRM & LMS Development",
+    },
+    {
+      id: 7,
+      title: "Building dynamic experiences with Web Development",
+      subtitle: "Creating Your Online Presence",
+      description:
+        "Designing and developing responsive, high-performing websites that deliver an exceptional user experience and drive engagement.",
+      image:
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      category: "Web Development",
+    },
+    {
+      id: 8,
+      title: "Innovative Mobile App Development",
+      subtitle: "Your Business in Their Hands",
+      description:
+        "Crafting native and cross-platform mobile applications that are intuitive, secure, and aligned with your brand identity.",
+      image:
+        "https://images.unsplash.com/photo-1480694313141-fce5e697ee25?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      category: "Mobile App Development",
+    },
+    {
+      id: 9,
+      title: "User-centric design with UI/UX Design",
+      subtitle: "Experiences That Delight",
+      description:
+        "Focusing on user behavior and needs to create intuitive and aesthetically pleasing interfaces that enhance product usability and satisfaction.",
+      image:
+        "https://images.unsplash.com/photo-1522204523234-87295a75549b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      category: "UI/UX Design",
+    },
+    {
+      id: 10,
+      title: "Accelerating growth with Digital Marketing",
+      subtitle: "Reaching Your Audience, Driving Results",
+      description:
+        "Crafting comprehensive digital marketing strategies, including SEO, content marketing, and social media, to boost brand visibility and lead generation.",
+      image:
+        "https://images.unsplash.com/photo-1452421823722-e6ae8d49261a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      category: "Digital Marketing",
+    },
+    {
+      id: 11,
+      title: "Targeted audience reach with Paid Promotions & Ads",
+      subtitle: "Maximizing Your ROI",
+      description:
+        "Developing and managing effective paid advertising campaigns across various platforms to drive targeted traffic and maximize return on investment.",
+      image:
+        "https://images.unsplash.com/photo-1557804506-669527e7ee8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      category: "Paid Promotions & Ads",
+    },
   ];
 
   // Auto-play functionality
@@ -247,4 +325,4 @@ const TCSCarousel = () => {
   );
 };
 
-export default TCSCarousel;
+export default Carousel;
