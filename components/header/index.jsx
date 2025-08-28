@@ -54,7 +54,7 @@ const Header = () => {
                   <text x="5" y="18" fill="white" fontSize="18" fontWeight="bold">N</text>
                 </svg>
               </div>
-              <span className="text-xl font-semibold text-white">NovaaAi</span>
+              <span className="text-xl font-semibold text-white">TechCultureAi</span>
             </Link>
           </div>
 
