@@ -326,7 +326,8 @@ const About = () => {
               Our <span className="text-gred">Growth Story</span>
             </h2>
             <p className="text-gray-300 text-[20px] text-center">
-              From startup to industry leader - here's how we've evolved
+              From startup to industry leader - here&apos;s how we&apos;ve
+              evolved
             </p>
           </div>
 
@@ -382,7 +383,7 @@ const About = () => {
               </span>
             </div>
             <h2 className="mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2">
-              Why We're <span className="text-gred">Different</span>
+              Why We&apos;re <span className="text-gred">Different</span>
             </h2>
             <p className="text-gray-300 text-[20px] text-center">
               What sets us apart in the competitive AI landscape

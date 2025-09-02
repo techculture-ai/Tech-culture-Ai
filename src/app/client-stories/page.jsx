@@ -152,17 +152,19 @@ const ClientStories = () => {
                   key={story.id}
                   onClick={() => setSelectedStory(index)}
                   className={`group relative cursor-pointer rounded-xl overflow-hidden border transition-all duration-500 hover:-translate-y-2 backdrop-blur-md transform ${
-                    isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+                    isLoaded
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-4 opacity-0"
                   } ${
-                    selectedStory === index 
-                      ? 'border-primary/70 bg-[rgba(0,3,25,0.8)]' 
-                      : 'border-[rgba(255,255,255,0.1)] hover:border-primary/50 bg-[rgba(255,255,255,0.05)]'
+                    selectedStory === index
+                      ? "border-primary/70 bg-[rgba(0,3,25,0.8)]"
+                      : "border-[rgba(255,255,255,0.1)] hover:border-primary/50 bg-[rgba(255,255,255,0.05)]"
                   }`}
                   style={{ transitionDelay: `${index * 100}ms` }}
                 >
                   {/* Hover Glow Effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  
+
                   <div className="p-6 relative z-10">
                     <div className="flex items-center gap-4 mb-4">
                       <img
@@ -175,26 +177,30 @@ const ClientStories = () => {
                           {story.clientName}
                         </h4>
                         <p className="text-white/70 text-[12px]">
-                          {story.position} at {story.company}
+                          &quot;{story.position} at {story.company}
                         </p>
                       </div>
                     </div>
-                    
+
                     {/* Message with Glow Effect */}
                     <div className="relative group/message">
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 rounded-lg opacity-0 group-hover/message:opacity-100 transition-opacity duration-300"></div>
                       <p className="text-white/80 text-[14px] leading-6 relative z-10 p-3 rounded-lg group-hover/message:text-white transition-colors duration-300">
-                        "{story.message.substring(0, 120)}..."
+                        &quot;{story.message.substring(0, 120)}...&quot;
                       </p>
                     </div>
-                    
+
                     <div className="flex items-center justify-between mt-4">
                       <span className="text-primary text-[12px] font-medium">
                         {story.industry}
                       </span>
                       <div className="flex gap-1">
                         {[...Array(5)].map((_, i) => (
-                          <IoStar key={i} size={12} className="text-orange-400" />
+                          <IoStar
+                            key={i}
+                            size={12}
+                            className="text-orange-400"
+                          />
                         ))}
                       </div>
                     </div>
@@ -209,11 +215,13 @@ const ClientStories = () => {
 
             {/* Right Side - Featured Story */}
             <div className="lg:col-span-2">
-              <div 
+              <div
                 className={`relative rounded-xl overflow-hidden border border-[rgba(255,255,255,0.1)] bg-[rgba(0,3,25,0.6)] backdrop-blur-md transform transition-all duration-700 ${
-                  isLoaded ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
+                  isLoaded
+                    ? "translate-x-0 opacity-100"
+                    : "translate-x-8 opacity-0"
                 }`}
-                style={{ transitionDelay: '200ms' }}
+                style={{ transitionDelay: "200ms" }}
               >
                 {/* Background Image */}
                 <div className="relative h-[500px]">
@@ -223,7 +231,7 @@ const ClientStories = () => {
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                  
+
                   {/* Content Overlay */}
                   <div className="absolute bottom-0 left-0 right-0 p-8">
                     <div className="flex items-center gap-4 mb-6">
@@ -240,7 +248,8 @@ const ClientStories = () => {
                           {stories[selectedStory].position}
                         </p>
                         <p className="text-primary text-[14px] font-medium">
-                          {stories[selectedStory].company} • {stories[selectedStory].industry}
+                          {stories[selectedStory].company} •{" "}
+                          {stories[selectedStory].industry}
                         </p>
                       </div>
                     </div>
