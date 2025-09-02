@@ -1,8 +1,28 @@
 "use client"
-import React, { useState } from 'react'
-import { technologiesData } from '../data'
+import React, { useEffect, useState } from 'react'
+import { technologiesData } from '../app/data'
 import Button from '@mui/material/Button'
+import axios from 'axios'
+import { useSite } from '@/context/siteContext'
 const Technologies = () => {
+    const { technologyData, setTechnologyData } = useSite();
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    
+    useEffect(()=>{
+        const fetchTechnology = async () => {
+          if (!technologyData) {
+            try {
+              const res = await axios.get(`${apiUrl}/api/technologies`);
+              setTechnologyData(res.data.technologies);
+              console.log("Technology data", res.data.technologies);
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        };
+
+        fetchTechnology();
+    }, [technologyData, setTechnologyData]);
 
     const [isActive, setIsActive] = useState(0);
     const [isActiveTech, setIsActiveTech] = useState(technologiesData[0]);

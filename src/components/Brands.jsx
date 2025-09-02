@@ -1,6 +1,29 @@
-import React from 'react'
+import { useSite } from '@/context/siteContext';
+import axios from 'axios';
+import React, { useEffect } from 'react'
 import Marquee from "react-fast-marquee";
 export const Brands = () => {
+
+  const { settingsData, setSettingsData } = useSite();
+  useEffect(() => {
+    async function fetchData() {
+      if (!settingsData) {
+        try {
+          const res = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/site-settings`
+          );
+          if (res.status === 200) {
+            setSettingsData(res.data.data);
+            console.log("im data ", res.data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+    fetchData();
+  }, [settingsData, setSettingsData]);
+
   return (
     <div className=' brands py-20 pb-0 pt-10'>
       <div className='container flex items-center gap-7'>

@@ -1,0 +1,358 @@
+"use client";
+import React, { useState, useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import Button from "@mui/material/Button";
+import { FiPhone, FiMail, FiMapPin } from "react-icons/fi";
+import { IoSend } from "react-icons/io5";
+import { BsChat } from "react-icons/bs";
+import { MdAccessTime } from "react-icons/md";
+import AIPageHeader from "../../components/AIPageHeader";
+import axios from "axios";
+import toast from "react-hot-toast";
+
+const ContactUs = () => {
+  useEffect(() => {
+    AOS.init({ duration: 1000, offset: 50 });
+  }, []);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    service: "",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+      const response = await axios.post(`${apiBaseUrl}/api/contacts`, formData);
+      
+      if (response.status === 201) {
+        toast.success("Message sent successfully! We'll get back to you soon.");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          service: "",
+          message: ""
+        });
+      }
+    } catch (error) {
+      toast.error("Failed to send message. Please try again.");
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const contactInfo = [
+    {
+      icon: <FiPhone size={24} className="text-primary" />,
+      title: "Call Us",
+      details: ["+1 (555) 123-4567", "+1 (555) 987-6543"],
+      description: "Mon-Fri 9AM-6PM EST"
+    },
+    {
+      icon: <FiMail size={24} className="text-primary" />,
+      title: "Email Us",
+      details: ["hello@techculture.ai", "support@techculture.ai"],
+      description: "We reply within 24 hours"
+    },
+    {
+      icon: <FiMapPin size={24} className="text-primary" />,
+      title: "Visit Us",
+      details: ["123 AI Innovation Drive", "Tech Valley, CA 94000"],
+      description: "Open Mon-Fri 9AM-6PM"
+    }
+  ];
+
+  const services = [
+    "AI Consulting",
+    "Machine Learning",
+    "Data Analytics",
+    "Automation Solutions",
+    "Custom Development",
+    "Other"
+  ];
+
+  return (
+    <>
+      {/* AI Page Header */}
+      <AIPageHeader 
+        title="Connect with Our AI Experts"
+        subtitle="Let's Build Something Intelligent Together"
+        description="Ready to transform your business with cutting-edge AI solutions? Our team of experts is here to help you succeed."
+        aiWords={["AI", "Intelligent", "cutting-edge"]}
+      />
+
+      {/* Contact Info Cards */}
+      <section className="py-20 bg-[#000319]">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {contactInfo.map((info, index) => (
+              <div
+                key={index}
+                className="text-center p-8 bg-[#1e293b80] rounded-lg border border-[rgba(255,255,255,0.1)] hover:scale-105 transition-all group"
+                data-aos="zoom-in"
+                data-aos-delay={index * 100}
+              >
+                <div className="w-16 h-16 bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                  {info.icon}
+                </div>
+                <h4 className="text-[24px] font-bold text-white mb-4">{info.title}</h4>
+                <div className="space-y-2 mb-3">
+                  {info.details.map((detail, idx) => (
+                    <p key={idx} className="text-white/80 text-[18px] font-medium">
+                      {detail}
+                    </p>
+                  ))}
+                </div>
+                <p className="text-white/60 text-[14px]">{info.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form Section */}
+      <section className="py-20 imageBg">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            {/* Form */}
+            <div className="bg-[#1e293b80] rounded-lg border border-[rgba(255,255,255,0.1)] p-8" data-aos="fade-right">
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <BsChat size={28} className="text-primary" />
+                  <h3 className="text-[32px] font-bold text-white">Send us a Message</h3>
+                </div>
+                <p className="text-white/70 text-[16px]">
+                  Fill out the form below and our AI experts will get back to you within 24 hours.
+                </p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-white font-medium mb-2">Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="w-full h-12 bg-[#000319] border border-[rgba(255,255,255,0.2)] rounded-lg px-4 text-white placeholder-white/50 focus:border-primary focus:outline-none transition-all"
+                      placeholder="Your full name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white font-medium mb-2">Email *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full h-12 bg-[#000319] border border-[rgba(255,255,255,0.2)] rounded-lg px-4 text-white placeholder-white/50 focus:border-primary focus:outline-none transition-all"
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-white font-medium mb-2">Phone</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full h-12 bg-[#000319] border border-[rgba(255,255,255,0.2)] rounded-lg px-4 text-white placeholder-white/50 focus:border-primary focus:outline-none transition-all"
+                      placeholder="+1 (555) 123-4567"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white font-medium mb-2">Company</label>
+                    <input
+                      type="text"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      className="w-full h-12 bg-[#000319] border border-[rgba(255,255,255,0.2)] rounded-lg px-4 text-white placeholder-white/50 focus:border-primary focus:outline-none transition-all"
+                      placeholder="Your company name"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-white font-medium mb-2">Service Interest</label>
+                  <select
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    className="w-full h-12 bg-[#000319] border border-[rgba(255,255,255,0.2)] rounded-lg px-4 text-white focus:border-primary focus:outline-none transition-all"
+                  >
+                    <option value="">Select a service</option>
+                    {services.map((service, index) => (
+                      <option key={index} value={service} className="bg-[#000319]">
+                        {service}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-white font-medium mb-2">Message *</label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    rows={5}
+                    className="w-full bg-[#000319] border border-[rgba(255,255,255,0.2)] rounded-lg px-4 py-3 text-white placeholder-white/50 focus:border-primary focus:outline-none transition-all resize-none"
+                    placeholder="Tell us about your project and how we can help..."
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-8 !py-4 !capitalize !font-bold !text-[16px] w-full lg:w-auto"
+                  size="large"
+                >
+                  {isSubmitting ? (
+                    "Sending..."
+                  ) : (
+                    <>
+                      <IoSend size={20} className="mr-2" />
+                      Send Message
+                    </>
+                  )}
+                </Button>
+              </form>
+            </div>
+
+            {/* Contact Information */}
+            <div className="flex flex-col gap-8" data-aos="fade-left">
+              <div className="bg-[#1e293b80] rounded-lg border border-[rgba(255,255,255,0.1)] p-8">
+                <h4 className="text-[24px] font-bold text-white mb-6">Why Choose TechCulture AI?</h4>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <span className="text-white text-[12px] font-bold">✓</span>
+                    </div>
+                    <div>
+                      <h5 className="text-white font-medium">Expert AI Consultation</h5>
+                      <p className="text-white/70 text-[14px]">Free 30-minute strategy session with our AI specialists</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <span className="text-white text-[12px] font-bold">✓</span>
+                    </div>
+                    <div>
+                      <h5 className="text-white font-medium">24/7 Support</h5>
+                      <p className="text-white/70 text-[14px]">Round-the-clock technical support for all our solutions</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <span className="text-white text-[12px] font-bold">✓</span>
+                    </div>
+                    <div>
+                      <h5 className="text-white font-medium">Proven Track Record</h5>
+                      <p className="text-white/70 text-[14px]">200+ successful AI implementations across industries</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-[#1e293b80] rounded-lg border border-[rgba(255,255,255,0.1)] p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <MdAccessTime size={24} className="text-primary" />
+                  <h4 className="text-[20px] font-bold text-white">Response Time</h4>
+                </div>
+                <p className="text-white/80 text-[16px] mb-4">
+                  We typically respond to all inquiries within 24 hours. For urgent matters, 
+                  call us directly for immediate assistance.
+                </p>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-green-400 text-[14px] font-medium">Our team is online</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-[#000319]">
+        <div className="container">
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center">
+              <span className="bg-orange-50 p-1 px-3 border border-[#ffad4f] rounded-full text-[14px] text-primary">
+                FAQ
+              </span>
+            </div>
+            <h2 className="mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2">
+              Frequently <span className="text-gred">Asked Questions</span>
+            </h2>
+            <p className="text-gray-300 text-[20px] text-center">
+              Get answers to common questions about our AI solutions
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto space-y-6">
+            {[
+              {
+                question: "How quickly can AI solutions be implemented?",
+                answer: "Implementation timelines vary based on project complexity, but typically range from 2-8 weeks for standard solutions and 3-6 months for custom enterprise implementations."
+              },
+              {
+                question: "What kind of ROI can I expect from AI implementation?",
+                answer: "Our clients typically see 25-40% improvement in operational efficiency and 15-30% cost reduction within the first year of implementation."
+              },
+              {
+                question: "Do you provide ongoing support after implementation?",
+                answer: "Yes, we offer comprehensive 24/7 support, regular updates, and continuous optimization to ensure your AI solutions perform at their best."
+              },
+              {
+                question: "Can your solutions integrate with existing systems?",
+                answer: "Absolutely! Our AI solutions are designed to seamlessly integrate with your existing tech stack and business processes."
+              }
+            ].map((faq, index) => (
+              <div
+                key={index}
+                className="bg-[#1e293b80] rounded-lg border border-[rgba(255,255,255,0.1)] p-6 hover:border-primary/30 transition-all"
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+              >
+                <h4 className="text-[18px] font-bold text-white mb-3">{faq.question}</h4>
+                <p className="text-white/70 text-[16px] leading-6">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default ContactUs;

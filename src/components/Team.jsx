@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -11,8 +11,26 @@ import Link from 'next/link';
 import { FaLinkedinIn } from "react-icons/fa";
 import { RiTwitterXLine } from "react-icons/ri";
 import { FaInstagram } from "react-icons/fa";
+import { useSite } from '@/context/siteContext';
 
 const Team = () => {
+    const { teamData, setTeamData } = useSite();
+    useEffect(() => {
+      async function fetchData() {
+        if (!teamData) {
+          try {
+            const res = await axios.get(
+              `${process.env.NEXT_PUBLIC_API_URL}/api/employees`
+            );
+            console.log("team data", res.data.employees);
+            setTeamData(res.data.employees);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }
+      fetchData();
+    }, []);
     return (
         <section className=' py-20 pt-0 pb-0 teamSection'>
             <div className='container'>

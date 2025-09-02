@@ -3,11 +3,45 @@ import Button from '@mui/material/Button'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { IoIosArrowRoundForward } from "react-icons/io";
-import { servicesData } from '../data';
+import { servicesData } from '../app/data';
 import { IoIosArrowRoundDown } from "react-icons/io";
 import { IoIosArrowRoundUp } from "react-icons/io";
+import { useSite } from '@/context/siteContext';
+import axios from 'axios';
 
 const HomeServices = () => {
+    const [coreServices, setCoreServices] = React.useState([])
+    const [mainServices, setMainServices] = React.useState([])
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const { serviceData, setServiceData } = useSite();
+
+    useEffect(() => {
+      const fetchServiceData = async () => {
+        if (!serviceData) {
+          try {
+            const res = await axios.get(`${apiBaseUrl}/api/services`);
+            setServiceData(res.data.services);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+
+        //filter according to the category if core added in the core otherwise main
+        if (serviceData) {
+          const tempCore = serviceData.filter(
+            (service) => service.category === "core"
+          );
+          const tempMain = serviceData.filter(
+            (service) => service.category === "main"
+          );
+
+          setCoreServices(tempCore);
+          setMainServices(tempMain);
+        }
+      };
+
+      fetchServiceData();
+    }, [serviceData, setServiceData]);
 
     const [expendNum, setexpendNum] = useState(3);
     const [isExpend, setisExpend] = useState(false);

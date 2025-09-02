@@ -1,6 +1,8 @@
 "use client";
 
+import { useSite } from "@/context/siteContext";
 import Button from "@mui/material/Button";
+import { useEffect, useState } from "react";
 import { GoArrowUpRight } from "react-icons/go";
 
 const projects = [
@@ -32,6 +34,37 @@ const projects = [
 ];
 
 export default function ProjectCards() {
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const [completedProjects, setCompletedProjects] = useState([]);
+    const [ongoingProjects, setOngoingProjects] = useState([]);
+    const { projectData, setProjectData } = useSite();
+
+    // useEffect(() => {
+    //   const fetchData = async () => {
+    //     if (!projectData) {
+    //       try {
+    //         const res = await axios.get(`${apiBaseUrl}/api/projects`);
+    //         setProjectData(res.data.projects);
+    //         console.log("Project data", res.data.projects);
+    //       } catch (error) {
+    //         console.log(error);
+    //       }
+    //     }
+
+    //     if (projectData) {
+    //       const tempCompleted = projectData.filter(
+    //         (project) => project.status === "completed"
+    //       );
+    //       const tempOngoing = projectData.filter(
+    //         (project) => project.status === "ongoing"
+    //       );
+    //       setcCmpletedProjects(tempCompleted);
+    //       setOngoingProjects(tempOngoing);
+    //     }
+    //   };
+
+    //   fetchData();
+    // }, [projectData, setProjectData]);
     return (
         <section className="imageBg py-16 pt-0">
             <div className="container">

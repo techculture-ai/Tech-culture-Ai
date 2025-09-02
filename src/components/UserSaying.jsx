@@ -1,7 +1,30 @@
-import React from 'react'
+import { useSite } from '@/context/siteContext';
+import axios from 'axios';
+import React, { useEffect } from 'react'
 import Marquee from "react-fast-marquee";
 
 const UserSaying = () => {
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const {
+      testimonialData,
+      setTestimonialData,
+    } = useSite();
+
+    useEffect(() => {
+      const fetchTestimonialData = async () => {
+        if (!testimonialData) {
+          try {
+            const res = await axios.get(`${apiBaseUrl}/api/testimonials`);
+            setTestimonialData(res.data.testimonials);
+            console.log("Testimonial data", res.data.testimonials);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      };
+
+      fetchTestimonialData();
+    }, [testimonialData, setTestimonialData]);
     return (
         <section className='py-20'>
             <div className='container'>
