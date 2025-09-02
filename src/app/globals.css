@@ -1,0 +1,355 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+  font-family: "Montserrat", sans-serif;
+  background: #040416;
+}
+
+body,
+html {
+  overflow-x: hidden !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.container {
+  width: 95% !important;
+  max-width: 1800px !important;
+  margin: auto;
+  padding: 0px 15px;
+}
+
+.txt-shadow {
+  text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1), 0px 18px 23px rgba(0, 0, 0, 0.1);
+}
+
+header.scroll {
+  background: #040416;
+}
+
+ .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.8) !important;
+}
+
+.swiper-pagination-bullet-active {
+  @apply !bg-primary
+}
+
+.homeSlider .swiper-pagination {
+  top: 88% !important;
+  text-align: left !important;
+  padding-left: 5.5% !important;
+}
+
+.homeSlider .swiper-pagination span {
+  display: inline-block !important;
+  width: 30px !important;
+  border-radius: 2px !important;
+  height: 4px !important;
+}
+
+
+
+
+.animateText {
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
+  animation: 3s linear 0s infinite normal none running move5;
+  position: absolute;
+  color: #fff;
+  font-size: 100px;
+  font-weight: bold;
+  bottom: 0px;
+  left: 0px;
+}
+
+
+@keyframes move5 {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  50% {
+    -webkit-transform: translateY(-20px);
+    transform: translateY(-20px);
+  }
+
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+}
+
+.aboutIconImg {
+  animation: 3s linear 0s infinite normal none running moveX;
+}
+
+@keyframes moveX {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+
+  50% {
+    -webkit-transform: translateX(-20px);
+    transform: translateX(-20px);
+  }
+
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+
+}
+
+.text-gred {
+  background: linear-gradient(90deg, #ff6333, #ff815a, #b42c03);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.services .box {
+  transition: all 0.4s ease-in-out !important;
+}
+
+.services .box .info::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.9));
+}
+
+.services .box:hover .info::before{background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.1));}
+
+.services .box .info * {
+  position: relative;
+  z-index: 51;
+}
+
+.services .box:hover button {
+  background: #fff !important;
+}
+
+.services .box:hover button svg {
+  color: #000 !important;
+}
+
+.services .box img {
+  transition: all 0.4s ease-in-out !important;
+  width: 100%;
+}
+
+
+/* ..react-simple-marquee__marquee-elem{@apply !grid !grid-cols-3 !gap-6 mt-8} */
+
+
+.rfm-child {
+  margin: 0px 10px !important;
+}
+
+.marquee__Wrapper::after {
+  content: "";
+  width: 100px;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 99;
+  background-image: linear-gradient(to right, transparent, #040416);
+}
+
+.marquee__Wrapper::before {
+  content: "";
+  width: 100px;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 99;
+  background-image: linear-gradient(to right, #040416, transparent);
+}
+
+.technologies button {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.technologiesSection h2 {
+  text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1), 0px 18px 23px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.teamSection {
+  width: 100%;
+  height: auto;
+  background: url("/team.png") no-repeat top left #000319;
+}
+
+.teamSection .teamItem {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.04) 100%);
+}
+
+.teamSection .teamItem .info {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 3, 25, 0.8));
+  transition: all 0.3s ease-in-out !important;
+}
+
+.teamSection .teamItem img {
+  transition: all 0.3s ease-in-out !important;
+}
+
+.teamSection .teamItem:hover img {
+  filter: blur(8px);
+  transform: scale(1.2);
+}
+
+.teamSection .teamItem:hover .info {
+  background-image: linear-gradient(rgba(0, 3, 25, 0.5), rgba(0, 3, 25, 0.8));
+}
+
+.teamSection .teamItem .info .socials {
+  transition: all 0.3s;
+  position: absolute;
+  bottom: -100px;
+}
+
+.teamSection .teamItem .info .socials a {
+  transition: all 0.3s;
+}
+
+.teamSection .teamItem:hover .info .socials {
+  bottom: 0px;
+}
+
+.teamSection .teamItem .content {
+  transition: all 0.3s;
+}
+
+.teamSection .teamItem:hover .content {
+  padding-bottom: 40px;
+}
+
+.teamSection .teamItem:hover .info .socials a:hover {
+  @apply bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272]
+}
+
+.teamSection .swiper {
+  padding-bottom: 60px !important;
+}
+
+.teamSection .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.8) !important;
+}
+
+.teamSection .swiper-pagination-bullet-active {
+  @apply !bg-primary
+}
+
+
+
+
+/* new css */
+.txtLine {
+  background: url("/line-img1.png") repeat-x bottom 0px left;
+  background-size: 100%;
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+.homeScreen {
+  background: url("/asset-1bg1-1.png") no-repeat top left, url("/asset-1bg1-2.png") no-repeat top right, url("/homeScreen-3-img.png") no-repeat bottom center;
+}
+
+.imageBg{  background: url("/asset-1bg1-1.png") no-repeat top left, url("/asset-1bg1-2.png") no-repeat top right;}
+
+.homeScreen .plusImg {
+  position: absolute;
+  right: 250px;
+  top: 200px;
+}
+
+.keyframe5 {
+  animation-name: animation-7;
+  animation-duration: 90s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: cubic-bezier(0.59, 0.59, 1, 1);
+}
+
+@keyframes animation-7 {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(-1000deg);
+  }
+}
+
+.homeScreen_img2 {
+  position: absolute;
+  left: 170px;
+  top: 100px;
+  z-index: -1;
+}
+
+.homeScreen_img2Animation {
+  animation-name: animation-7;
+  animation-duration: 90s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: cubic-bezier(0.59, 0.59, 1, 1);
+}
+
+
+.aniamtion-key-2 {
+  animation-name: animation-2;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+
+@keyframes animation-2 {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(50px);
+  }
+}
+
+.aniamtion-key-8 {
+  animation-name: animation-8;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+
+@keyframes animation-8 {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(20px);
+  }
+}
+
+
+.projectTags{transition: all 0.5s ease-in-out !important;}
+
+.video video{width: 100% !important; height: 500px !important; object-fit: cover !important;}
