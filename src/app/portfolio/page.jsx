@@ -3,6 +3,7 @@
 import { useSite } from "@/context/siteContext";
 import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { GoArrowUpRight } from "react-icons/go";
 import AIPageHeader from "../../components/AIPageHeader";
 import axios from "axios";
@@ -41,10 +42,15 @@ const projects = [
 ];
 
 export default function ProjectCards() {
+  const router = useRouter();
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
   // const [completedProjects, setCompletedProjects] = useState([]);
   // const [ongoingProjects, setOngoingProjects] = useState([]);
   const { projectData, setProjectData } = useSite();
+
+  const handleProjectClick = (projectId) => {
+    router.push(`/portfolio/${projectId}`);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,6 +95,7 @@ export default function ProjectCards() {
                 <div
                   key={i}
                   className="group relative flex-1 basis-2/7 overflow-hidden rounded-3xl shadow-lg cursor-pointer transition-all duration-500 hover:flex-[2]"
+                  onClick={() => handleProjectClick(project._id)}
                 >
                   <img
                     src={project?.image}
