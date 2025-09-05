@@ -1,31 +1,40 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { technologiesData } from '../app/data'
 import Button from '@mui/material/Button'
 import axios from 'axios'
 import { useSite } from '@/context/siteContext'
+
 const Technologies = () => {
     const { technologyData, setTechnologyData } = useSite();
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     
-    useEffect(()=>{
+    const [isActive, setIsActive] = useState(0);
+    const [isActiveTech, setIsActiveTech] = useState(null);
+    const [loading, setLoading] = useState(true);
+    
+    useEffect(() => {
         const fetchTechnology = async () => {
-          if (!technologyData) {
             try {
-              const res = await axios.get(`${apiUrl}/api/technologies`);
-              setTechnologyData(res.data.technologies);
-              console.log("Technology data", res.data.technologies);
+                setLoading(true);
+                const res = await axios.get(`${apiUrl}/api/technologies`);
+                console.log("Technology API Response:", res.data);
+                
+                if (res.data.success && res.data.data) {
+                    setTechnologyData(res.data.data);
+                    // Set the first category as active by default
+                    if (res.data.data.length > 0) {
+                        setIsActiveTech(res.data.data[0]);
+                    }
+                }
             } catch (error) {
-              console.log(error);
+                console.error("Error fetching technologies:", error);
+            } finally {
+                setLoading(false);
             }
-          }
         };
 
         fetchTechnology();
-    }, [technologyData, setTechnologyData]);
-
-    const [isActive, setIsActive] = useState(0);
-    const [isActiveTech, setIsActiveTech] = useState(technologiesData[0]);
+    }, [apiUrl, setTechnologyData]);
 
     return (
         <section className='bg-[#000319] py-20 pt-10 imageBg'>
@@ -35,61 +44,90 @@ const Technologies = () => {
                     text-[14px] text-primary'>Technologies</span>
                 </div>
 
-                <h2 className='mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2'>  <span className='text-gred'>Technologies</span> We Use</h2>
+                <h2 className='mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2'>
+                    <span className='text-gred'>Technologies</span> We Use
+                </h2>
 
-                <p className="text-gray-300 text-[20px] text-center">We leverage cutting-edge technologies and industry-leading tools to deliver exceptional solutions</p>
-
-                <br />
-
-
-                <div className='flex items-center justify-center flex-wrap gap-4 mt-4 technologies'>
-                    {
-                        technologiesData?.length !== 0 && technologiesData?.map((item, index) => {
-                            return (
-                                <Button key={index} className={`bg-[#000319] !text-gray-300 !rounded-full !px-5 !py-2 !font-[600] !text-[15px] !capitalize hover:bg-[#222f47] items-center gap-2 ${isActive === index && '!bg-primary !text-white'}`} 
-                                onClick={() => {
-                                    setIsActive(index);
-                                    setIsActiveTech(item)
-                                }}>
-                                    <img src={item?.icon} alt="image" width={20} /> {item?.name}</Button>
-                            )
-                        })
-                    }
-                </div>
+                <p className="text-gray-300 text-[20px] text-center">
+                    We leverage cutting-edge technologies and industry-leading tools to deliver exceptional solutions
+                </p>
 
                 <br />
-                <br />
 
-
-                {
-                    isActiveTech &&
-                    <div className='technologiesSection'>
-                        <h2 className='text-center text-white text-[35px] font-bold'>{isActiveTech?.name}</h2>
-                        <br />
-
-                        <div className='p-8 bg-[#01051d] rounded-md border border-[rgba(255,255,255,0.1)]'>
-                            <div className='grid grid-cols-6 gap-8 texhCard'>
-                                {
-                                    isActiveTech?.data?.length !== 0 && isActiveTech?.data?.map((item, index) => {
-                                        return (
-                                            <div className='box bg-slate-800/50 p-3 rounded-lg flex flex-col 
-                                            gap-2 justify-center text-center h-32 border border-[rgba(255,255,255,0.050)] transition-all hover:scale-110 hover:bg-slate-700' key={index}>
-                                                    <img src={item?.img} alt='img' width={50} className='m-auto'/>
-                                                    <h3 className='text-white/80 text-[15px] font-bold'>{item?.name}</h3>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
+                {loading ? (
+                    <div className="text-center text-white">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+                        <p className="mt-4">Loading technologies...</p>
+                    </div>
+                ) : (
+                    <>
+                        <div className='flex items-center justify-center flex-wrap gap-4 mt-4 technologies'>
+                            {
+                                technologyData?.length > 0 && technologyData?.map((item, index) => {
+                                    return (
+                                        <Button 
+                                            key={index} 
+                                            className={`bg-[#000319] !text-gray-300 !rounded-full !px-5 !py-2 !font-[600] !text-[15px] !capitalize hover:bg-[#222f47] items-center gap-2 ${isActive === index && '!bg-primary !text-white'}`} 
+                                            onClick={() => {
+                                                setIsActive(index);
+                                                setIsActiveTech(item)
+                                            }}
+                                        >
+                                            {item?.title}
+                                        </Button>
+                                    )
+                                })
+                            }
                         </div>
 
-                    </div>
-                }
+                        <br />
+                        <br />
 
+                        {
+                            isActiveTech && (
+                                <div className='technologiesSection'>
+                                    <h2 className='text-center text-white text-[35px] font-bold'>
+                                        {isActiveTech?.title}
+                                    </h2>
+                                    <br />
 
-
+                                    <div className='p-8 bg-[#01051d] rounded-md border border-[rgba(255,255,255,0.1)]'>
+                                        {isActiveTech?.items?.length > 0 ? (
+                                            <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 texhCard'>
+                                                {
+                                                    isActiveTech.items.map((item, index) => {
+                                                        return (
+                                                            <div 
+                                                                className='box bg-slate-800/50 p-3 rounded-lg flex flex-col 
+                                                                gap-2 justify-center text-center h-32 border border-[rgba(255,255,255,0.050)] 
+                                                                transition-all hover:scale-110 hover:bg-slate-700 hover:border-primary/30' 
+                                                                key={index}
+                                                            >
+                                                                <div className='w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mx-auto mb-2'>
+                                                                    <span className='text-primary text-xl font-bold'>
+                                                                        {item?.name?.charAt(0).toUpperCase()}
+                                                                    </span>
+                                                                </div>
+                                                                <h3 className='text-white/80 text-[15px] font-bold'>
+                                                                    {item?.name}
+                                                                </h3>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        ) : (
+                                            <div className="text-center text-gray-400 py-8">
+                                                <p>No technologies found in this category</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )
+                        }
+                    </>
+                )}
             </div>
-
         </section>
     )
 }

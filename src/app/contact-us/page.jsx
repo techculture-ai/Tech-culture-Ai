@@ -6,15 +6,34 @@ import Button from "@mui/material/Button";
 import { FiPhone, FiMail, FiMapPin } from "react-icons/fi";
 import { IoSend } from "react-icons/io5";
 import { BsChat } from "react-icons/bs";
-import { MdAccessTime } from "react-icons/md";
+import { MdAccessTime, MdExpandMore } from "react-icons/md";
 import AIPageHeader from "../../components/AIPageHeader";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useSite } from "@/context/siteContext";
+import { Accordion, AccordionDetails, AccordionSummary, Card, Typography } from "@mui/material";
 
 const ContactUs = () => {
+  const { settingsData, setSettingsData } = useSite();
   useEffect(() => {
     AOS.init({ duration: 1000, offset: 50 });
-  }, []);
+    async function fetchData() {
+      if (!settingsData) {
+        try {
+          const res = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/site-settings`
+          );
+          if (res.status === 200) {
+            setSettingsData(res.data.data);
+            console.log("im data ", res.data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+    fetchData();
+  }, [settingsData, setSettingsData]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -64,21 +83,21 @@ const ContactUs = () => {
     {
       icon: <FiPhone size={24} className="text-primary" />,
       title: "Call Us",
-      details: ["+1 (555) 123-4567", "+1 (555) 987-6543"],
-      description: "Mon-Fri 9AM-6PM EST"
+      details: [settingsData?.contactNo],
+      description: "Mon-Fri 9AM-6PM EST",
     },
     {
       icon: <FiMail size={24} className="text-primary" />,
       title: "Email Us",
-      details: ["hello@techculture.ai", "support@techculture.ai"],
-      description: "We reply within 24 hours"
+      details: [settingsData?.email],
+      description: "We reply within 24 hours",
     },
     {
       icon: <FiMapPin size={24} className="text-primary" />,
       title: "Visit Us",
-      details: ["123 AI Innovation Drive", "Tech Valley, CA 94000"],
-      description: "Open Mon-Fri 9AM-6PM"
-    }
+      details: [settingsData?.registeredAddress, settingsData?.officeAddress],
+      description: "Open Mon-Fri 9AM-6PM",
+    },
   ];
 
   const services = [
@@ -93,7 +112,7 @@ const ContactUs = () => {
   return (
     <>
       {/* AI Page Header */}
-      <AIPageHeader 
+      <AIPageHeader
         title="Connect with Our AI Experts"
         subtitle="Let's Build Something Intelligent Together"
         description="Ready to transform your business with cutting-edge AI solutions? Our team of experts is here to help you succeed."
@@ -114,10 +133,15 @@ const ContactUs = () => {
                 <div className="w-16 h-16 bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
                   {info.icon}
                 </div>
-                <h4 className="text-[24px] font-bold text-white mb-4">{info.title}</h4>
+                <h4 className="text-[24px] font-bold text-white mb-4">
+                  {info.title}
+                </h4>
                 <div className="space-y-2 mb-3">
                   {info.details.map((detail, idx) => (
-                    <p key={idx} className="text-white/80 text-[18px] font-medium">
+                    <p
+                      key={idx}
+                      className="text-white/80 text-[18px] font-medium"
+                    >
                       {detail}
                     </p>
                   ))}
@@ -134,21 +158,29 @@ const ContactUs = () => {
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Form */}
-            <div className="bg-[#1e293b80] rounded-lg border border-[rgba(255,255,255,0.1)] p-8" data-aos="fade-right">
+            <div
+              className="bg-[#1e293b80] rounded-lg border border-[rgba(255,255,255,0.1)] p-8"
+              data-aos="fade-right"
+            >
               <div className="mb-8">
                 <div className="flex items-center gap-3 mb-4">
                   <BsChat size={28} className="text-primary" />
-                  <h3 className="text-[32px] font-bold text-white">Send us a Message</h3>
+                  <h3 className="text-[32px] font-bold text-white">
+                    Send us a Message
+                  </h3>
                 </div>
                 <p className="text-white/70 text-[16px]">
-                  Fill out the form below and our AI experts will get back to you within 24 hours.
+                  Fill out the form below and our AI experts will get back to
+                  you within 24 hours.
                 </p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-white font-medium mb-2">Name *</label>
+                    <label className="block text-white font-medium mb-2">
+                      Name *
+                    </label>
                     <input
                       type="text"
                       name="name"
@@ -160,7 +192,9 @@ const ContactUs = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-white font-medium mb-2">Email *</label>
+                    <label className="block text-white font-medium mb-2">
+                      Email *
+                    </label>
                     <input
                       type="email"
                       name="email"
@@ -175,7 +209,9 @@ const ContactUs = () => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-white font-medium mb-2">Phone</label>
+                    <label className="block text-white font-medium mb-2">
+                      Phone
+                    </label>
                     <input
                       type="tel"
                       name="phone"
@@ -186,7 +222,9 @@ const ContactUs = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-white font-medium mb-2">Company</label>
+                    <label className="block text-white font-medium mb-2">
+                      Company
+                    </label>
                     <input
                       type="text"
                       name="company"
@@ -199,7 +237,9 @@ const ContactUs = () => {
                 </div>
 
                 <div>
-                  <label className="block text-white font-medium mb-2">Service Interest</label>
+                  <label className="block text-white font-medium mb-2">
+                    Service Interest
+                  </label>
                   <select
                     name="service"
                     value={formData.service}
@@ -208,7 +248,11 @@ const ContactUs = () => {
                   >
                     <option value="">Select a service</option>
                     {services.map((service, index) => (
-                      <option key={index} value={service} className="bg-[#000319]">
+                      <option
+                        key={index}
+                        value={service}
+                        className="bg-[#000319]"
+                      >
                         {service}
                       </option>
                     ))}
@@ -216,7 +260,9 @@ const ContactUs = () => {
                 </div>
 
                 <div>
-                  <label className="block text-white font-medium mb-2">Message *</label>
+                  <label className="block text-white font-medium mb-2">
+                    Message *
+                  </label>
                   <textarea
                     name="message"
                     value={formData.message}
@@ -249,35 +295,53 @@ const ContactUs = () => {
             {/* Contact Information */}
             <div className="flex flex-col gap-8" data-aos="fade-left">
               <div className="bg-[#1e293b80] rounded-lg border border-[rgba(255,255,255,0.1)] p-8">
-                <h4 className="text-[24px] font-bold text-white mb-6">Why Choose TechCulture AI?</h4>
+                <h4 className="text-[24px] font-bold text-white mb-6">
+                  Why Choose TechCulture AI?
+                </h4>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <span className="text-white text-[12px] font-bold">✓</span>
+                      <span className="text-white text-[12px] font-bold">
+                        ✓
+                      </span>
                     </div>
                     <div>
-                      <h5 className="text-white font-medium">Expert AI Consultation</h5>
-                      <p className="text-white/70 text-[14px]">Free 30-minute strategy session with our AI specialists</p>
+                      <h5 className="text-white font-medium">
+                        Expert AI Consultation
+                      </h5>
+                      <p className="text-white/70 text-[14px]">
+                        Free 30-minute strategy session with our AI specialists
+                      </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-3">
                     <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <span className="text-white text-[12px] font-bold">✓</span>
+                      <span className="text-white text-[12px] font-bold">
+                        ✓
+                      </span>
                     </div>
                     <div>
                       <h5 className="text-white font-medium">24/7 Support</h5>
-                      <p className="text-white/70 text-[14px]">Round-the-clock technical support for all our solutions</p>
+                      <p className="text-white/70 text-[14px]">
+                        Round-the-clock technical support for all our solutions
+                      </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-3">
                     <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <span className="text-white text-[12px] font-bold">✓</span>
+                      <span className="text-white text-[12px] font-bold">
+                        ✓
+                      </span>
                     </div>
                     <div>
-                      <h5 className="text-white font-medium">Proven Track Record</h5>
-                      <p className="text-white/70 text-[14px]">200+ successful AI implementations across industries</p>
+                      <h5 className="text-white font-medium">
+                        Proven Track Record
+                      </h5>
+                      <p className="text-white/70 text-[14px]">
+                        200+ successful AI implementations across industries
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -286,15 +350,19 @@ const ContactUs = () => {
               <div className="bg-[#1e293b80] rounded-lg border border-[rgba(255,255,255,0.1)] p-8">
                 <div className="flex items-center gap-3 mb-4">
                   <MdAccessTime size={24} className="text-primary" />
-                  <h4 className="text-[20px] font-bold text-white">Response Time</h4>
+                  <h4 className="text-[20px] font-bold text-white">
+                    Response Time
+                  </h4>
                 </div>
                 <p className="text-white/80 text-[16px] mb-4">
-                  We typically respond to all inquiries within 24 hours. For urgent matters, 
-                  call us directly for immediate assistance.
+                  We typically respond to all inquiries within 24 hours. For
+                  urgent matters, call us directly for immediate assistance.
                 </p>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-green-400 text-[14px] font-medium">Our team is online</span>
+                  <span className="text-green-400 text-[14px] font-medium">
+                    Our team is online
+                  </span>
                 </div>
               </div>
             </div>
@@ -323,32 +391,109 @@ const ContactUs = () => {
             {[
               {
                 question: "How quickly can AI solutions be implemented?",
-                answer: "Implementation timelines vary based on project complexity, but typically range from 2-8 weeks for standard solutions and 3-6 months for custom enterprise implementations."
+                answer:
+                  "Implementation timelines vary based on project complexity, but typically range from 2-8 weeks for standard solutions and 3-6 months for custom enterprise implementations.",
               },
               {
-                question: "What kind of ROI can I expect from AI implementation?",
-                answer: "Our clients typically see 25-40% improvement in operational efficiency and 15-30% cost reduction within the first year of implementation."
+                question:
+                  "What kind of ROI can I expect from AI implementation?",
+                answer:
+                  "Our clients typically see 25-40% improvement in operational efficiency and 15-30% cost reduction within the first year of implementation.",
               },
               {
-                question: "Do you provide ongoing support after implementation?",
-                answer: "Yes, we offer comprehensive 24/7 support, regular updates, and continuous optimization to ensure your AI solutions perform at their best."
+                question:
+                  "Do you provide ongoing support after implementation?",
+                answer:
+                  "Yes, we offer comprehensive 24/7 support, regular updates, and continuous optimization to ensure your AI solutions perform at their best.",
               },
               {
                 question: "Can your solutions integrate with existing systems?",
-                answer: "Absolutely! Our AI solutions are designed to seamlessly integrate with your existing tech stack and business processes."
-              }
+                answer:
+                  "Absolutely! Our AI solutions are designed to seamlessly integrate with your existing tech stack and business processes.",
+              },
             ].map((faq, index) => (
-              <div
+              <Accordion
                 key={index}
-                className="bg-[#1e293b80] rounded-lg border border-[rgba(255,255,255,0.1)] p-6 hover:border-primary/30 transition-all"
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
+                className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)] !rounded-md"
               >
-                <h4 className="text-[18px] font-bold text-white mb-3">{faq.question}</h4>
-                <p className="text-white/70 text-[16px] leading-6">{faq.answer}</p>
-              </div>
+                <AccordionSummary
+                  className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)]"
+                  expandIcon={<MdExpandMore className="text-white" />}
+                  aria-controls={`panel${index}-content`}
+                  id={`panel${index}-header`}
+                >
+                  <Typography component="span" className="text-white">
+                    {faq.question}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)]">
+                  <Typography component="span" className="text-white">
+                    {faq.answer}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Map Section */}
+      <section className="pb-10 px-6 space-y-6">
+        <div className="max-w-7xl mx-auto " data-aos="fade-left">
+          <h2 className="mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2">
+            Head <span className="text-gred">office</span>
+          </h2>
+
+          <Card className="glass-card p-0 overflow-hidden">
+            <div className="relative h-96">
+              {settingsData ? (
+                <div
+                  className="w-full h-full [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:border-0"
+                  dangerouslySetInnerHTML={{
+                    __html: settingsData.registeredIframe,
+                  }}
+                />
+              ) : (
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.056200150182!2d77.2225690760672!3d28.628077684281838!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd33b95c2ef1%3A0xfe68a915348015f8!2sRohit%20House%2C%202%2C%20Tolstoy%20Rd%2C%20Barakhamba%2C%20New%20Delhi%2C%20Delhi%20110001!5e0!3m2!1sen!2sin!4v1754302489577!5m2!1sen!2sin"
+                  className="w-full h-full"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              )}
+            </div>
+          </Card>
+        </div>
+        <div className="max-w-7xl mx-auto" data-aos="fade-left">
+          
+          <h2 className="mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2">
+            Corporate <span className="text-gred">office</span>
+          </h2>
+
+          <Card className="glass-card p-0 overflow-hidden">
+            <div className="relative h-96">
+              {settingsData ? (
+                <div
+                  className="w-full h-full [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:border-0"
+                  dangerouslySetInnerHTML={{
+                    __html: settingsData.officeIframe,
+                  }}
+                />
+              ) : (
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14008.336032841482!2d77.35435776491295!3d28.627244195359893!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce54f9814a4c1%3A0x729f42021b824a36!2sCorenthum%20Building%2C%2034%2F2%2C%20Block%20A%2C%20Industrial%20Area%2C%20Sector%2062%2C%20Noida%2C%20Uttar%20Pradesh%20201309!5e0!3m2!1sen!2sin!4v1756187696071!5m2!1sen!2sin"
+                  width="600"
+                  height="450"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              )}
+            </div>
+          </Card>
         </div>
       </section>
     </>

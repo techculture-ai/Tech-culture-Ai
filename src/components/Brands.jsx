@@ -14,7 +14,7 @@ export const Brands = () => {
           );
           if (res.status === 200) {
             setSettingsData(res.data.data);
-            console.log("im data ", res.data);
+            console.log("im data ", res.data.data);
           }
         } catch (error) {
           console.log(error);
@@ -33,46 +33,14 @@ export const Brands = () => {
 
         <div className='relative marquee__Wrapper w-[75%]'>
           <Marquee className='marquee__' direction={"left"}>
-            <div className='box bg-[#1e293b80] p-11 flex items-center justify-center rounded-lg h-28 w-52'>
-              <img src={"https://seoc-html-v2.vercel.app/assets/img/elements/brand-img4.png"}
-                className='w-full' alt='image' />
-            </div>
+            {setSettingsData && 
+            settingsData?.clients.map((url,index) => (
+              <div className='box bg-[#1e293b80] p-11 flex items-center justify-center rounded-lg h-28 w-52' key={index}>
+                <img src={url} className='w-full' alt='image' />
+              </div>
+            ))}
 
-            <div className='box bg-[#1e293b80] p-11 flex items-center justify-center rounded-lg h-28 w-52'>
-              <img src={"https://seoc-html-v2.vercel.app/assets/img/elements/brand-img1.png"}
-                className='w-full' alt='image' />
-            </div>
-
-            <div className='box bg-[#1e293b80] p-11 flex items-center justify-center rounded-lg h-28 w-52'>
-              <img src={"https://seoc-html-v2.vercel.app/assets/img/elements/brand-img2.png"}
-                className='w-full' alt='image' />
-            </div>
-
-            <div className='box bg-[#1e293b80] p-11 flex items-center justify-center rounded-lg h-28 w-52'>
-              <img src={"https://seoc-html-v2.vercel.app/assets/img/elements/brand-img2.png"}
-                className='w-full' alt='image' />
-            </div>
-
-             <div className='box bg-[#1e293b80] p-11 flex items-center justify-center rounded-lg h-28 w-52'>
-              <img src={"https://seoc-html-v2.vercel.app/assets/img/elements/brand-img4.png"}
-                className='w-full' alt='image' />
-            </div>
-
-            <div className='box bg-[#1e293b80] p-11 flex items-center justify-center rounded-lg h-28 w-52'>
-              <img src={"https://seoc-html-v2.vercel.app/assets/img/elements/brand-img1.png"}
-                className='w-full' alt='image' />
-            </div>
-
-            <div className='box bg-[#1e293b80] p-11 flex items-center justify-center rounded-lg h-28 w-52'>
-              <img src={"https://seoc-html-v2.vercel.app/assets/img/elements/brand-img2.png"}
-                className='w-full' alt='image' />
-            </div>
-
-            <div className='box bg-[#1e293b80] p-11 flex items-center justify-center rounded-lg h-28 w-52'>
-              <img src={"https://seoc-html-v2.vercel.app/assets/img/elements/brand-img2.png"}
-                className='w-full' alt='image' />
-            </div>
-
+            
           </Marquee>
         </div>
       </div>

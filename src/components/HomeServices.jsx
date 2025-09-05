@@ -3,15 +3,14 @@ import Button from '@mui/material/Button'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { IoIosArrowRoundForward } from "react-icons/io";
-import { servicesData } from '../app/data';
+// import { servicesData } from '../app/data';
 import { IoIosArrowRoundDown } from "react-icons/io";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import { useSite } from '@/context/siteContext';
 import axios from 'axios';
 
 const HomeServices = () => {
-    const [coreServices, setCoreServices] = React.useState([])
-    const [mainServices, setMainServices] = React.useState([])
+    
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
     const { serviceData, setServiceData } = useSite();
 
@@ -24,19 +23,6 @@ const HomeServices = () => {
           } catch (error) {
             console.log(error);
           }
-        }
-
-        //filter according to the category if core added in the core otherwise main
-        if (serviceData) {
-          const tempCore = serviceData.filter(
-            (service) => service.category === "core"
-          );
-          const tempMain = serviceData.filter(
-            (service) => service.category === "main"
-          );
-
-          setCoreServices(tempCore);
-          setMainServices(tempMain);
         }
       };
 
@@ -59,18 +45,28 @@ const HomeServices = () => {
 
                 <div className='grid grid-cols-2 lg:grid-cols-4 gap-10 py-4 services'>
                     {
-                        servicesData?.length !== 0 && servicesData?.map((item, index) => {
+                        serviceData && serviceData?.length !== 0 && serviceData?.map((item, index) => {
                             if (index <= expendNum) {
                                 return (
-                                    <Link href={"#"} key={index} className='box h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all'>
-                                        <img src={item?.img} className='full transition-all h-full object-cover' alt='image' />
-                                        <div className='info p-6 absolute top-0 left-0 z-50 w-full h-full '>
-                                            <div className='flex justify-between items-center !absolute top-5 pr-5 w-[96%]'>
-                                                <h2 className='text-gray-100 text-[25px] font-light px-5 leading-8'>{item?.name}</h2>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                )
+                                  <Link
+                                    href={"#"}
+                                    key={index}
+                                    className="box h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all"
+                                  >
+                                    <img
+                                      src={item?.image}
+                                      className="full transition-all h-full object-cover"
+                                      alt="image"
+                                    />
+                                    <div className="info p-6 absolute top-0 left-0 z-50 w-full h-full ">
+                                      <div className="flex justify-between items-center !absolute top-5 pr-5 w-[96%]">
+                                        <h2 className="text-gray-100 text-[25px] font-light px-5 leading-8">
+                                          {item?.title}
+                                        </h2>
+                                      </div>
+                                    </div>
+                                  </Link>
+                                );
                             }
 
                         })
