@@ -1,5 +1,8 @@
 "use client"
+import { useSite } from '@/context/siteContext';
 import Button from '@mui/material/Button'
+import axios from 'axios';
+import Image from 'next/image';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { AiOutlineMenu } from "react-icons/ai";
@@ -26,12 +29,41 @@ const Header = () => {
         };
     }, []);
 
+    const { settingsData, setSettingsData } = useSite();
+    useEffect(() => {
+      async function fetchData() {
+        if (!settingsData) {
+          try {
+            const res = await axios.get(
+              `${process.env.NEXT_PUBLIC_API_URL}/api/site-settings`
+            );
+            if (res.status === 200) {
+              setSettingsData(res.data.data);
+              console.log("im data ", res.data);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }
+      fetchData();
+    }, [settingsData, setSettingsData]);
+
+
     return (
         <header className={`w-full h-20  flex items-center justify-center fixed top-0 left-0 z-[100] ${isScrolled === true && 'scroll'}`}>
             <div className='container flex items-center justify-between'>
                 <Link href={"/"} className='logo flex items-center gap-2'>
-                    <span className='flex items-center justify-center w-10 h-10 rounded-md bg-primary text-white font-bold'>T</span>
-                    <span className='text-white font-bold text-[20px]'>TechCultureAi</span>
+                    <div className="relative w-[80px] h-[80px]">
+                             
+                              {/* Adjust size as needed */}
+                              {settingsData && <Image
+                                src={settingsData.logo || "logo.png"}
+                                alt="logo"
+                                fill
+                                className="object-contain"
+                              />}
+                            </div>
                 </Link>
 
 

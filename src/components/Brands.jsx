@@ -38,9 +38,7 @@ export const Brands = () => {
               <div className='box bg-[#1e293b80] p-11 flex items-center justify-center rounded-lg h-28 w-52' key={index}>
                 <img src={url} className='w-full' alt='image' />
               </div>
-            ))}
-
-            
+            ))}  
           </Marquee>
         </div>
       </div>

@@ -15,6 +15,9 @@ import { Accordion, AccordionDetails, AccordionSummary, Card, Typography } from 
 
 const ContactUs = () => {
   const { settingsData, setSettingsData } = useSite();
+  const [faqs, setFaqs] = useState([]);
+  const [faqsLoading, setFaqsLoading] = useState(true);
+  
   useEffect(() => {
     AOS.init({ duration: 1000, offset: 50 });
     async function fetchData() {
@@ -32,7 +35,25 @@ const ContactUs = () => {
         }
       }
     }
+    
+    // Fetch FAQs
+    async function fetchFAQs() {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/faqs/public`
+        );
+        if (res.status === 200) {
+          setFaqs(res.data.data);
+        }
+      } catch (error) {
+        console.log("Error fetching FAQs:", error);
+      } finally {
+        setFaqsLoading(false);
+      }
+    }
+    
     fetchData();
+    fetchFAQs();
   }, [settingsData, setSettingsData]);
 
   const [formData, setFormData] = useState({
@@ -388,51 +409,81 @@ const ContactUs = () => {
           </div>
 
           <div className="max-w-4xl mx-auto space-y-6">
-            {[
-              {
-                question: "How quickly can AI solutions be implemented?",
-                answer:
-                  "Implementation timelines vary based on project complexity, but typically range from 2-8 weeks for standard solutions and 3-6 months for custom enterprise implementations.",
-              },
-              {
-                question:
-                  "What kind of ROI can I expect from AI implementation?",
-                answer:
-                  "Our clients typically see 25-40% improvement in operational efficiency and 15-30% cost reduction within the first year of implementation.",
-              },
-              {
-                question:
-                  "Do you provide ongoing support after implementation?",
-                answer:
-                  "Yes, we offer comprehensive 24/7 support, regular updates, and continuous optimization to ensure your AI solutions perform at their best.",
-              },
-              {
-                question: "Can your solutions integrate with existing systems?",
-                answer:
-                  "Absolutely! Our AI solutions are designed to seamlessly integrate with your existing tech stack and business processes.",
-              },
-            ].map((faq, index) => (
-              <Accordion
-                key={index}
-                className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)] !rounded-md"
-              >
-                <AccordionSummary
-                  className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)]"
-                  expandIcon={<MdExpandMore className="text-white" />}
-                  aria-controls={`panel${index}-content`}
-                  id={`panel${index}-header`}
+            {faqsLoading ? (
+              <div className="flex justify-center items-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+              </div>
+            ) : faqs.length > 0 ? (
+              faqs.map((faq, index) => (
+                <Accordion
+                  key={faq._id || index}
+                  className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)] !rounded-md"
                 >
-                  <Typography component="span" className="text-white">
-                    {faq.question}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)]">
-                  <Typography component="span" className="text-white">
-                    {faq.answer}
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-            ))}
+                  <AccordionSummary
+                    className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)]"
+                    expandIcon={<MdExpandMore className="text-white" />}
+                    aria-controls={`panel${index}-content`}
+                    id={`panel${index}-header`}
+                  >
+                    <Typography component="span" className="text-white font-medium">
+                      {faq.question}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)]">
+                    <Typography component="span" className="text-white/90 leading-relaxed">
+                      {faq.answer}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              ))
+            ) : (
+              // Fallback to static FAQs if no dynamic data is available
+              [
+                {
+                  question: "How quickly can AI solutions be implemented?",
+                  answer:
+                    "Implementation timelines vary based on project complexity, but typically range from 2-8 weeks for standard solutions and 3-6 months for custom enterprise implementations.",
+                },
+                {
+                  question:
+                    "What kind of ROI can I expect from AI implementation?",
+                  answer:
+                    "Our clients typically see 25-40% improvement in operational efficiency and 15-30% cost reduction within the first year of implementation.",
+                },
+                {
+                  question:
+                    "Do you provide ongoing support after implementation?",
+                  answer:
+                    "Yes, we offer comprehensive 24/7 support, regular updates, and continuous optimization to ensure your AI solutions perform at their best.",
+                },
+                {
+                  question: "Can your solutions integrate with existing systems?",
+                  answer:
+                    "Absolutely! Our AI solutions are designed to seamlessly integrate with your existing tech stack and business processes.",
+                },
+              ].map((faq, index) => (
+                <Accordion
+                  key={index}
+                  className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)] !rounded-md"
+                >
+                  <AccordionSummary
+                    className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)]"
+                    expandIcon={<MdExpandMore className="text-white" />}
+                    aria-controls={`panel${index}-content`}
+                    id={`panel${index}-header`}
+                  >
+                    <Typography component="span" className="text-white">
+                      {faq.question}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)]">
+                    <Typography component="span" className="text-white">
+                      {faq.answer}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              ))
+            )}
           </div>
         </div>
       </section>

@@ -3,39 +3,41 @@
 import { useSite } from "@/context/siteContext";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GoArrowUpRight } from "react-icons/go";
 
-const projects = [
-    {
-        title: "Predictive Analytics Engine",
-        image: "https://framerusercontent.com/images/95AWPsd6pGN9FkDJXN4GarMI40M.png?scale-down-to=1024",
-        tags: ["Data Science", "Blockchain"],
-    },
-    {
-        title: "Cloud AI Integration",
-        image: "https://framerusercontent.com/images/B99RWrFRBY9xHpQA91l6MKDKm9g.png?scale-down-to=1024",
-        tags: ["Data Science", "Blockchain"],
-    },
-    {
-        title: "Optivus AI Assistant",
-        image: "https://framerusercontent.com/images/p1alDZyx8Nokg0bH6m6lFzetEBQ.jpg?scale-down-to=1024",
-        tags: ["Data Science", "Blockchain"],
-    },
-    {
-        title: "Cloud Computing",
-        image: "https://framerusercontent.com/images/t4slXm3H16Pk4Um6zrdy6WlbJeE.jpg?scale-down-to=1024",
-        tags: ["Data Science", "Blockchain"],
-    },
-    {
-        title: "Cloud Computing",
-        image: "https://framerusercontent.com/images/WwOBIwlZdTKSAHKz8hpa8N9vDL0.png?scale-down-to=1024",
-        tags: ["Data Science", "Blockchain"],
-    },
-];
+// const projects = [
+//     {
+//         title: "Predictive Analytics Engine",
+//         image: "https://framerusercontent.com/images/95AWPsd6pGN9FkDJXN4GarMI40M.png?scale-down-to=1024",
+//         tags: ["Data Science", "Blockchain"],
+//     },
+//     {
+//         title: "Cloud AI Integration",
+//         image: "https://framerusercontent.com/images/B99RWrFRBY9xHpQA91l6MKDKm9g.png?scale-down-to=1024",
+//         tags: ["Data Science", "Blockchain"],
+//     },
+//     {
+//         title: "Optivus AI Assistant",
+//         image: "https://framerusercontent.com/images/p1alDZyx8Nokg0bH6m6lFzetEBQ.jpg?scale-down-to=1024",
+//         tags: ["Data Science", "Blockchain"],
+//     },
+//     {
+//         title: "Cloud Computing",
+//         image: "https://framerusercontent.com/images/t4slXm3H16Pk4Um6zrdy6WlbJeE.jpg?scale-down-to=1024",
+//         tags: ["Data Science", "Blockchain"],
+//     },
+//     {
+//         title: "Cloud Computing",
+//         image: "https://framerusercontent.com/images/WwOBIwlZdTKSAHKz8hpa8N9vDL0.png?scale-down-to=1024",
+//         tags: ["Data Science", "Blockchain"],
+//     },
+// ];
 
 export default function ProjectCards() {
-    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const router = useRouter()
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
     const { projectData, setProjectData } = useSite();
 
     useEffect(() => {
@@ -67,7 +69,7 @@ export default function ProjectCards() {
           <br />
           <div className="flex gap-4 overflow-hidden projectCards">
             {projectData &&
-              projects.map((project, i) => (
+              projectData.map((project, i) => (
                 <div
                   key={i}
                   className="group relative flex-1 basis-2/7 overflow-hidden rounded-3xl shadow-lg cursor-pointer transition-all duration-500 hover:flex-[2]"
@@ -105,6 +107,7 @@ export default function ProjectCards() {
           <Button
             className="!bg-white !text-gray-800 !font-bold !capitalize items-center"
             size="large"
+            onClick={() => router.push('/portfolio')}
           >
             View All Products
           </Button>
