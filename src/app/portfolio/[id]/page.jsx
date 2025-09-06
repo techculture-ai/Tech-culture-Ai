@@ -123,7 +123,11 @@ const ProjectDetail = () => {
     <>
       <AIPageHeader
         title={project.title}
-        subtitle={`${project.category} • ${project.status === 'completed' ? 'Completed Project' : 'Ongoing Development'}`}
+        subtitle={`${project.category} • ${
+          project.status === "completed"
+            ? "Completed Project"
+            : "Ongoing Development"
+        }`}
         description={project.description}
         aiWords={["AI-powered", "innovative", "cutting-edge"]}
       />
@@ -133,7 +137,10 @@ const ProjectDetail = () => {
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-primary/15 to-orange-400/15 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-[500px] h-[500px] bg-gradient-to-tl from-purple-500/10 to-pink-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div
+            className="absolute bottom-20 right-20 w-[500px] h-[500px] bg-gradient-to-tl from-purple-500/10 to-pink-500/10 rounded-full blur-3xl animate-pulse"
+            style={{ animationDelay: "2s" }}
+          ></div>
         </div>
 
         <div className="container relative z-10">
@@ -141,7 +148,7 @@ const ProjectDetail = () => {
           <div className="mb-8">
             <Button
               variant="outlined"
-              onClick={() => router.push('/portfolio')}
+              onClick={() => router.push("/portfolio")}
               className="border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300"
               startIcon={<FaArrowLeft />}
             >
@@ -160,16 +167,24 @@ const ProjectDetail = () => {
                   className="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
+
                 {/* Status Badge */}
                 <div className="absolute top-6 right-6">
-                  <div className={`px-4 py-2 rounded-full flex items-center gap-2 backdrop-blur-sm border ${
-                    project.status === 'completed' 
-                      ? 'bg-green-500/20 border-green-400/30 text-green-400' 
-                      : 'bg-orange-500/20 border-orange-400/30 text-orange-400'
-                  }`}>
-                    {project.status === 'completed' ? <FaCheckCircle /> : <FaClock />}
-                    <span className="font-semibold capitalize">{project.status}</span>
+                  <div
+                    className={`px-4 py-2 rounded-full flex items-center gap-2 backdrop-blur-sm border ${
+                      project.status === "completed"
+                        ? "bg-green-500/20 border-green-400/30 text-green-400"
+                        : "bg-orange-500/20 border-orange-400/30 text-orange-400"
+                    }`}
+                  >
+                    {project.status === "completed" ? (
+                      <FaCheckCircle />
+                    ) : (
+                      <FaClock />
+                    )}
+                    <span className="font-semibold capitalize">
+                      {project.status}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -182,13 +197,15 @@ const ProjectDetail = () => {
                   <div className="bg-gradient-to-r from-primary/20 to-orange-400/20 backdrop-blur-xl p-3 rounded-full border border-primary/30">
                     <HiSparkles className="text-primary text-xl" />
                   </div>
-                  <span className="text-primary font-bold text-lg">{project.category}</span>
+                  <span className="text-primary font-bold text-lg">
+                    {project.category}
+                  </span>
                 </div>
-                
+
                 <h1 className="text-[48px] lg:text-[64px] font-extrabold text-white leading-tight mb-6">
                   {project.title}
                 </h1>
-                
+
                 <p className="text-gray-300 text-lg leading-relaxed mb-8">
                   {project.description}
                 </p>
@@ -201,20 +218,22 @@ const ProjectDetail = () => {
                     <FaMapMarkerAlt className="text-primary text-xl" />
                     <div>
                       <p className="text-white/60 text-sm">Location</p>
-                      <p className="text-white font-semibold">{project.location}</p>
+                      <p className="text-white font-semibold">
+                        {project.location}
+                      </p>
                     </div>
                   </div>
                 )}
-                
+
                 <div className="flex items-center gap-3 bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10">
                   <FaCalendarAlt className="text-primary text-xl" />
                   <div>
                     <p className="text-white/60 text-sm">Created</p>
                     <p className="text-white font-semibold">
-                      {new Date(project.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
+                      {new Date(project.createdAt).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
                       })}
                     </p>
                   </div>
@@ -250,7 +269,7 @@ const ProjectDetail = () => {
                 >
                   View Live Demo
                 </Button>
-                
+
                 <Button
                   variant="outlined"
                   className="border-white/30 text-white hover:bg-white hover:text-black transition-all duration-300 py-3 px-6 rounded-full"
@@ -269,11 +288,15 @@ const ProjectDetail = () => {
                 <div className="flex items-center justify-center gap-3 mb-6">
                   <FaImage className="text-primary text-2xl" />
                   <h2 className="text-[40px] font-bold text-white">
-                    Project <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">Gallery</span>
+                    Project{" "}
+                    <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">
+                      Gallery
+                    </span>
                   </h2>
                 </div>
                 <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-                  Explore the visual journey of this project through screenshots and development glimpses
+                  Explore the visual journey of this project through screenshots
+                  and development glimpses
                 </p>
               </div>
 
@@ -290,12 +313,14 @@ const ProjectDetail = () => {
                       alt={`${project.title} - Image ${index + 1}`}
                       className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    
+
                     {/* Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="absolute bottom-4 left-4 right-4">
                         <div className="flex items-center justify-between">
-                          <span className="text-white font-semibold">Image {index + 1}</span>
+                          <span className="text-white font-semibold">
+                            Image {index + 1}
+                          </span>
                           <FaExpand className="text-white text-lg" />
                         </div>
                       </div>
@@ -313,15 +338,20 @@ const ProjectDetail = () => {
                 <HiFire className="text-orange-400 text-3xl" />
               </div>
             </div>
-            
+
             <h3 className="text-[32px] font-bold text-white mb-4">
-              Inspired by This <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">Project?</span>
+              Inspired by This{" "}
+              <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">
+                Project?
+              </span>
             </h3>
-            
+
             <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-              Let's discuss how we can create something amazing for your business. Our AI solutions are tailored to meet your specific needs.
+              Let&apos;s discuss how we can create something amazing for your
+              business. Our AI solutions are tailored to meet your specific
+              needs.
             </p>
-            
+
             <div className="flex flex-wrap justify-center gap-4">
               <Button
                 variant="contained"
@@ -330,10 +360,10 @@ const ProjectDetail = () => {
               >
                 Start Your Project
               </Button>
-              
+
               <Button
                 variant="outlined"
-                onClick={() => router.push('/portfolio')}
+                onClick={() => router.push("/portfolio")}
                 className="border-white/30 text-white hover:bg-white hover:text-black transition-all duration-300 py-4 px-8 rounded-full text-lg"
                 startIcon={<BsEye />}
               >
@@ -345,11 +375,14 @@ const ProjectDetail = () => {
 
         {/* Image Modal */}
         {selectedImage && (
-          <div 
+          <div
             className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             onClick={() => setSelectedImage(null)}
           >
-            <div className="relative max-w-6xl w-full" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="relative max-w-6xl w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
               {/* Close Button */}
               <button
                 onClick={() => setSelectedImage(null)}
@@ -367,7 +400,7 @@ const ProjectDetail = () => {
                   >
                     <FaArrowLeft className="text-white" />
                   </button>
-                  
+
                   <button
                     onClick={handleNextImage}
                     className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-colors border border-white/20"

@@ -166,83 +166,85 @@ const ClientStories = () => {
 
           {/* Success Stories Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-            {testimonials.length > 0 ? testimonials.map((testimonial, index) => (
-              <div
-                key={testimonial._id || index}
-                className={`group relative bg-gradient-to-br from-[#0a0f1c]/90 via-[#0f1419]/90 to-[#0a0f1c]/90 backdrop-blur-xl rounded-3xl border border-[rgba(255,255,255,0.1)] overflow-hidden hover:border-primary/60  cursor-pointer transform hover:scale-105 hover:-rotate-1 ${
-                  isLoaded
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-16 opacity-0"
-                } transition-all duration-200 ease-in-out`}
-                style={{
-                  transitionDelay: `${150}ms`,
-                  boxShadow: "0 30px 60px -12px rgba(0, 0, 0, 0.4)",
-                  minHeight: "480px",
-                }}
-                onMouseEnter={() => setHoveredCard(index)}
-                onMouseLeave={() => setHoveredCard(null)}
-                onClick={() => setSelectedTestimonial(testimonial)}
-              >
-                {/* Background Image */}
-                <div className="absolute inset-0">
-                  <img
-                    src={testimonial.backgroundImage}
-                    alt="Background"
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                    style={{ filter: "brightness(0.3) contrast(1.2)" }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/20"></div>
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-orange-400/20 opacity-60"></div>
-                </div>
-
-                {/* Content */}
-                <div className="relative h-full flex flex-col justify-end p-8">
-                  {/* Quote */}
-                  <div className="mb-6">
-                    <FaQuoteLeft className="text-primary text-3xl mb-4 opacity-80" />
-                    <p className="text-white text-[16px] leading-relaxed mb-4">
-                      "{testimonial.message}"
-                    </p>
+            {testimonials.length > 0 ? (
+              testimonials.map((testimonial, index) => (
+                <div
+                  key={testimonial._id || index}
+                  className={`group relative bg-gradient-to-br from-[#0a0f1c]/90 via-[#0f1419]/90 to-[#0a0f1c]/90 backdrop-blur-xl rounded-3xl border border-[rgba(255,255,255,0.1)] overflow-hidden hover:border-primary/60  cursor-pointer transform hover:scale-105 hover:-rotate-1 ${
+                    isLoaded
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-16 opacity-0"
+                  } transition-all duration-200 ease-in-out`}
+                  style={{
+                    transitionDelay: `${150}ms`,
+                    boxShadow: "0 30px 60px -12px rgba(0, 0, 0, 0.4)",
+                    minHeight: "480px",
+                  }}
+                  onMouseEnter={() => setHoveredCard(index)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                  onClick={() => setSelectedTestimonial(testimonial)}
+                >
+                  {/* Background Image */}
+                  <div className="absolute inset-0">
+                    <img
+                      src={testimonial.backgroundImage}
+                      alt="Background"
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                      style={{ filter: "brightness(0.3) contrast(1.2)" }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/20"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-orange-400/20 opacity-60"></div>
                   </div>
 
-                  {/* Profile */}
-                  <div className="flex items-center gap-4">
-                    <div className="relative">
-                      <img
-                        src={testimonial.image}
-                        alt={testimonial.name}
-                        className="w-16 h-16 rounded-full object-cover border-2 border-primary/60 shadow-lg"
-                      />
-                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center border-2 border-white">
-                        <MdVerified size={12} className="text-white" />
+                  {/* Content */}
+                  <div className="relative h-full flex flex-col justify-end p-8">
+                    {/* Quote */}
+                    <div className="mb-6">
+                      <FaQuoteLeft className="text-primary text-3xl mb-4 opacity-80" />
+                      <p className="text-white text-[16px] leading-relaxed mb-4">
+                        &quot;{testimonial.message}&quot;
+                      </p>
+                    </div>
+
+                    {/* Profile */}
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <img
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          className="w-16 h-16 rounded-full object-cover border-2 border-primary/60 shadow-lg"
+                        />
+                        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center border-2 border-white">
+                          <MdVerified size={12} className="text-white" />
+                        </div>
+                      </div>
+
+                      <div className="flex-1">
+                        <h4 className="text-white text-[18px] font-bold mb-1">
+                          {testimonial.name}
+                        </h4>
+                        <p className="text-primary text-[14px] font-medium">
+                          {testimonial.title}
+                        </p>
                       </div>
                     </div>
 
-                    <div className="flex-1">
-                      <h4 className="text-white text-[18px] font-bold mb-1">
-                        {testimonial.name}
-                      </h4>
-                      <p className="text-primary text-[14px] font-medium">
-                        {testimonial.title}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Hover Overlay */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent flex items-center justify-center transition-all duration-500 ${
-                      hoveredCard === index ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    <div className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full border border-white/30 flex items-center gap-3 text-white font-semibold">
-                      <BsEye />
-                      <span>Read Full Story</span>
-                      <BsArrowRight />
+                    {/* Hover Overlay */}
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent flex items-center justify-center transition-all duration-500 ${
+                        hoveredCard === index ? "opacity-100" : "opacity-0"
+                      }`}
+                    >
+                      <div className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full border border-white/30 flex items-center gap-3 text-white font-semibold">
+                        <BsEye />
+                        <span>Read Full Story</span>
+                        <BsArrowRight />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )) : (
+              ))
+            ) : (
               <div className="col-span-full text-center py-20">
                 <div className="text-white/60 text-lg">
                   No testimonials available at the moment.
@@ -349,7 +351,7 @@ const ClientStories = () => {
                       <FaQuoteLeft size={32} className="text-white" />
                     </div>
                     <p className="text-white text-[24px] font-light leading-relaxed max-w-3xl">
-                      "{selectedTestimonial.message}"
+                      &quot;{selectedTestimonial.message}&quot;
                     </p>
                   </div>
                 </div>
