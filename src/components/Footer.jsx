@@ -14,8 +14,13 @@ import Button from '@mui/material/Button'
 import { useSite } from "@/context/siteContext";
 import axios from "axios";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const Footer = () => {
+  const [email, setEmail] = React.useState("");
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
     const { settingsData, setSettingsData } = useSite();
     useEffect(() => {
       async function fetchData() {
@@ -39,28 +44,26 @@ const Footer = () => {
     const currentYear = new Date().getFullYear();
 
     const navigationLinks = [
-        { name: "Home", href: "#" },
-        { name: "About Us", href: "#about" },
-        { name: "Services", href: "#services" },
-        { name: "Portfolio", href: "#Portfolio" },
-        { name: "Contact", href: "#Contact" },
+        { name: "Home", href: "/" },
+        { name: "About Us", href: "/about-us" },
+        { name: "Services", href: "/services" },
+        { name: "Portfolio", href: "/portfolio" },
+        { name: "Contact", href: "/contact-us" },
     ];
 
     const serviceLinks = [
-        { name: "Web Development", href: "#ai-analytics" },
-        { name: "Mobile App Development", href: "#cloud" },
-        { name: "Cloud Solutions", href: "#cognitive" },
-        { name: "Digital Marketing", href: "#consulting" },
-        { name: "UI/UX Design", href: "#consulting" },
+      { name: "Web Development", href: "/services" },
+      { name: "Mobile App Development", href: "/services" },
+      { name: "Cloud Solutions", href: "/services" },
+      { name: "Digital Marketing", href: "/services" },
+      { name: "UI/UX Design", href: "/services" },
     ];
 
     const companyLinks = [
-        { name: "Blog / Insights", href: "#about" },
-        { name: "Case Studies", href: "#careers" },
-        { name: "FAQs", href: "#blog" },
-        { name: "Careers", href: "#contact" },
-        { name: "Privacy Policy", href: "#privacy" },
-        { name: "Terms of Service", href: "#terms" },
+        { name: "FAQs", href: "/contact-us" },
+        {name : "Contact Us", href: "/contact-us"},
+        { name: "Team", href: "/team" },
+        {name : "Client Stories", href: "/client-stories"},
     ];
 
     const socialLinks = [
@@ -68,6 +71,35 @@ const Footer = () => {
         { name: "Twitter", icon: RiTwitterXLine, href: "#", color: "hover:text-sky-400" },
         { name: "GitHub", icon: LuGithub, href: "#", color: "hover:text-gray-300" },
     ];
+
+    const handleSubscribe = async (e) => {
+      e.preventDefault();
+      try{
+        if(!email){
+          toast.error("Please enter a valid email address.");
+          return;
+        }
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/subscriber`,
+          { email },
+          {
+            validateStatus: (status) => true, // accept all status codes as "valid"
+          }
+        );
+        console.log(res);
+        if(res.status === 201){
+          toast.success("Subscribed successfully!");
+          setEmail("");
+        } else {
+          toast.error(
+            res.data.message || "Subscription failed. Please try again."
+          );
+        }
+      }
+      catch(error){
+        toast.error("Subscription failed. Please try again.");
+      } 
+    };
 
     return (
       <>
@@ -79,13 +111,16 @@ const Footer = () => {
                 Savings And Reliability?
               </h2>
 
-              <form className="relative subscribeForm lg:w-[550px]">
+              <form className="relative subscribeForm lg:w-[550px]" onSubmit={handleSubscribe}>
                 <input
                   type="text"
+                  onChange={handleEmailChange}
+                  value={email}
                   className="w-full h-[65px] bg-white rounded-lg p-3 px-5 outline-none"
                   placeholder="Your Email Address"
                 />
                 <Button
+                type="submit"
                   className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-6 !py-2 !capitalize !font-bold !absolute top-[5px] 
                          right-[5px] !h-[55px]"
                   size="large"

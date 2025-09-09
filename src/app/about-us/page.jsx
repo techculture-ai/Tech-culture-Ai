@@ -17,8 +17,11 @@ import { FiMail } from "react-icons/fi";
 import { FiPhone } from "react-icons/fi";
 import Link from "next/link";
 import AIPageHeader from "../../components/AIPageHeader";
+import { useRouter } from "next/navigation";
 
 const About = () => {
+  const router = useRouter();
+
   useEffect(() => {
     AOS.init({ duration: 1000, offset: 50 });
   }, []);
@@ -80,7 +83,7 @@ const About = () => {
     <>
       {/* AI Page Header */}
       <AIPageHeader
-        title="About Our AI-Powered Solutions"
+        title="Who We Are"
         subtitle="Transforming Business Through Intelligent Innovation"
         description="Discover how our advanced AI technologies and expert team are revolutionizing the way businesses operate and grow."
         aiWords={["AI-Powered", "Intelligent", "Advanced"]}
@@ -142,6 +145,7 @@ const About = () => {
 
               <div className="btn mt-3">
                 <Button
+                  onClick={() => router.push("/services")}
                   className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-6 !py-3 !capitalize !font-bold gap-2"
                   size="large"
                 >

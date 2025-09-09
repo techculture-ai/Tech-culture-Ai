@@ -60,7 +60,7 @@ const Team = () => {
     <>
       {/* AI Page Header */}
       <AIPageHeader
-        title="Meet Our AI Experts"
+        title="Meet Our Experts"
         subtitle="The Brilliant Minds Behind Intelligent Solutions"
         description="Get to know the talented professionals who are pioneering the future of AI technology and driving innovation at every level."
       />

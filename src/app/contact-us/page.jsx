@@ -134,7 +134,7 @@ const ContactUs = () => {
     <>
       {/* AI Page Header */}
       <AIPageHeader
-        title="Connect with Our AI Experts"
+        title="Connect with Our Experts"
         subtitle="Let's Build Something Intelligent Together"
         description="Ready to transform your business with cutting-edge AI solutions? Our team of experts is here to help you succeed."
         aiWords={["AI", "Intelligent", "cutting-edge"]}

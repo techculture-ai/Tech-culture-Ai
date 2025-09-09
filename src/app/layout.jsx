@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
               },
               success: {
                 style: {
-                  background: "rgba(16, 185, 129, 0.1)",
+                  background: "rgba(240, 240, 240, 0.5)",
                   border: "1px solid rgba(16, 185, 129, 0.3)",
                   color: "#047857",
                 },
@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
               },
               error: {
                 style: {
-                  background: "rgba(239, 68, 68, 0.1)",
+                  background: "rgba(240, 240, 240, 0.5)",
                   border: "1px solid rgba(239, 68, 68, 0.3)",
                   color: "#dc2626",
                 },

@@ -73,7 +73,7 @@ export default function ProjectCards() {
     <>
       {/* AI Page Header */}
       <AIPageHeader
-        title="Our AI-Powered Portfolio"
+        title="Our Portfolio"
         subtitle="Innovative Projects Transforming Industries"
         description="Explore our comprehensive portfolio of successful AI implementations that have revolutionized business operations across various sectors."
         aiWords={["AI-Powered", "Innovative", "AI"]}

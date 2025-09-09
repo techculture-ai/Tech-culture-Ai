@@ -35,7 +35,7 @@ const HomeServices = () => {
     <>
       {/* AI Page Header */}
       <AIPageHeader 
-        title="Our Intelligent Services"
+        title="Our Services"
         subtitle="Comprehensive AI-Driven Solutions for Modern Business"
         description="Explore our full range of cutting-edge AI services designed to transform your business operations and drive sustainable growth."
         aiWords={["Intelligent", "AI-Driven", "cutting-edge"]}
