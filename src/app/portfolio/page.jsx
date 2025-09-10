@@ -8,48 +8,17 @@ import { GoArrowUpRight } from "react-icons/go";
 import AIPageHeader from "../../components/AIPageHeader";
 import axios from "axios";
 
-const projects = [
-  {
-    title: "Predictive Analytics Engine",
-    image:
-      "https://framerusercontent.com/images/95AWPsd6pGN9FkDJXN4GarMI40M.png?scale-down-to=1024",
-    tags: ["Data Science", "Blockchain"],
-  },
-  {
-    title: "Cloud AI Integration",
-    image:
-      "https://framerusercontent.com/images/B99RWrFRBY9xHpQA91l6MKDKm9g.png?scale-down-to=1024",
-    tags: ["Data Science", "Blockchain"],
-  },
-  {
-    title: "Optivus AI Assistant",
-    image:
-      "https://framerusercontent.com/images/p1alDZyx8Nokg0bH6m6lFzetEBQ.jpg?scale-down-to=1024",
-    tags: ["Data Science", "Blockchain"],
-  },
-  {
-    title: "Cloud Computing",
-    image:
-      "https://framerusercontent.com/images/t4slXm3H16Pk4Um6zrdy6WlbJeE.jpg?scale-down-to=1024",
-    tags: ["Data Science", "Blockchain"],
-  },
-  {
-    title: "Cloud Computing",
-    image:
-      "https://framerusercontent.com/images/WwOBIwlZdTKSAHKz8hpa8N9vDL0.png?scale-down-to=1024",
-    tags: ["Data Science", "Blockchain"],
-  },
-];
 
 export default function ProjectCards() {
   const router = useRouter();
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
   // const [completedProjects, setCompletedProjects] = useState([]);
   // const [ongoingProjects, setOngoingProjects] = useState([]);
-  const { projectData, setProjectData } = useSite();
+  const { projectData, setProjectData, projectid, setProjectid } = useSite();
 
-  const handleProjectClick = (projectId) => {
-    router.push(`/portfolio/${projectId}`);
+  const handleProjectClick = (projectId, projectTitle) => {
+    setProjectid(projectId);
+    router.push(`/portfolio/${projectTitle.replace(/\s+/g, '-').toLowerCase()}`);
   };
 
   useEffect(() => {
@@ -95,7 +64,7 @@ export default function ProjectCards() {
                 <div
                   key={i}
                   className="group relative flex-1 basis-2/7 overflow-hidden rounded-3xl shadow-lg cursor-pointer transition-all duration-500 hover:flex-[2]"
-                  onClick={() => handleProjectClick(project._id)}
+                  onClick={() => handleProjectClick(project._id, project.title)}
                 >
                   <img
                     src={project?.image}

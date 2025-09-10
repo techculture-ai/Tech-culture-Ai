@@ -3,6 +3,65 @@ import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
 import axios from 'axios'
 import { useSite } from '@/context/siteContext'
+import {
+  FaReact,
+  FaNode,
+  FaPython,
+  FaPhp,
+  FaLaravel,
+  FaHtml5,
+  FaCss3Alt,
+  FaJs,
+  FaAngular,
+  FaVuejs,
+  FaBootstrap,
+  FaUnity,
+  FaDatabase,
+} from "react-icons/fa";
+import {
+  SiFlutter,
+  SiUnrealengine,
+  SiTypescript,
+  SiDjango,
+  SiFlask,
+  SiFastapi,
+  SiPostgresql,
+  SiMysql,
+  SiMongodb,
+  SiFirebase,
+  SiNextdotjs,
+  SiTailwindcss,
+} from "react-icons/si";
+
+
+const iconMap = {
+  "React Native": <FaReact className="w-6 h-6 text-primary" />,
+  Flutter: <SiFlutter className="w-6 h-6 text-primary" />,
+  Unity: <FaUnity className="w-6 h-6 text-primary" />,
+  "Unreal Engine": <SiUnrealengine className="w-6 h-6 text-primary" />,
+  TypeScript: <SiTypescript className="w-6 h-6 text-primary" />,
+  "Node.js": <FaNode className="w-6 h-6 text-primary" />,
+  Django: <SiDjango className="w-6 h-6 text-primary" />,
+  Python: <FaPython className="w-6 h-6 text-primary" />,
+  Flask: <SiFlask className="w-6 h-6 text-primary" />,
+  FastAPI: <SiFastapi className="w-6 h-6 text-primary" />,
+  PHP: <FaPhp className="w-6 h-6 text-primary" />,
+  Laravel: <FaLaravel className="w-6 h-6 text-primary" />,
+  PostgreSQL: <SiPostgresql className="w-6 h-6 text-primary" />,
+  MySQL: <SiMysql className="w-6 h-6 text-primary" />,
+  MongoDB: <SiMongodb className="w-6 h-6 text-primary" />,
+  Firebase: <SiFirebase className="w-6 h-6 text-primary" />,
+  HTML5: <FaHtml5 className="w-6 h-6 text-primary" />,
+  CSS3: <FaCss3Alt className="w-6 h-6 text-primary" />,
+  JavaScript: <FaJs className="w-6 h-6 text-primary" />,
+  "React.js": <FaReact className="w-6 h-6 text-primary" />,
+  Angular: <FaAngular className="w-6 h-6 text-primary" />,
+  "Vue.js": <FaVuejs className="w-6 h-6 text-primary" />,
+  "Next.js": <SiNextdotjs className="w-6 h-6 text-primary" />,
+  Tailwind: <SiTailwindcss className="w-6 h-6 text-primary" />,
+  Bootstrap: <FaBootstrap className="w-6 h-6 text-primary" />,
+};
+
 
 const Technologies = () => {
     const { technologyData, setTechnologyData } = useSite();
@@ -97,22 +156,28 @@ const Technologies = () => {
                                                 {
                                                     isActiveTech.items.map((item, index) => {
                                                         return (
-                                                            <div 
-                                                                className='box bg-slate-800/50 p-3 rounded-lg flex flex-col 
+                                                          <div
+                                                            className="box bg-slate-800/50 p-3 rounded-lg flex flex-col 
                                                                 gap-2 justify-center text-center h-32 border border-[rgba(255,255,255,0.050)] 
-                                                                transition-all hover:scale-110 hover:bg-slate-700 hover:border-primary/30' 
-                                                                key={index}
-                                                            >
-                                                                <div className='w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mx-auto mb-2'>
-                                                                    <span className='text-primary text-xl font-bold'>
-                                                                        {item?.name?.charAt(0).toUpperCase()}
-                                                                    </span>
-                                                                </div>
-                                                                <h3 className='text-white/80 text-[15px] font-bold'>
-                                                                    {item?.name}
-                                                                </h3>
+                                                                transition-all hover:scale-110 hover:bg-slate-700 hover:border-primary/30"
+                                                            key={index}
+                                                          >
+                                                            <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                                              {iconMap[
+                                                                item?.name
+                                                              ] || (
+                                                                <span className="text-primary text-xl font-bold">
+                                                                  {item?.name
+                                                                    ?.charAt(0)
+                                                                    .toUpperCase()}
+                                                                </span>
+                                                              )}
                                                             </div>
-                                                        )
+                                                            <h3 className="text-white/80 text-[15px] font-bold">
+                                                              {item?.name}
+                                                            </h3>
+                                                          </div>
+                                                        );
                                                     })
                                                 }
                                             </div>

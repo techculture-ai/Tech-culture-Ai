@@ -15,6 +15,7 @@ import { useSite } from "@/context/siteContext";
 import axios from "axios";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 const Footer = () => {
   const [email, setEmail] = React.useState("");
@@ -217,14 +218,14 @@ const Footer = () => {
                   <ul className="space-y-3">
                     {navigationLinks.map((link) => (
                       <li key={link.name}>
-                        <a
+                        <Link
                           href={link.href}
                           className="text-gray-400 hover:text-orange-400 transition-colors duration-300 flex items-center gap-2 group"
                         >
                           <span className="group-hover:translate-x-1 transition-transform duration-300">
                             {link.name}
                           </span>
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -238,14 +239,14 @@ const Footer = () => {
                   <ul className="space-y-3">
                     {serviceLinks.map((link) => (
                       <li key={link.name}>
-                        <a
+                        <Link
                           href={link.href}
                           className="text-gray-400 hover:text-orange-400 transition-colors duration-300 flex items-center gap-2 group"
                         >
                           <span className="group-hover:translate-x-1 transition-transform duration-300">
                             {link.name}
                           </span>
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -259,14 +260,14 @@ const Footer = () => {
                   <ul className="space-y-3">
                     {companyLinks.map((link) => (
                       <li key={link.name}>
-                        <a
+                        <Link
                           href={link.href}
                           className="text-gray-400 hover:text-orange-400 transition-colors duration-300 flex items-center gap-2 group"
                         >
                           <span className="group-hover:translate-x-1 transition-transform duration-300">
                             {link.name}
                           </span>
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -291,40 +292,40 @@ const Footer = () => {
                       {/* {socialLinks.map((social) => {
                         const IconComponent = social.icon;
                         return (
-                          <a
+                          <Link
                             key={social.name}
                             href={social.href}
                             className={`text-gray-400 ${social.color} transition-colors duration-300 transform hover:scale-110`}
                             aria-label={social.name}
                           >
                             <IconComponent size={20} />
-                          </a>
+                          </Link>
                         );
                       })} */}
-                      <a
+                      <Link
                         href={settingsData?.facebook || "#"}
                         className={`text-gray-400 hover:text-orange-400 transition-colors duration-300 transform hover:scale-110`}
                       >
                         <FaFacebookF size={20} />
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         href={settingsData?.instagram || "#"}
                         className={`text-gray-400 hover:text-orange-400 transition-colors duration-300 transform hover:scale-110`}
                       >
                         <FaInstagram size={20} />
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         href={settingsData?.twitter || "#"}
                         className={`text-gray-400 hover:text-orange-400 transition-colors duration-300 transform hover:scale-110`}
                       >
                         <RiTwitterXLine size={20} />
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         href={settingsData?.linkedin || "#"}
                         className={`text-gray-400 hover:text-orange-400 transition-colors duration-300 transform hover:scale-110`}
                       >
                         <LiaLinkedinIn size={20} />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

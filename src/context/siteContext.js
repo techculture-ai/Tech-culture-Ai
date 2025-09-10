@@ -17,6 +17,7 @@ export const SiteProvider = ({ children }) => {
   const [videoData, setVideoData] = useState(null);
   const [careerData, setCareerData] = useState(null);
   const [technologyData, setTechnologyData] = useState(null);
+  const [projectid, setProjectid] = useState(null);
 
   return (
     <SiteContext.Provider
@@ -39,6 +40,8 @@ export const SiteProvider = ({ children }) => {
         setCareerData,
         technologyData,
         setTechnologyData,
+        projectid,
+        setProjectid
       }}
     >
       {children}

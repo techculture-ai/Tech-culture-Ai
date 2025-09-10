@@ -19,6 +19,7 @@ import { MdVerified } from "react-icons/md";
 import Button from "@mui/material/Button";
 import { projectService } from "../../../services/projectService";
 import AIPageHeader from "../../../components/AIPageHeader";
+import { useSite } from "@/context/siteContext";
 
 const ProjectDetail = () => {
   const params = useParams();
@@ -27,11 +28,12 @@ const ProjectDetail = () => {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageIndex, setImageIndex] = useState(0);
+  const { projectid } = useSite();
 
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const projectData = await projectService.getProjectById(params.id);
+        const projectData = await projectService.getProjectById(projectid);
         if (projectData) {
           setProject(projectData);
         } else {
@@ -261,7 +263,7 @@ const ProjectDetail = () => {
               )}
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap gap-4">
+              {/* <div className="flex flex-wrap gap-4">
                 <Button
                   variant="contained"
                   className="bg-gradient-to-r from-primary to-orange-400 hover:from-orange-400 hover:to-primary text-white font-bold py-3 px-6 rounded-full transform hover:scale-105 transition-all duration-300"
@@ -270,14 +272,8 @@ const ProjectDetail = () => {
                   View Live Demo
                 </Button>
 
-                <Button
-                  variant="outlined"
-                  className="border-white/30 text-white hover:bg-white hover:text-black transition-all duration-300 py-3 px-6 rounded-full"
-                  startIcon={<BsGithub />}
-                >
-                  Source Code
-                </Button>
-              </div>
+                
+              </div> */}
             </div>
           </div>
 
@@ -355,6 +351,7 @@ const ProjectDetail = () => {
             <div className="flex flex-wrap justify-center gap-4">
               <Button
                 variant="contained"
+                onClick={() => router.push("/contact-us")}
                 className="bg-gradient-to-r from-primary to-orange-400 hover:from-orange-400 hover:to-primary text-white font-bold py-4 px-8 rounded-full text-lg transform hover:scale-105 transition-all duration-300"
                 endIcon={<BsArrowRight />}
               >

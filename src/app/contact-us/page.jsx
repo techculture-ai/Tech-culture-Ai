@@ -102,19 +102,19 @@ const ContactUs = () => {
 
   const contactInfo = [
     {
-      icon: <FiPhone size={24} className="text-primary" />,
+      icon: <FiPhone size={24} className="text-white" />,
       title: "Call Us",
       details: [settingsData?.contactNo],
       description: "Mon-Fri 9AM-6PM EST",
     },
     {
-      icon: <FiMail size={24} className="text-primary" />,
+      icon: <FiMail size={24} className="text-white" />,
       title: "Email Us",
       details: [settingsData?.email],
       description: "We reply within 24 hours",
     },
     {
-      icon: <FiMapPin size={24} className="text-primary" />,
+      icon: <FiMapPin size={24} className="text-white" />,
       title: "Visit Us",
       details: [settingsData?.registeredAddress, settingsData?.officeAddress],
       description: "Open Mon-Fri 9AM-6PM",
