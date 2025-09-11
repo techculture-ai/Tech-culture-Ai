@@ -38,7 +38,7 @@ const About = () => {
       icon: <BsLightbulb size={40} className="text-primary" />,
       title: "Innovation",
       description:
-        "WWe lead the way by embracing frontier AI advancements and bold innovations that propel profound shifts in business landscapes.",
+        "We lead the way by embracing frontier AI advancements and bold innovations that propel profound shifts in business landscapes.",
     },
     {
       icon: <FaAward size={40} className="text-primary" />,
@@ -99,7 +99,7 @@ const About = () => {
           <div className="flex items-center gap-20 wrapper">
             <div className="img relative w-[50%]" data-aos="fade-right">
               <img src="/about__2.png" alt="image" />
-              <span className="animateText txt-shadow">About Us</span>
+              {/* <span className="animateText txt-shadow">About Us</span> */}
               <img
                 src="/about__small__img__2.png"
                 className="aboutIconImg absolute top-16 right-40"

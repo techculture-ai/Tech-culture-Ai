@@ -66,7 +66,7 @@ export default function ProjectCards() {
       <section className="imageBg py-16 pt-0">
         <div className="container">
           <h2 className="mainHd text-[50px] font-bold text-white leading-[60px] text-center">
-            <span className="text-gred">Technologies </span> we have built{" "}
+            <span className="text-gred">Success </span> Stories
           </h2>
           <p className="text-white/80 font-light text-[20px] py-3 text-center w-[90%] lg:w-[50%] m-auto">
             Using machine learning to track usage patterns, our platform reduces

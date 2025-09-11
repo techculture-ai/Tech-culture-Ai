@@ -24,7 +24,7 @@ const About = () => {
           <div className="flex items-center gap-20 wrapper">
             <div className="img relative w-[50%]">
               <img src="/about__2.png" alt="image" />
-              <span className="animateText txt-shadow">About Us</span>
+              {/* <span className="animateText txt-shadow">About Us</span> */}
               <img
                 src="/about__small__img__2.png"
                 className="aboutIconImg absolute top-16 right-40"
