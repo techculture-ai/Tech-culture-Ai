@@ -10,6 +10,7 @@ const SiteContext = createContext();
 export const SiteProvider = ({ children }) => {
   const [settingsData, setSettingsData] = useState(null);
   const [projectData, setProjectData] = useState(null);
+  const [categoryData, setCategoryData] = useState(null);
   const [serviceData, setServiceData] = useState(null);
   const [testimonialData, setTestimonialData] = useState(null);
   const [teamData, setTeamData] = useState(null);
@@ -18,6 +19,7 @@ export const SiteProvider = ({ children }) => {
   const [careerData, setCareerData] = useState(null);
   const [technologyData, setTechnologyData] = useState(null);
   const [projectid, setProjectid] = useState(null);
+  const [categoryid, setCategoryid] = useState(null);
 
   return (
     <SiteContext.Provider
@@ -26,6 +28,8 @@ export const SiteProvider = ({ children }) => {
         setSettingsData,
         projectData,
         setProjectData,
+        categoryData,
+        setCategoryData,
         serviceData,
         setServiceData,
         testimonialData,
@@ -41,7 +45,9 @@ export const SiteProvider = ({ children }) => {
         technologyData,
         setTechnologyData,
         projectid,
-        setProjectid
+        setProjectid,
+        categoryid,
+        setCategoryid
       }}
     >
       {children}

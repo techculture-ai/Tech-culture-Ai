@@ -38,16 +38,15 @@ import { GoArrowUpRight } from "react-icons/go";
 export default function ProjectCards() {
   const router = useRouter()
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-    const { projectData, setProjectData } = useSite();
+    const { setCategoryid, categoryData, setCategoryData } = useSite();
 
     useEffect(() => {
       const fetchData = async () => {
-        if (!projectData) {
+        if (!categoryData) {
           try {
-            const res = await axios.get(`${apiBaseUrl}/api/projects`);
-            setProjectData(res.data.projects);
-            console.log("Project data", res.data.projects);
-            setProjectData(res.data.projects);
+            const res = await axios.get(`${apiBaseUrl}/api/projects/category`);
+            setCategoryData(res.data.categories);
+            console.log("Category data", res.data.categories);
           } catch (error) {
             console.log(error);
           }
@@ -55,7 +54,14 @@ export default function ProjectCards() {
       };
 
       fetchData();
-    }, [projectData, setProjectData]);
+    }, [categoryData, setCategoryData]);
+
+    const handleCategoryClick = (categoryId, categoryName) => {
+      setCategoryid(categoryId);
+      router.push(
+        `/portfolio/category/${categoryName.replace(/\s+/g, "-").toLowerCase()}`
+      );
+    };
     return (
       <section className="imageBg py-16 pt-0">
         <div className="container">
@@ -68,35 +74,24 @@ export default function ProjectCards() {
           </p>
           <br />
           <div className="flex gap-4 overflow-hidden projectCards">
-            {projectData &&
-              projectData.map((project, i) => (
+            {categoryData &&
+              categoryData.map((category, i) => (
                 <div
                   key={i}
                   className="group relative flex-1 basis-2/7 overflow-hidden rounded-3xl shadow-lg cursor-pointer transition-all duration-500 hover:flex-[2]"
+                  onClick={() => handleCategoryClick(category._id, category.name)}
                 >
                   <img
-                    src={project?.image}
-                    alt={project.title}
+                    src={category?.image}
+                    alt={category.name}
                     className="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                  {project.technologies && (
-                    <div className="absolute top-5 -right-[100%] flex gap-2 opacity-0 group-hover:opacity-100 group-hover:right-16 transition-all projectTags">
-                      {project.technologies.map((tag, idx) => (
-                        <span
-                          key={idx}
-                          className="bg-white/90 text-gray-800 text-md px-3 py-1 rounded-full backdrop-blur-sm"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
                   <div className="absolute top-4 right-4 bg-white text-black rounded-full p-2 group-hover:bg-primary group-hover:text-white transition">
                     <GoArrowUpRight size={20} />
                   </div>
                   <div className="absolute bottom-6 left-6 text-white text-lg font-semibold">
-                    {project.title}
+                    {category.name}
                   </div>
                 </div>
               ))}
@@ -107,7 +102,7 @@ export default function ProjectCards() {
           <Button
             className="!bg-white !text-gray-800 !font-bold !capitalize items-center"
             size="large"
-            onClick={() => router.push('/portfolio')}
+            onClick={() => router.push("/portfolio")}
           >
             View All Products
           </Button>

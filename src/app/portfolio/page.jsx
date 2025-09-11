@@ -10,89 +10,108 @@ import axios from "axios";
 
 
 export default function ProjectCards() {
+  const { setCategoryid, categoryData, setCategoryData } = useSite();
   const router = useRouter();
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-  // const [completedProjects, setCompletedProjects] = useState([]);
-  // const [ongoingProjects, setOngoingProjects] = useState([]);
-  const { projectData, setProjectData, projectid, setProjectid } = useSite();
+  
+  const [projectCounts, setProjectCounts] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  const handleProjectClick = (projectId, projectTitle) => {
-    setProjectid(projectId);
-    router.push(`/portfolio/${projectTitle.replace(/\s+/g, '-').toLowerCase()}`);
+  const handleCategoryClick = (categoryId, categoryName) => {
+    setCategoryid(categoryId);
+    router.push(
+      `/portfolio/category/${categoryName.replace(/\s+/g, "-").toLowerCase()}`
+    );
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!projectData) {
-        try {
-          const res = await axios.get(`${apiBaseUrl}/api/projects`);
-          setProjectData(res.data.projects);
-          console.log("Project data", res.data.projects);
-          setProjectData(res.data.projects);
-        } catch (error) {
-          console.log(error);
+    const fetchCategories = async () => {
+      try {
+        // Fetch categories
+        if(!categoryData){
+          const categoriesRes = await axios.get(
+            `${apiBaseUrl}/api/projects/category`
+          );
+          setCategoryData(categoriesRes.data.categories);
         }
+        // Fetch project count for each category
+        const counts = {};
+        for (const category of categoryData) {
+          try {
+            const projectsRes = await axios.get(`${apiBaseUrl}/api/projects/category/${category._id}`);
+            counts[category._id] = projectsRes.data.projects.length;
+          } catch (error) {
+            counts[category._id] = 0;
+          }
+        }
+        setProjectCounts(counts);
+      } catch (error) {
+        console.log("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
       }
-
     };
 
-    fetchData();
-  }, [projectData, setProjectData]);
+    fetchCategories();
+  }, []);
   return (
     <>
       {/* AI Page Header */}
       <AIPageHeader
         title="Our Portfolio"
-        subtitle="Innovative Projects Transforming Industries"
-        description="Explore our comprehensive portfolio of successful AI implementations that have revolutionized business operations across various sectors."
+        subtitle="Project Categories Across Industries"
+        description="Discover our expertise across different technology domains. Each category represents our specialized knowledge and successful implementations."
         aiWords={["AI-Powered", "Innovative", "AI"]}
       />
 
       <section className="imageBg py-16 pt-0">
         <div className="container">
-          {/* <h2 className="mainHd text-[50px] font-bold text-white leading-[60px] text-center">
-          <span className="text-gred">Technologies </span> we have built{" "}
-        </h2>
-        <p className="text-white/80 font-light text-[20px] py-3 text-center w-[90%] lg:w-[50%] m-auto">
-          Using machine learning to track usage patterns, our platform reduces
-          energy overuse and improves operational sustainability.
-        </p>
-        <br /> */}
-          <div className="flex gap-4 overflow-hidden projectCards">
-            {projectData &&
-              projectData.map((project, i) => (
-                <div
-                  key={i}
-                  className="group relative flex-1 basis-2/7 overflow-hidden rounded-3xl shadow-lg cursor-pointer transition-all duration-500 hover:flex-[2]"
-                  onClick={() => handleProjectClick(project._id, project.title)}
-                >
-                  <img
-                    src={project?.image}
-                    alt={project.title}
-                    className="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                  {project.technologies && (
-                    <div className="absolute top-5 -right-[100%] flex gap-2 opacity-0 group-hover:opacity-100 group-hover:right-16 transition-all projectTags">
-                      {project.technologies.map((tag, idx) => (
-                        <span
-                          key={idx}
-                          className="bg-white/90 text-gray-800 text-md px-3 py-1 rounded-full backdrop-blur-sm"
-                        >
-                          {tag}
+          <h2 className="mainHd text-[50px] font-bold text-white leading-[60px] text-center mb-4">
+            <span className="text-gred">Project Categories </span> we specialize in{" "}
+          </h2>
+          <p className="text-white/80 font-light text-[20px] py-3 text-center w-[90%] lg:w-[50%] m-auto mb-12">
+            Explore our diverse portfolio across different technology domains and discover innovative solutions we've built for our clients.
+          </p>
+          
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="text-white text-xl">Loading categories...</div>
+            </div>
+          ) : (
+            <div className="flex gap-4 overflow-hidden projectCards">
+              {categoryData &&
+                categoryData.map((category, i) => (
+                  <div
+                    key={i}
+                    className="group relative flex-1 basis-2/7 overflow-hidden rounded-3xl shadow-lg cursor-pointer transition-all duration-500 hover:flex-[2]"
+                    onClick={() => handleCategoryClick(category._id, category.name)}
+                  >
+                    <img
+                      src={category?.image}
+                      alt={category.name}
+                      className="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                    {projectCounts[category._id] > 0 && (
+                      <div className="absolute top-5 -right-[100%] flex gap-2 opacity-0 group-hover:opacity-100 group-hover:right-16 transition-all projectTags">
+                        <span className="bg-white/90 text-gray-800 text-md px-3 py-1 rounded-full backdrop-blur-sm">
+                          {projectCounts[category._id]} {projectCounts[category._id] === 1 ? 'Project' : 'Projects'}
                         </span>
-                      ))}
+                      </div>
+                    )}
+                    <div className="absolute top-4 right-4 bg-white text-black rounded-full p-2 group-hover:bg-primary group-hover:text-white transition">
+                      <GoArrowUpRight size={20} />
                     </div>
-                  )}
-                  <div className="absolute top-4 right-4 bg-white text-black rounded-full p-2 group-hover:bg-primary group-hover:text-white transition">
-                    <GoArrowUpRight size={20} />
+                    <div className="absolute bottom-6 left-6 text-white">
+                      <div className="text-lg font-semibold">{category.name}</div>
+                      {category.description && (
+                        <div className="text-sm text-white/80 mt-1 line-clamp-2">{category.description}</div>
+                      )}
+                    </div>
                   </div>
-                  <div className="absolute bottom-6 left-6 text-white text-lg font-semibold">
-                    {project.title}
-                  </div>
-                </div>
-              ))}
-          </div>
+                ))}
+            </div>
+          )}
         </div>
       </section>
     </>

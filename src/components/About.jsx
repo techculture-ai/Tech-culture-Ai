@@ -34,22 +34,23 @@ const About = () => {
 
             <div className="info w-[50%] flex flex-col gap-5">
               <h2 className="mainHd text-[50px] font-bold text-white leading-[60px] ">
-                Transforming Business with <br />
+                Driving Business Excellence Through <br />
                 <span className="text-gred">AI Innovation</span>
               </h2>
 
               <p className="text-white/70 text-[20px]">
-                We are a leading technology company specializing in AI-powered
-                solutions that revolutionize how businesses operate. With over
-                12 years of experience, we help companies leverage artificial
-                intelligence to streamline operations, boost productivity, and
-                drive sustainable growth.
+                At Techculture, we specialize in delivering cutting edge AI
+                driven solutions that redefine the way organizations function.
+                With more than 8 years of expertise in technology and
+                innovation, we empower businesses to harness the potential of
+                artificial intelligence to optimize operations, enhance
+                efficiency, and accelerate sustainable growth.
               </p>
 
               <div className="flex items-center gap-5 flex-col lg:flex-row justify-start text-left">
                 <span className="flex items-center gap-2 text-white/70 text-[18px] w-full lg:w-auto">
                   <MdOutlineShowChart size={20} className="text-primary" />
-                  Instant Responses
+                  Custom Solutions
                 </span>
 
                 <span className="flex items-center gap-2 text-white/70 text-[18px] w-full lg:w-auto">
@@ -65,7 +66,7 @@ const About = () => {
 
               <div className="btn mt-3">
                 <Button
-                onClick={() => router.push('/services')}
+                  onClick={() => router.push("/services")}
                   className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-6 !py-3 !capitalize !font-bold gap-2"
                   size="large"
                 >

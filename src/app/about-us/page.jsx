@@ -37,23 +37,27 @@ const About = () => {
     {
       icon: <BsLightbulb size={40} className="text-primary" />,
       title: "Innovation",
-      description: "We stay ahead of the curve with cutting-edge AI technologies and innovative solutions that drive business transformation."
+      description:
+        "WWe lead the way by embracing frontier AI advancements and bold innovations that propel profound shifts in business landscapes.",
     },
     {
       icon: <FaAward size={40} className="text-primary" />,
       title: "Excellence",
-      description: "Our commitment to quality ensures every project exceeds expectations with robust, scalable, and efficient solutions."
+      description:
+        "We uphold the highest standards of excellence, guaranteeing that each endeavor surpasses client aspirations through resilient, adaptable, and streamlined outcomes.",
     },
     {
       icon: <FiUsers size={40} className="text-primary" />,
       title: "Collaboration",
-      description: "We work closely with our clients as partners, understanding their unique needs and crafting tailored solutions."
+      description:
+        "We collaborate with our clients as true partners, gaining a deep understanding of their goals and delivering solutions designed specifically to meet their needs.",
     },
     {
       icon: <TbTargetArrow size={40} className="text-primary" />,
       title: "Results-Driven",
-      description: "Every solution we create is designed to deliver measurable results and sustainable business growth."
-    }
+      description:
+        "Every solution we create is designed to deliver measurable results and sustainable business growth.",
+    },
   ];
 
   const journey = [
@@ -114,22 +118,24 @@ const About = () => {
               </div>
 
               <h2 className="mainHd text-[50px] font-bold text-white leading-[60px]">
-                Transforming Business with <br />
+                Driving Business Excellence Through
+                <br />
                 <span className="text-gred">AI Innovation</span>
               </h2>
 
               <p className="text-white/70 text-[20px]">
-                We are a leading technology company specializing in AI-powered
-                solutions that revolutionize how businesses operate. With over
-                12 years of experience, we help companies leverage artificial
-                intelligence to streamline operations, boost productivity, and
-                drive sustainable growth.
+                At Techculture, we specialize in delivering cutting edge AI
+                driven solutions that redefine the way organizations function.
+                With more than 8 years of expertise in technology and
+                innovation, we empower businesses to harness the potential of
+                artificial intelligence to optimize operations, enhance
+                efficiency, and accelerate sustainable growth.
               </p>
 
               <div className="flex items-center gap-5 flex-col lg:flex-row justify-start text-left">
                 <span className="flex items-center gap-2 text-white/70 text-[18px] w-full lg:w-auto">
                   <MdOutlineShowChart size={20} className="text-primary" />
-                  Advanced Analytics
+                  Custom Solutions
                 </span>
 
                 <span className="flex items-center gap-2 text-white/70 text-[18px] w-full lg:w-auto">
@@ -196,27 +202,29 @@ const About = () => {
                   </h3>
                 </div>
                 <p className="text-white/80 text-[18px] leading-7">
-                  To empower businesses worldwide with intelligent AI solutions
-                  that simplify complex operations, enhance productivity, and
-                  create sustainable competitive advantages in the digital age.
+                  We are committed to helping businesses across the globe
+                  harness the power of intelligent solutions that simplify
+                  complex processes, improve efficiency, and build long-term
+                  competitive strength in today’s digital landscape.
                 </p>
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center gap-3">
                     <BiCheckCircle size={20} className="text-primary" />
                     <span className="text-white/70">
-                      Deliver cutting-edge AI solutions
+                      Delivering innovative, future-ready AI technologies
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <BiCheckCircle size={20} className="text-primary" />
                     <span className="text-white/70">
-                      Provide exceptional customer support
+                      Offering reliable and responsive customer support
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <BiCheckCircle size={20} className="text-primary" />
                     <span className="text-white/70">
-                      Drive digital transformation
+                      Enabling organizations to achieve true digital
+                      transformation
                     </span>
                   </div>
                 </div>
@@ -242,28 +250,28 @@ const About = () => {
                   </h3>
                 </div>
                 <p className="text-white/80 text-[18px] leading-7">
-                  To be the global leader in AI-powered business solutions,
-                  creating a future where every business can harness the power
-                  of artificial intelligence to achieve unprecedented growth and
-                  innovation.
+                  Our vision is to lead the world in delivering AI-driven
+                  solutions for business, empowering organizations everywhere to
+                  unlock artificial intelligence's potential and drive
+                  extraordinary expansion and creativity.
                 </p>
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center gap-3">
                     <BiCheckCircle size={20} className="text-primary" />
                     <span className="text-white/70">
-                      Pioneer next-generation AI technologies
+                      We pioneer advanced AI innovations.
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <BiCheckCircle size={20} className="text-primary" />
                     <span className="text-white/70">
-                      Create sustainable business value
+                      We build enduring, responsible value for enterprises.
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <BiCheckCircle size={20} className="text-primary" />
                     <span className="text-white/70">
-                      Foster innovation across industries
+                      We spark transformative change throughout diverse sectors.
                     </span>
                   </div>
                 </div>

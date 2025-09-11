@@ -25,7 +25,7 @@ export default function Home() {
       <ProjectCards/>
       {/* <Testimonials /> */}
       <Technologies />
-      <Team />
+      {/* <Team /> */}
       <UserSaying />
     </>
   );
