@@ -104,8 +104,8 @@ export default function CategoryProjectsPage() {
             <div className="text-center py-20">
               <h2 className="text-3xl font-bold mb-4">No Projects Yet</h2>
               <p className="text-white/60 text-lg mb-8">
-                We're working on exciting projects in this category. Check back
-                soon!
+                We&apos;re working on exciting projects in this category. Check
+                back soon!
               </p>
               <Button
                 className="!bg-primary !text-white !font-bold !capitalize"

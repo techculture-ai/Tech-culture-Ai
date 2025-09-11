@@ -67,12 +67,14 @@ export default function ProjectCards() {
       <section className="imageBg py-16 pt-0">
         <div className="container">
           <h2 className="mainHd text-[50px] font-bold text-white leading-[60px] text-center mb-4">
-            <span className="text-gred">Project Categories </span> we specialize in{" "}
+            <span className="text-gred">Project Categories </span> we specialize
+            in{" "}
           </h2>
           <p className="text-white/80 font-light text-[20px] py-3 text-center w-[90%] lg:w-[50%] m-auto mb-12">
-            Explore our diverse portfolio across different technology domains and discover innovative solutions we've built for our clients.
+            Explore our diverse portfolio across different technology domains
+            and discover innovative solutions we&apos;ve built for our clients.
           </p>
-          
+
           {loading ? (
             <div className="flex justify-center items-center py-20">
               <div className="text-white text-xl">Loading categories...</div>
@@ -84,7 +86,9 @@ export default function ProjectCards() {
                   <div
                     key={i}
                     className="group relative flex-1 basis-2/7 overflow-hidden rounded-3xl shadow-lg cursor-pointer transition-all duration-500 hover:flex-[2]"
-                    onClick={() => handleCategoryClick(category._id, category.name)}
+                    onClick={() =>
+                      handleCategoryClick(category._id, category.name)
+                    }
                   >
                     <img
                       src={category?.image}
@@ -95,7 +99,10 @@ export default function ProjectCards() {
                     {projectCounts[category._id] > 0 && (
                       <div className="absolute top-5 -right-[100%] flex gap-2 opacity-0 group-hover:opacity-100 group-hover:right-16 transition-all projectTags">
                         <span className="bg-white/90 text-gray-800 text-md px-3 py-1 rounded-full backdrop-blur-sm">
-                          {projectCounts[category._id]} {projectCounts[category._id] === 1 ? 'Project' : 'Projects'}
+                          {projectCounts[category._id]}{" "}
+                          {projectCounts[category._id] === 1
+                            ? "Project"
+                            : "Projects"}
                         </span>
                       </div>
                     )}
@@ -103,9 +110,13 @@ export default function ProjectCards() {
                       <GoArrowUpRight size={20} />
                     </div>
                     <div className="absolute bottom-6 left-6 text-white">
-                      <div className="text-lg font-semibold">{category.name}</div>
+                      <div className="text-lg font-semibold">
+                        {category.name}
+                      </div>
                       {category.description && (
-                        <div className="text-sm text-white/80 mt-1 line-clamp-2">{category.description}</div>
+                        <div className="text-sm text-white/80 mt-1 line-clamp-2">
+                          {category.description}
+                        </div>
                       )}
                     </div>
                   </div>

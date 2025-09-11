@@ -252,7 +252,7 @@ const About = () => {
                 <p className="text-white/80 text-[18px] leading-7">
                   Our vision is to lead the world in delivering AI-driven
                   solutions for business, empowering organizations everywhere to
-                  unlock artificial intelligence's potential and drive
+                  unlock artificial intelligence&apos;s potential and drive
                   extraordinary expansion and creativity.
                 </p>
                 <div className="flex flex-col gap-3">
