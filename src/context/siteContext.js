@@ -20,6 +20,7 @@ export const SiteProvider = ({ children }) => {
   const [technologyData, setTechnologyData] = useState(null);
   const [projectid, setProjectid] = useState(null);
   const [categoryid, setCategoryid] = useState(null);
+  const [serviceid, setServiceid] = useState(null);
 
   return (
     <SiteContext.Provider
@@ -47,7 +48,9 @@ export const SiteProvider = ({ children }) => {
         projectid,
         setProjectid,
         categoryid,
-        setCategoryid
+        setCategoryid,
+        serviceid,
+        setServiceid
       }}
     >
       {children}

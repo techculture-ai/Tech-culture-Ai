@@ -11,7 +11,7 @@ import AIPageHeader from "../../components/AIPageHeader";
 
 const HomeServices = () => {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-  
+  const { setServiceid } = useSite();
   // Main services state
   const [mainServices, setMainServices] = useState([]);
   const [mainLoading, setMainLoading] = useState(false);
@@ -162,7 +162,10 @@ const HomeServices = () => {
 
                   return (
                     <Link
-                      href={"#"}
+                      href={`/services/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+                      onClick={() => {
+                        setServiceid(item._id);
+                      }}
                       key={`main-${item._id}-${index}`}
                       ref={isLast ? lastMainServiceElementRef : null}
                       className="box h-80 sm:h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all duration-300 animate-fadeInUp"
@@ -259,7 +262,8 @@ const HomeServices = () => {
 
                   return (
                     <Link
-                      href={"#"}
+                      href={`/services/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+                      onClick={() => {setServiceid(item._id);}}
                       key={`industry-${item._id}-${index}`}
                       ref={isLast ? lastIndustryServiceElementRef : null}
                       className="box h-80 sm:h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all duration-300 animate-fadeInUp"

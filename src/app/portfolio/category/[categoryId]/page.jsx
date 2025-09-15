@@ -18,9 +18,14 @@ export default function CategoryProjectsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!categoryid) {
+      router.push("/portfolio");
+      return;
+    }
     const fetchCategoryProjects = async () => {
       try {
         // Fetch category details
+        
         const categoryRes = await axios.get(
           `${apiBaseUrl}/api/projects/category/${categoryid}`
         );

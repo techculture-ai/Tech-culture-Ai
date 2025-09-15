@@ -12,7 +12,7 @@ import { toast } from "react-hot-toast";
 
 export default function ProjectDetailPage() {
   const router = useRouter();
-  const { projectid } = useSite();
+  const { projectid, setProjectid } = useSite();
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
   const [showEnquiryPopup, setShowEnquiryPopup] = useState(false);
   const [enquiryForm, setEnquiryFrom] = useState({
@@ -25,18 +25,47 @@ export default function ProjectDetailPage() {
   
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [relatedProjects, setRelatedProjects] = useState([]);
+  const [relatedLoading, setRelatedLoading] = useState(false);
+
+  const fetchProject = async () => {
+    try {
+      const response = await axios.get(`${apiBaseUrl}/api/projects/${projectid}`);
+      setProject(response.data.project);
+      // Fetch related projects after getting the main project
+      if (response.data.project) {
+        fetchRelatedProjects(response.data.project.category);
+      }
+    } catch (error) {
+      console.error("Error fetching project:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchRelatedProjects = async (categoryId) => {
+    try {
+      setRelatedLoading(true);
+      const response = await axios.get(`${apiBaseUrl}/api/projects`);
+      if (response.data.projects) {
+        // Filter projects by same category and exclude current project
+        const filtered = response.data.projects
+          .filter(p => p.category === categoryId && p._id !== projectid)
+          .slice(0, 3); // Get only 3 related projects
+        setRelatedProjects(filtered);
+      }
+    } catch (error) {
+      console.error("Error fetching related projects:", error);
+    } finally {
+      setRelatedLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const response = await axios.get(`${apiBaseUrl}/api/projects/${projectid}`);
-        setProject(response.data.project);
-      } catch (error) {
-        console.error("Error fetching project:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (!projectid) {
+      router.push("/portfolio");
+      return;
+    }
 
     if (projectid) {
       fetchProject();
@@ -267,7 +296,7 @@ export default function ProjectDetailPage() {
       </section>
 
       {/* Portfolio Images */}
-      {project.portfolioImages && project.portfolioImages.length > 0 && (
+      {/* {project.portfolioImages && project.portfolioImages.length > 0 && (
         <section className="pb-20 px-4">
           <div className="container mx-auto">
             <h2 className="text-3xl font-bold mb-8 text-center">
@@ -290,7 +319,150 @@ export default function ProjectDetailPage() {
             </div>
           </div>
         </section>
-      )}
+      )} */}
+
+      {/* Related Projects Section */}
+      <section className="pb-20 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold mb-8 text-center">
+            Related <span className="text-gred">Projects</span>
+          </h2>
+          <p className="text-white/70 text-center mb-12 max-w-2xl mx-auto">
+            Explore more projects from the same category that showcase our expertise and innovation.
+          </p>
+          
+          {relatedLoading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="flex flex-col items-center gap-4">
+                <div className="relative">
+                  <div className="w-12 h-12 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin"></div>
+                  <div className="absolute inset-0 w-12 h-12 border-4 border-transparent border-b-orange-300 rounded-full animate-spin animation-delay-150"></div>
+                </div>
+                <p className="text-white/80 text-sm font-medium">
+                  Loading related projects...
+                </p>
+              </div>
+            </div>
+          ) : relatedProjects.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {relatedProjects.map((relatedProject, index) => (
+                  <div
+                    key={relatedProject._id}
+                    className="group cursor-pointer"
+                    onClick={() => {
+                      // Update project id in context and navigate
+                      setProjectid(relatedProject._id);
+                      router.push(`/portfolio/project/${relatedProject.title.replace(/\s+/g, "-")}`);
+                    }}
+                  >
+                    <div className="bg-gray-900/50 rounded-2xl overflow-hidden border border-gray-700/50 hover:border-orange-500/30 transition-all duration-300 group-hover:transform group-hover:-translate-y-2">
+                      {/* Project Image */}
+                      <div className="aspect-[4/3] relative overflow-hidden">
+                        <img
+                          src={relatedProject.image}
+                          alt={relatedProject.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        
+                        {/* Status Badge */}
+                        <div className="absolute top-4 left-4">
+                          <span
+                            className={`px-3 py-1 rounded-full text-xs font-medium ${
+                              relatedProject.status === "completed"
+                                ? "bg-green-500/20 text-green-300 border border-green-500/30"
+                                : "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
+                            }`}
+                          >
+                            {relatedProject.status === "completed" ? "Completed" : "Ongoing"}
+                          </span>
+                        </div>
+
+                        {/* Hover overlay */}
+                        <div className="absolute inset-0 bg-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-full p-3">
+                            <GoArrowUpRight className="w-6 h-6 text-white" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Project Info */}
+                      <div className="p-6">
+                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">
+                          {relatedProject.title}
+                        </h3>
+                        <p className="text-gray-400 text-sm mb-4 overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                          {relatedProject.description}
+                        </p>
+
+                        {/* Location */}
+                        {relatedProject.location && (
+                          <div className="flex items-center gap-2 mb-4">
+                            <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span className="text-gray-500 text-sm">{relatedProject.location}</span>
+                          </div>
+                        )}
+
+                        {/* Technologies */}
+                        {relatedProject.technologies && relatedProject.technologies.length > 0 && (
+                          <div className="flex flex-wrap gap-2">
+                            {relatedProject.technologies.slice(0, 3).map((tech, techIndex) => (
+                              <span
+                                key={techIndex}
+                                className="bg-orange-500/10 text-orange-300 border border-orange-500/20 px-2 py-1 rounded text-xs font-medium"
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                            {relatedProject.technologies.length > 3 && (
+                              <span className="bg-gray-600/50 text-gray-400 px-2 py-1 rounded text-xs font-medium">
+                                +{relatedProject.technologies.length - 3} more
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* View All Projects Button */}
+              <div className="text-center mt-12">
+                <Button
+                  className="!bg-gradient-to-r !from-orange-500 !to-yellow-500 !text-white !font-bold !capitalize !px-8 !py-3 !rounded-xl hover:!from-orange-600 hover:!to-yellow-600 !transition-all !duration-300"
+                  size="large"
+                  onClick={() => router.push("/portfolio")}
+                >
+                  View All Projects
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gray-600/50 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">No Related Projects</h3>
+              <p className="text-gray-400 mb-6">
+                There are no other projects in this category at the moment.
+              </p>
+              <Button
+                className="!bg-gradient-to-r !from-orange-500 !to-yellow-500 !text-white !font-bold !capitalize !px-6 !py-2 !rounded-lg hover:!from-orange-600 hover:!to-yellow-600 !transition-all !duration-300"
+                onClick={() => router.push("/portfolio")}
+              >
+                Explore All Projects
+              </Button>
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* Popup Enquiry Form */}
       {showEnquiryPopup && (

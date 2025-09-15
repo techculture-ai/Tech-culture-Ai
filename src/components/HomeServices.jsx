@@ -10,7 +10,7 @@ import { useSite } from '@/context/siteContext';
 import axios from 'axios';
 
 const HomeServices = () => {
-    
+    const { setServiceid } = useSite();
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
     const [mainServices, setMainServices] = useState([]);
 
@@ -53,7 +53,12 @@ const HomeServices = () => {
                 if (index <= expendNum) {
                   return (
                     <Link
-                      href={"#"}
+                      href={`/services/${item.title
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`}
+                      onClick={() => {
+                        setServiceid(item._id);
+                      }}
                       key={`main-home-${item._id}-${index}`}
                       className="box h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all"
                     >
