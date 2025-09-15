@@ -8,9 +8,7 @@ const HomeScreen = () => {
         <img src={"/plus.png"} alt="image" className="plusImg keyframe5" />
         <div className="container">
           <div className="flex items-center justify-center pt-[100px] lg:pt-[200px]">
-            <span className="text-center text-white bg-white/10 py-2 px-4 rounded-full text-[14px]">
-              Top A.I Driven App
-            </span>
+            
           </div>
           <h1
             className="text-white font-bold space-x-2 text-[60px] leading-[80px] text-center my-2 txt-shadow"
@@ -26,15 +24,44 @@ const HomeScreen = () => {
           >
             <span className="relative text-center txtLine text-primary">
               <TypeAnimation
+                className='pb-2'
                 sequence={[
                   // Same substring at the start will only be typed out once, initially
-                  "AI-Powered Application",
-                  1000, // wait 1s before replacing "Mice" with "Hamsters"
-                  "Web Development",
+                  "Website Design & Development",
                   1000,
-                  "Web Application",
+                  "E-Commerce Development",
                   1000,
-                  "Mobile Application",
+                  "CMS Development",
+                  1000,
+                  "CRM, LMS, ERP Development",
+                  1000,
+                  "Custom Web Application Development",
+                  1000,
+                  "Mobile App Development (iOS & Android)",
+                  1000,
+                  "API Development & Integration",
+                  1000,
+                  "Software Testing & QA",
+                  1000,
+                  "Website Maintenance & Support",
+                  1000,
+                  "SEO & Digital Marketing Services",
+                  1000,
+                  "Security Audits & Compliance",
+                  1000,
+                  "Cloud Security & Data Protection",
+                  1000,
+                  "Artificial Intelligence (AI & ML) Solutions",
+                  1000,
+                  "Chatbot & Virtual Assistant Development",
+                  1000,
+                  "Big Data Management",
+                  1000,
+                  "IT Strategy & Roadmap Consulting",
+                  1000,
+                  "Digital Transformation Services",
+                  1000,
+                  "Industry-Specific IT Solutions",
                   1000,
                 ]}
                 wrapper="span"
@@ -67,7 +94,6 @@ const HomeScreen = () => {
               }
               alt="img"
               className="w-[750px] hidden lg:block"
-              
             />
 
             <img
@@ -83,7 +109,7 @@ const HomeScreen = () => {
               <span>
                 <FaCircleCheck size={25} className="text-primary" />
               </span>
-              <p>With 12+ years of experience helping the community.</p>
+              <p>With 8+ years of experience helping the community.</p>
             </div>
 
             <div

@@ -55,7 +55,7 @@ const About = () => {
 
                 <span className="flex items-center gap-2 text-white/70 text-[18px] w-full lg:w-auto">
                   <FiUsers size={20} className="text-primary" />
-                  24/7 Support
+                  24/7 Chat Support
                 </span>
 
                 <span className="flex items-center gap-2 text-white/70 text-[18px] w-full lg:w-auto">

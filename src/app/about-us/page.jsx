@@ -27,10 +27,9 @@ const About = () => {
   }, []);
 
   const stats = [
-    { number: "200+", label: "Projects Completed" },
-    { number: "50+", label: "Happy Clients" },
-    { number: "12+", label: "Years Experience" },
-    { number: "98%", label: "Success Rate" }
+    { number: "150+", label: "Projects Completed" },
+    { number: "100+", label: "Happy Clients" },
+    { number: "8+", label: "Years Experience" }
   ];
 
   const values = [
@@ -145,7 +144,7 @@ const About = () => {
 
                 <span className="flex items-center gap-2 text-white/70 text-[18px] w-full lg:w-auto">
                   <IoChatbubbleOutline size={20} className="text-primary" />
-                  24/7 Support
+                  24/7 Chat Support
                 </span>
               </div>
 
@@ -166,7 +165,7 @@ const About = () => {
       {/* Stats Section */}
       <section className="py-20 bg-[#000319]">
         <div className="container">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-8">
             {stats.map((stat, index) => (
               <div
                 key={index}
@@ -326,7 +325,7 @@ const About = () => {
       </section>
 
       {/* Our Journey Section */}
-      <section className="py-20 imageBg">
+      {/* <section className="py-20 imageBg">
         <div className="container">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center">
@@ -344,7 +343,6 @@ const About = () => {
           </div>
 
           <div className="relative">
-            {/* Timeline Line */}
             <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-[#ff6333] to-[#fe9272] hidden lg:block"></div>
 
             <div className="space-y-12">
@@ -356,7 +354,6 @@ const About = () => {
                   }`}
                   data-aos={index % 2 === 0 ? "fade-right" : "fade-left"}
                 >
-                  {/* Content */}
                   <div className="flex-1 lg:w-[45%]">
                     <div className="p-6 bg-[#1e293b80] rounded-lg border border-[rgba(255,255,255,0.1)]">
                       <div className="flex items-center gap-3 mb-3">
@@ -373,17 +370,15 @@ const About = () => {
                     </div>
                   </div>
 
-                  {/* Timeline dot */}
                   <div className="hidden lg:flex w-4 h-4 bg-primary rounded-full border-4 border-[#000319] flex-shrink-0"></div>
 
-                  {/* Spacer for opposite side */}
                   <div className="flex-1 lg:w-[45%] hidden lg:block"></div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Why Choose Us Section */}
       <section className="py-20 bg-[#000319]">

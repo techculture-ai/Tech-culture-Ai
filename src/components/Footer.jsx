@@ -45,11 +45,12 @@ const Footer = () => {
     const currentYear = new Date().getFullYear();
 
     const navigationLinks = [
-        { name: "Home", href: "/" },
-        { name: "About Us", href: "/about-us" },
-        { name: "Services", href: "/services" },
-        { name: "Portfolio", href: "/portfolio" },
-        { name: "Contact", href: "/contact-us" },
+      { name: "Home", href: "/" },
+      { name: "Who We Are", href: "/about-us" },
+      { name: "What We Do", href: "/services" },
+      { name: "Portfolio", href: "/portfolio" },
+      { name: "Technologies", href: "/technologies" },
+      { name: "Contact", href: "/contact-us" },
     ];
 
     const serviceLinks = [
@@ -61,18 +62,13 @@ const Footer = () => {
     ];
 
     const companyLinks = [
-        { name: "FAQs", href: "/contact-us" },
-        {name : "Contact Us", href: "/contact-us"},
-        { name: "Team", href: "/team" },
-        {name : "Client Stories", href: "/client-stories"},
+      { name: "FAQs", href: "/contact-us" },
+      { name: "Contact Us", href: "/contact-us" },
+      { name: "Our Experts", href: "/team" },
+      { name: "Client Stories", href: "/client-stories" },
     ];
 
-    const socialLinks = [
-        { name: "LinkedIn", icon: LiaLinkedinIn, href: "#", color: "hover:text-blue-400" },
-        { name: "Twitter", icon: RiTwitterXLine, href: "#", color: "hover:text-sky-400" },
-        { name: "GitHub", icon: LuGithub, href: "#", color: "hover:text-gray-300" },
-    ];
-
+  
     const handleSubscribe = async (e) => {
       e.preventDefault();
       try{
@@ -108,11 +104,15 @@ const Footer = () => {
           <div className="container flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="info flex flex-col gap-3 w-full lg:w-auto">
               <h2 className="text-white txt-shadow text-[28px] sm:text-[32px] lg:text-[40px] font-bold leading-tight">
-                Ready To Power Up Your <br className="hidden sm:block" />
-                Savings And Reliability?
+                Ready to Redefine Success with{" "}
+                <br className="hidden sm:block" />
+                Technology That Works?
               </h2>
 
-              <form className="relative subscribeForm w-full lg:w-[550px]" onSubmit={handleSubscribe}>
+              <form
+                className="relative subscribeForm w-full lg:w-[550px]"
+                onSubmit={handleSubscribe}
+              >
                 <input
                   type="text"
                   onChange={handleEmailChange}
@@ -121,7 +121,7 @@ const Footer = () => {
                   placeholder="Your Email Address"
                 />
                 <Button
-                type="submit"
+                  type="submit"
                   className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-4 sm:!px-6 !py-2 !capitalize !font-bold !absolute top-[5px] 
                          right-[5px] !h-[45px] sm:!h-[55px] !text-sm sm:!text-base"
                   size="large"
@@ -139,11 +139,16 @@ const Footer = () => {
             <div className="flex flex-col sm:flex-row items-center gap-3 infoBox w-full lg:w-auto">
               <div className="box bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-4 sm:!px-6 !py-4 sm:!py-5 flex items-center gap-3 w-full sm:w-auto">
                 <div className="bg-white flex items-center justify-center rounded-full w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0">
-                  <FiPhoneCall size={24} className="text-primary sm:size-[30px]" />
+                  <FiPhoneCall
+                    size={24}
+                    className="text-primary sm:size-[30px]"
+                  />
                 </div>
 
                 <div className="info flex flex-col min-w-0">
-                  <span className="text-white text-[14px] sm:text-[16px]">Call Us 24/7</span>
+                  <span className="text-white text-[14px] sm:text-[16px]">
+                    Call Us 24/7
+                  </span>
                   <span className="text-white text-[18px] sm:text-[22px] font-bold truncate">
                     {settingsData?.contactNo}
                   </span>
@@ -187,27 +192,37 @@ const Footer = () => {
                   </div>
 
                   <p className="text-gray-400 mb-6 leading-relaxed text-sm sm:text-base">
-                    Revolutionizing productivity with intelligent scheduling
-                    solutions. Our AI-driven platform helps businesses optimize
-                    their time and resources.
+                    Our platform leverages machine learning to analyze usage
+                    trends, minimize inefficiencies, and promote smarter, more
+                    sustainable operations.
                   </p>
 
                   <div className="space-y-3">
                     <div className="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors">
-                      <MdOutlineMail size={18} className="text-orange-500 flex-shrink-0" />
-                      <span className="text-sm sm:text-base break-all">{settingsData?.email}</span>
+                      <MdOutlineMail
+                        size={18}
+                        className="text-orange-500 flex-shrink-0"
+                      />
+                      <span className="text-sm sm:text-base break-all">
+                        {settingsData?.email}
+                      </span>
                     </div>
                     <div className="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors">
-                      <MdOutlinePhone size={18} className="text-orange-500 flex-shrink-0" />
-                      <span className="text-sm sm:text-base">{settingsData?.contactNo}</span>
+                      <MdOutlinePhone
+                        size={18}
+                        className="text-orange-500 flex-shrink-0"
+                      />
+                      <span className="text-sm sm:text-base">
+                        {settingsData?.contactNo}
+                      </span>
                     </div>
-                    <div className="flex items-start gap-3 text-gray-400 hover:text-orange-400 transition-colors">
+                    {/* <div className="flex items-start gap-3 text-gray-400 hover:text-orange-400 transition-colors">
                       <LuMapPin size={18} className="text-orange-500 flex-shrink-0 mt-1" />
                       <div className="flex flex-col text-sm sm:text-base">
                         <span>{settingsData?.registeredAddress},</span>
                         <span>{settingsData?.officeAddress}</span>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 
@@ -280,10 +295,10 @@ const Footer = () => {
             <div className="border-t border-slate-800">
               <div className="mx-auto px-4 sm:px-6 py-6 sm:py-8">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
-                  <div className="text-center md:text-left">
+                  <div className="text-center md:text-center">
                     <p className="text-gray-400 text-sm sm:text-base">
-                      © {currentYear} TechCultureAi. All rights reserved.
-                      <span className="hidden sm:inline"> Powered by artificial intelligence.</span>
+                      &copy; {currentYear} TechCultureAi Pvt Ltd. All rights
+                      reserved.
                     </p>
                   </div>
 

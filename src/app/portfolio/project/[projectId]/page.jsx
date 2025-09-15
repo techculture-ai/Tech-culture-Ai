@@ -6,11 +6,22 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import { GoArrowUpRight } from "react-icons/go";
 import { useSite } from "@/context/siteContext";
+import AIPageHeader from "@/components/AIPageHeader";
+import { IoClose } from "react-icons/io5";
+import { toast } from "react-hot-toast";
 
 export default function ProjectDetailPage() {
   const router = useRouter();
   const { projectid } = useSite();
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const [showEnquiryPopup, setShowEnquiryPopup] = useState(false);
+  const [enquiryForm, setEnquiryFrom] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+    projectName: "",
+  });
   
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -31,6 +42,89 @@ export default function ProjectDetailPage() {
       fetchProject();
     }
   }, [projectid]);
+
+  const handleInputChange = (e) => {
+    setEnquiryFrom({
+      ...enquiryForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Basic validation
+    if (!enquiryForm.name.trim()) {
+      toast.error("Please enter your name");
+      return;
+    }
+
+    if (!enquiryForm.email.trim()) {
+      toast.error("Please enter your email");
+      return;
+    }
+
+    if (!enquiryForm.phone.trim()) {
+      toast.error("Please enter your phone number");
+      return;
+    }
+
+    if (!enquiryForm.message.trim()) {
+      toast.error("Please enter your message");
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(enquiryForm.email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    setEnquiryFrom({
+      ...enquiryForm,
+      projectName: project ? project.title : "General",
+    });
+
+    const loadingToast = toast.loading("Submitting your enquiry...");
+
+    try {
+      const res = await axios.post(`${apiBaseUrl}/api/enquiries`, enquiryForm);
+
+      if (res.status === 201) {
+        toast.dismiss(loadingToast);
+        toast.success(
+          "Enquiry submitted successfully! We'll get back to you soon."
+        );
+        setEnquiryFrom({
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+        setShowEnquiryPopup(false);
+      } else {
+        toast.dismiss(loadingToast);
+        toast.error("Failed to submit enquiry. Please try again.");
+      }
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      console.error("Error submitting enquiry form:", error);
+
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else if (error.response?.status === 400) {
+        toast.error("Invalid form data. Please check your information.");
+      } else if (error.response?.status === 500) {
+        toast.error("Server error. Please try again later.");
+      } else {
+        toast.error(
+          "Failed to submit enquiry. Please check your connection and try again."
+        );
+      }
+    }
+  };
+    
 
   if (loading) {
     return (
@@ -59,6 +153,14 @@ export default function ProjectDetailPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      {project && (
+        <AIPageHeader
+          title={`${project.title} Projects`}
+          subtitle="Transforming Business Through Intelligent Innovation"
+          description="Discover how our advanced AI technologies and expert team are revolutionizing the way businesses operate and grow."
+          aiWords={["AI-Powered", "Intelligent", "Advanced"]}
+        />
+      )}
       {/* Header Section */}
       <section className="py-20 px-4 imageBg">
         <div className="container mx-auto">
@@ -108,10 +210,10 @@ export default function ProjectDetailPage() {
 
             {/* Project Details */}
             <div>
-              <h1 className="text-4xl lg:text-5xl font-bold mb-6">
+              {/* <h1 className="text-4xl lg:text-5xl font-bold mb-6">
                 <span className="text-gred">{project.title}</span>
-              </h1>
-
+              </h1> */}
+              <p className="text-xl font-semibold mb-2">Description</p>
               <p className="text-white/80 text-lg leading-relaxed mb-6">
                 {project.description}
               </p>
@@ -154,7 +256,7 @@ export default function ProjectDetailPage() {
                 <Button
                   className="!bg-white !text-gray-800 !font-bold !capitalize"
                   size="large"
-                  onClick={() => router.push("/contact")}
+                  onClick={() => setShowEnquiryPopup(true)}
                 >
                   Get In Touch
                 </Button>
@@ -188,6 +290,84 @@ export default function ProjectDetailPage() {
             </div>
           </div>
         </section>
+      )}
+
+      {/* Popup Enquiry Form */}
+      {showEnquiryPopup && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-2xl shadow-2xl">
+            <button
+              onClick={() => setShowEnquiryPopup(false)}
+              className="absolute -top-4 -right-4 w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
+            >
+              <IoClose />
+            </button>
+
+            <div className="p-6">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  Get a Free Consultation
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Leave your details and we&apos;ll get back to you shortly!
+                </p>
+              </div>
+
+              <form className="space-y-4 text-white" onSubmit={handleSubmit}>
+                <div>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    onChange={handleInputChange}
+                    value={enquiryForm.name}
+                    placeholder="Your Name"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                </div>
+                <div>
+                  <input
+                    id="email"
+                    name="email"
+                    onChange={handleInputChange}
+                    value={enquiryForm.email}
+                    type="email"
+                    placeholder="Email Address"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                </div>
+                <div>
+                  <input
+                    id="phone"
+                    name="phone"
+                    onChange={handleInputChange}
+                    value={enquiryForm.phone}
+                    type="tel"
+                    placeholder="Phone Number"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                </div>
+                <div>
+                  <textarea
+                    id="message"
+                    name="message"
+                    onChange={handleInputChange}
+                    value={enquiryForm.message}
+                    placeholder="How can we help you?"
+                    rows={3}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none"
+                  ></textarea>
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-6 !py-2 !capitalize !font-bold transition-all duration-300"
+                >
+                  Send Message
+                </Button>
+              </form>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

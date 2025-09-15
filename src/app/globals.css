@@ -260,12 +260,29 @@ header.scroll {
 
 
 /* new css */
-.txtLine {
+/* .txtLine {
   background: url("/line-img1.png") repeat-x bottom 0px left;
   background-size: 100%;
   padding-bottom: 10px;
   display: inline-block;
+} */
+
+.txtLine {
+  position: relative;
+  display: inline-block;
 }
+
+.txtLine::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0; /* stick to the bottom */
+  width: 100%;
+  height: 15px; /* match your line image height */
+  background: url("/line-img1.png") repeat-x;
+  background-size: 100% 100%;
+}
+
 
 .homeScreen {
   background: url("/asset-1bg1-1.png") no-repeat top left, url("/asset-1bg1-2.png") no-repeat top right, url("/homeScreen-3-img.png") no-repeat bottom center;

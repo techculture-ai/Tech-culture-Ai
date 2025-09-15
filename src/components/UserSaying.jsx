@@ -2,6 +2,7 @@ import { useSite } from '@/context/siteContext';
 import axios from 'axios';
 import React, { useEffect } from 'react'
 import Marquee from "react-fast-marquee";
+import { FaUserCircle } from 'react-icons/fa';
 
 const UserSaying = () => {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -56,13 +57,14 @@ const UserSaying = () => {
                     className="box w-full min-h-[170px] p-5 flex gap-4 bg-[#1e293b80] rounded-md border border-[rgba(255,255,255,0.1)]"
                   >
                     <div>
-                      <div className="img rounded-full w-14 h-14 overflow-hidden">
+                      {/* <div className="img rounded-full w-14 h-14 overflow-hidden">
                         <img
                           src={item.image}
                           alt="image"
                           className="w-full h-full object-cover"
                         />
-                      </div>
+                      </div> */}
+                      <FaUserCircle className="text-white text-6xl" />
                     </div>
 
                     <div className="info flex flex-col">
@@ -91,13 +93,14 @@ const UserSaying = () => {
                     className="box w-full min-h-[170px] p-5 flex gap-4 bg-[#1e293b80] rounded-md border border-[rgba(255,255,255,0.1)]"
                   >
                     <div>
-                      <div className="img rounded-full w-14 h-14 overflow-hidden">
+                      {/* <div className="img rounded-full w-14 h-14 overflow-hidden">
                         <img
                           src={item.image}
                           alt="image"
                           className="w-full h-full object-cover"
                         />
-                      </div>
+                      </div> */}
+                      <FaUserCircle className="text-white text-6xl" />
                     </div>
 
                     <div className="info flex flex-col">

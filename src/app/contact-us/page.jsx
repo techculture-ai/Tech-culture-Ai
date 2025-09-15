@@ -112,13 +112,7 @@ const ContactUs = () => {
       title: "Email Us",
       details: [settingsData?.email],
       description: "We reply within 24 hours",
-    },
-    {
-      icon: <FiMapPin size={24} className="text-white" />,
-      title: "Visit Us",
-      details: [settingsData?.registeredAddress, settingsData?.officeAddress],
-      description: "Open Mon-Fri 9AM-6PM",
-    },
+    }
   ];
 
   const services = [
@@ -170,6 +164,33 @@ const ContactUs = () => {
                 <p className="text-white/60 text-[14px]">{info.description}</p>
               </div>
             ))}
+            {settingsData && (
+              <div
+                className="text-center p-8 bg-[#1e293b80] rounded-lg border border-[rgba(255,255,255,0.1)] hover:scale-105 transition-all group"
+                data-aos="zoom-in"
+                data-aos-delay={3 * 100}
+              >
+                <div className="w-16 h-16 bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                  <FiMapPin size={24} className="text-white" />
+                </div>
+                <h4 className="text-[24px] font-bold text-white mb-4">
+                  Visit Us
+                </h4>
+                <div className="space-y-2 mb-3">
+                  <p className="text-white/80 text-[18px] ">
+                    <span className="font-bold">Head Office:</span>{" "}
+                    {settingsData?.registeredAddress}
+                  </p>
+                  <p className="text-white/80 text-[18px] ">
+                    <span className="font-bold">Corporate Office:</span>{" "}
+                    {settingsData?.officeAddress}   
+                  </p>
+                </div>
+                <p className="text-white/60 text-[14px]">
+                  Open Mon-Fri 9AM-6PM
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -425,12 +446,18 @@ const ContactUs = () => {
                     aria-controls={`panel${index}-content`}
                     id={`panel${index}-header`}
                   >
-                    <Typography component="span" className="text-white font-medium">
+                    <Typography
+                      component="span"
+                      className="text-white font-medium"
+                    >
                       {faq.question}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails className="!bg-[#000319] !border !border-[rgba(255,255,255,0.2)]">
-                    <Typography component="span" className="text-white/90 leading-relaxed">
+                    <Typography
+                      component="span"
+                      className="text-white/90 leading-relaxed"
+                    >
                       {faq.answer}
                     </Typography>
                   </AccordionDetails>
@@ -457,7 +484,8 @@ const ContactUs = () => {
                     "Yes, we offer comprehensive 24/7 support, regular updates, and continuous optimization to ensure your AI solutions perform at their best.",
                 },
                 {
-                  question: "Can your solutions integrate with existing systems?",
+                  question:
+                    "Can your solutions integrate with existing systems?",
                   answer:
                     "Absolutely! Our AI solutions are designed to seamlessly integrate with your existing tech stack and business processes.",
                 },
@@ -489,7 +517,7 @@ const ContactUs = () => {
       </section>
 
       {/* Map Section */}
-      <section className="pb-10 px-6 space-y-6">
+      {/* <section className="pb-10 px-6 space-y-6">
         <div className="max-w-7xl mx-auto " data-aos="fade-left">
           <h2 className="mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2">
             Head <span className="text-gred">office</span>
@@ -546,7 +574,7 @@ const ContactUs = () => {
             </div>
           </Card>
         </div>
-      </section>
+      </section> */}
     </>
   );
 };

@@ -12,82 +12,97 @@ import axios from 'axios';
 const HomeServices = () => {
     
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-    const { serviceData, setServiceData } = useSite();
+    const [mainServices, setMainServices] = useState([]);
 
     useEffect(() => {
-      const fetchServiceData = async () => {
-        if (!serviceData) {
-          try {
-            const res = await axios.get(`${apiBaseUrl}/api/services`);
-            setServiceData(res.data.services);
-          } catch (error) {
-            console.log(error);
-          }
+      const fetchMainServices = async () => {
+        try {
+          // Fetch only main category services with limit of 8
+          const res = await axios.get(`${apiBaseUrl}/api/services?category=main&limit=8`);
+          setMainServices(res.data.services || []);
+        } catch (error) {
+          console.log("Error fetching main services:", error);
         }
       };
 
-      fetchServiceData();
-    }, [serviceData, setServiceData]);
+      fetchMainServices();
+    }, [apiBaseUrl]);
 
     const [expendNum, setexpendNum] = useState(3);
     const [isExpend, setisExpend] = useState(false);
 
     useEffect(() => {
-        isExpend === false ? setexpendNum(3) : setexpendNum(100)
+        isExpend === false ? setexpendNum(3) : setexpendNum(7) // Show max 8 services (index 0-7)
     }, [isExpend])
 
     return (
-        <section className="py-0 pb-10 bg-[#000319] serviceSection imageBg">
-            <div className='container'>
-                <h2 className='mainHd text-[50px] font-bold text-white leading-[60px] text-center'>Comprehensive <span className='text-gred'>Solutions</span></h2>
-                <p className='text-white font-light text-[20px] py-3 text-center'>Transform your business with advanced technologies</p>
-                <br/>
+      <section className="py-0 pb-10 bg-[#000319] serviceSection imageBg">
+        <div className="container">
+          <h2 className="mainHd text-[50px] font-bold text-white leading-[60px] text-center">
+            Comprehensive <span className="text-gred">Solutions</span>
+          </h2>
+          <p className="text-white font-light text-[20px] py-3 text-center">
+            Transform your business with advanced technologies
+          </p>
+          <br />
 
-                <div className='grid grid-cols-2 lg:grid-cols-4 gap-10 py-4 services'>
-                    {
-                        serviceData && serviceData?.length !== 0 && serviceData?.map((item, index) => {
-                            if (index <= expendNum) {
-                                return (
-                                  <Link
-                                    href={"#"}
-                                    key={index}
-                                    className="box h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all"
-                                  >
-                                    <img
-                                      src={item?.image}
-                                      className="full transition-all h-full object-cover"
-                                      alt="image"
-                                    />
-                                    <div className="info p-6 absolute top-0 left-0 z-50 w-full h-full ">
-                                      <div className="flex justify-between items-center !absolute top-5 pr-5 w-[96%]">
-                                        <h2 className="text-gray-100 text-[25px] font-light px-5 leading-8">
-                                          {item?.title}
-                                        </h2>
-                                      </div>
-                                    </div>
-                                  </Link>
-                                );
-                            }
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 py-4 services">
+            {mainServices &&
+              mainServices?.length !== 0 &&
+              mainServices?.map((item, index) => {
+                if (index <= expendNum) {
+                  return (
+                    <Link
+                      href={"#"}
+                      key={`main-home-${item._id}-${index}`}
+                      className="box h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all"
+                    >
+                      <img
+                        src={item?.image}
+                        className="full transition-all h-full object-cover"
+                        alt={item?.title || "Service"}
+                      />
+                      <div className="info p-6 absolute top-0 left-0 z-50 w-full h-full ">
+                        <div className="flex justify-between items-center !absolute top-5 pr-5 w-[96%]">
+                          <h2 className="text-gray-100 text-[25px] font-light px-5 leading-8">
+                            {item?.title}
+                          </h2>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                }
+              })}
+          </div>
 
-                        })
-                    }
-
-
-                </div>
-
-                <div className='lg:flex items-center justify-center mt-10 hidden'>
-                    <Button className='!bg-white !text-gray-800 !font-bold !capitalize items-center' size='large' onClick={() => setisExpend(!isExpend)}>View All Topics
-                        {
-                                isExpend === false ?  <IoIosArrowRoundDown size={30} /> :  <IoIosArrowRoundUp size={30} />
-                        }
-
-                       </Button>
-                </div>
-
-
-            </div>
-        </section>
-    )
+          <div className="lg:flex items-center justify-center mt-10 hidden">
+            {mainServices.length > 4 && (
+              <Button
+                className="!bg-white !text-gray-800 !font-bold !capitalize items-center"
+                size="large"
+                onClick={() => setisExpend(!isExpend)}
+              >
+                {isExpend ? "Show Less" : "View More"}
+                {isExpend === false ? (
+                  <IoIosArrowRoundDown size={30} />
+                ) : (
+                  <IoIosArrowRoundUp size={30} />
+                )}
+              </Button>
+            )}
+            <Link href="/services" className="ml-4">
+              <Button
+                className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white  !capitalize !font-bold "
+                size="large"
+              >
+                View All Services
+                <IoIosArrowRoundForward size={30} />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+    );
 }
 
 export default HomeServices
