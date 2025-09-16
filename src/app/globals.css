@@ -370,3 +370,33 @@ header.scroll {
 .projectTags{transition: all 0.5s ease-in-out !important;}
 
 .video video{width: 100% !important; height: 500px !important; object-fit: cover !important;}
+
+/* Custom Scrollbar Styles for Dark Theme */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #ff6333 #1f2937;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1f2937;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff6333 0%, #e15226 50%, #fe9272 100%);
+  border-radius: 4px;
+  border: 1px solid #374151;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #e55a2b 0%, #c44920 50%, #e07d5f 100%);
+  box-shadow: 0 2px 4px rgba(255, 99, 51, 0.3);
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: #1f2937;
+}

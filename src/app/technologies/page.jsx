@@ -156,7 +156,7 @@ const Technologies = () => {
       />
 
       {/* Technology Categories Overview */}
-      <section className="py-20 bg-[#000319]">
+      {/* <section className="py-20 bg-[#000319]">
         <div className="container">
           {loading ? (
             <div className="text-center text-white">
@@ -199,17 +199,13 @@ const Technologies = () => {
             </div>
           )}
         </div>
-      </section>
+      </section> */}
 
       {/* Interactive Technology Explorer */}
       <section className="py-20 bg-[#000319]">
         <div className="container">
           <div className="text-center mb-16">
-            <div className="flex items-center justify-center">
-              <span className="bg-orange-50 p-1 px-3 border border-[#ffad4f] rounded-full text-[14px] text-primary">
-                Tech Stack Explorer
-              </span>
-            </div>
+            
             <h2 className="mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2">
               <span className="text-gred">Interactive</span> Technology Explorer
             </h2>
@@ -358,7 +354,7 @@ const Technologies = () => {
                   )}
 
                   {/* Technology Stats */}
-                  <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+                  <div className="mt-12 grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                     <div className="text-center p-4 bg-[#252b3d] rounded-lg border border-[rgba(255,255,255,0.1)] hover:border-primary/30 transition-all">
                       <div className="text-[20px] lg:text-[24px] font-bold text-primary">
                         {isActiveTech?.items?.length || 0}+
@@ -380,17 +376,17 @@ const Technologies = () => {
                         24/7
                       </div>
                       <div className="text-white/70 text-[12px] lg:text-[14px]">
-                        Support
+                        Chat Support
                       </div>
                     </div>
-                    <div className="text-center p-4 bg-[#252b3d] rounded-lg border border-[rgba(255,255,255,0.1)] hover:border-primary/30 transition-all">
+                    {/* <div className="text-center p-4 bg-[#252b3d] rounded-lg border border-[rgba(255,255,255,0.1)] hover:border-primary/30 transition-all">
                       <div className="text-[20px] lg:text-[24px] font-bold text-primary">
                         Expert
                       </div>
                       <div className="text-white/70 text-[12px] lg:text-[14px]">
                         Level
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* Category Description */}

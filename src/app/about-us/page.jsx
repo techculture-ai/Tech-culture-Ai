@@ -110,11 +110,7 @@ const About = () => {
               className="info w-[50%] flex flex-col gap-5"
               data-aos="fade-left"
             >
-              <div className="flex items-center justify-start">
-                <span className="bg-orange-50 p-1 px-3 border border-[#ffad4f] rounded-full text-[14px] text-primary">
-                  About TechCulture AI
-                </span>
-              </div>
+              
 
               <h2 className="mainHd text-[50px] font-bold text-white leading-[60px]">
                 Driving Business Excellence Through
@@ -284,11 +280,7 @@ const About = () => {
       <section className="py-20 bg-[#000319]">
         <div className="container">
           <div className="text-center mb-16">
-            <div className="flex items-center justify-center">
-              <span className="bg-orange-50 p-1 px-3 border border-[#ffad4f] rounded-full text-[14px] text-primary">
-                Our Values
-              </span>
-            </div>
+            
             <h2 className="mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2">
               What <span className="text-gred">Drives Us</span>
             </h2>
@@ -384,11 +376,7 @@ const About = () => {
       <section className="py-20 bg-[#000319]">
         <div className="container">
           <div className="text-center mb-16">
-            <div className="flex items-center justify-center">
-              <span className="bg-orange-50 p-1 px-3 border border-[#ffad4f] rounded-full text-[14px] text-primary">
-                Why Choose Us
-              </span>
-            </div>
+            
             <h2 className="mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2">
               Why We&apos;re <span className="text-gred">Different</span>
             </h2>

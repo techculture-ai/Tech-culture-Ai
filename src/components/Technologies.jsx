@@ -98,10 +98,7 @@ const Technologies = () => {
     return (
         <section className='bg-[#000319] py-20 pt-10 imageBg'>
             <div className='container'>
-                <div className='flex items-center justify-center'>
-                    <span className='bg-orange-50 p-1 px-3 border border-[#ffad4f] rounded-full 
-                    text-[14px] text-primary'>Technologies</span>
-                </div>
+                
 
                 <h2 className='mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2'>
                     <span className='text-gred'>Technologies</span> We Use

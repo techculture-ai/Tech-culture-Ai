@@ -45,12 +45,12 @@ const ServiceDetails = () => {
 
   const fetchRelatedServices = async () => {
     try {
-      const response = await fetch(`${apiBaseUrl}/api/services?limit=3`);
+      const response = await fetch(`${apiBaseUrl}/api/services?limit=999`);
       const data = await response.json();
       
       if (data.services) {
         // Filter out current service and get 3 related services
-        const filtered = data.services.filter(s => s._id !== serviceid).slice(0, 3);
+        const filtered = data.services.filter(s => s._id !== serviceid);
         setRelatedServices(filtered);
       }
     } catch (error) {
@@ -216,7 +216,7 @@ const ServiceDetails = () => {
             {/* Sidebar */}
             <div className="lg:col-span-1">
               {/* Service Info Card */}
-              <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700/50 mb-8 backdrop-blur-sm">
+              {/* <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700/50 mb-8 backdrop-blur-sm">
                 <h3 className="text-xl font-bold text-white mb-6">Service Information</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center py-3 border-b border-gray-700/50">
@@ -238,12 +238,12 @@ const ServiceDetails = () => {
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
 
               {/* Related Services */}
               {relatedServices.length > 0 && (
-                <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700/50 backdrop-blur-sm">
-                  <h3 className="text-xl font-bold text-white mb-6">Related Services</h3>
+                <div className="bg-gray-800/50 rounded-2xl max-h-[75vh] p-6 border border-gray-700/50 backdrop-blur-sm h-full overflow-auto custom-scrollbar">
+                  <h3 className="text-xl font-bold text-white mb-6">More Services</h3>
                   <div className="space-y-4">
                     {relatedServices.map((relatedService) => (
                       <Link

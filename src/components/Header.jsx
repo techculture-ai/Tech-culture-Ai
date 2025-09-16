@@ -4,12 +4,14 @@ import Button from '@mui/material/Button'
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link'
+import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoClose } from 'react-icons/io5';
 import { toast } from 'react-hot-toast';
 
 const Header = () => {
+    const pathname = usePathname();
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
     const [isScrolled, setIsScrolled] = useState(false);
     const [isOpenNav, setIsOpenNav] = useState(false);
@@ -128,10 +130,24 @@ const Header = () => {
             } else {
               toast.error("Failed to submit enquiry. Please check your connection and try again.");
             }
-          }
         }
+    }
     
+    // Function to check if current path matches the nav link
+    const isActiveLink = (path) => {
+        if (path === '/' && pathname === '/') return true;
+        if (path !== '/' && pathname.startsWith(path)) return true;
+        return false;
+    };
 
+    // Function to get active link classes
+    const getLinkClasses = (path) => {
+        const baseClasses = "text-[17px] transition-all duration-300 relative";
+        const activeClasses = "text-primary opacity-100 font-semibold";
+        const inactiveClasses = "text-white opacity-90 hover:opacity-100 hover:text-primary";
+        
+        return `${baseClasses} ${isActiveLink(path) ? activeClasses : inactiveClasses}`;
+    };
 
     return (
       <>
@@ -162,53 +178,73 @@ const Header = () => {
             >
               <Link
                 href={"/about-us"}
-                className="text-white text-[17px] opacity-90 hover:opacity-100 hover:text-primary transition-all"
+                className={getLinkClasses("/about-us")}
                 onClick={() => setIsOpenNav(false)}
               >
-                Who We Are{" "}
+                Who We Are
+                {isActiveLink("/about-us") && (
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                )}
               </Link>
               <Link
                 href={"/services"}
-                className="text-white text-[17px] opacity-90 hover:opacity-100 hover:text-primary transition-all"
+                className={getLinkClasses("/services")}
                 onClick={() => setIsOpenNav(false)}
               >
-                What We Do{" "}
+                What We Do
+                {isActiveLink("/services") && (
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                )}
               </Link>
               <Link
                 href={"/portfolio"}
-                className="text-white text-[17px] opacity-90 hover:opacity-100 hover:text-primary transition-all"
+                className={getLinkClasses("/portfolio")}
                 onClick={() => setIsOpenNav(false)}
               >
-                {" "}
-                Portfolio{" "}
+                Portfolio
+                {isActiveLink("/portfolio") && (
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                )}
               </Link>
               <Link
                 href={"/technologies"}
-                className="text-white text-[17px] opacity-90 hover:opacity-100 hover:text-primary transition-all"
+                className={getLinkClasses("/technologies")}
                 onClick={() => setIsOpenNav(false)}
               >
                 Technologies
+                {isActiveLink("/technologies") && (
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                )}
               </Link>
               <Link
                 href={"/client-stories"}
-                className="text-white text-[17px] opacity-90 hover:opacity-100 hover:text-primary transition-all"
+                className={getLinkClasses("/client-stories")}
                 onClick={() => setIsOpenNav(false)}
               >
-                Client Stories{" "}
+                Client Stories
+                {isActiveLink("/client-stories") && (
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                )}
               </Link>
-              <Link
+              {/* <Link
                 href={"/team"}
-                className="text-white text-[17px] opacity-90 hover:opacity-100 hover:text-primary transition-all"
+                className={getLinkClasses("/team")}
                 onClick={() => setIsOpenNav(false)}
               >
-                Our Experts {" "}
-              </Link>
+                Our Experts 
+                {isActiveLink("/team") && (
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                )}
+              </Link> */}
               <Link
                 href={"/contact-us"}
-                className="text-white text-[17px] opacity-90 hover:opacity-100 hover:text-primary transition-all"
+                className={getLinkClasses("/contact-us")}
                 onClick={() => setIsOpenNav(false)}
               >
-                Contact Us {" "}
+                Contact Us
+                {isActiveLink("/contact-us") && (
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                )}
               </Link>
 
               <div className="flex lg:hidden w-full">
@@ -247,7 +283,7 @@ const Header = () => {
         {/* Popup Enquiry Form */}
         {showEnquiryPopup && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-2xl shadow-2xl">
+            <div className="relative w-full max-w-lg bg-gray-900 rounded-2xl shadow-2xl">
               <button
                 onClick={() => setShowEnquiryPopup(false)}
                 className="absolute -top-4 -right-4 w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
@@ -257,10 +293,10 @@ const Header = () => {
 
               <div className="p-6">
                 <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  <h3 className="text-2xl font-bold text-white mb-2">
                     Get a Free Consultation
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300">
+                  <p className="text-gray-300">
                     Leave your details and we&apos;ll get back to you shortly!
                   </p>
                 </div>
@@ -274,7 +310,7 @@ const Header = () => {
                       onChange={handleInputChange}
                       value={enquiryForm.name}
                       placeholder="Your Name"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
                     />
                   </div>
                   <div>
@@ -285,7 +321,7 @@ const Header = () => {
                       value={enquiryForm.email}
                       type="email"
                       placeholder="Email Address"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
                     />
                   </div>
                   <div>
@@ -296,7 +332,7 @@ const Header = () => {
                       value={enquiryForm.phone}
                       type="tel"
                       placeholder="Phone Number"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
                     />
                   </div>
                   <div>
@@ -307,7 +343,7 @@ const Header = () => {
                       value={enquiryForm.message}
                       placeholder="How can we help you?"
                       rows={3}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
                     ></textarea>
                   </div>
                   <Button

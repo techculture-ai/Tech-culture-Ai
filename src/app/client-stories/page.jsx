@@ -131,7 +131,7 @@ const ClientStories = () => {
 
         <div className="container relative z-10">
           {/* Impact-First Hero */}
-          <div className="text-center mb-16">
+          {/* <div className="text-center mb-16">
             <div className="flex items-center justify-center mb-8">
               <div className="flex items-center gap-4 bg-gradient-to-r from-primary/20 via-orange-400/20 to-primary/20 backdrop-blur-xl p-4 px-8 border border-primary/30 rounded-full shadow-2xl shadow-primary/25">
                 <FaTrophy className="text-orange-400 text-xl animate-bounce" />
@@ -162,7 +162,7 @@ const ClientStories = () => {
                 measurable, game-changing results
               </span>
             </p>
-          </div>
+          </div> */}
 
           {/* Success Stories Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
@@ -254,7 +254,7 @@ const ClientStories = () => {
           </div>
 
           {/* Success Metrics */}
-          <div className="text-center">
+          {/* <div className="text-center">
             <h3 className="text-[40px] font-bold text-white mb-6">
               Our{" "}
               <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">
@@ -305,7 +305,6 @@ const ClientStories = () => {
               </div>
             </div>
 
-            {/* Call to Action */}
             <div className="flex justify-center">
               <Button
                 variant="contained"
@@ -316,7 +315,7 @@ const ClientStories = () => {
                 Start Your Success Story
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Modal */}

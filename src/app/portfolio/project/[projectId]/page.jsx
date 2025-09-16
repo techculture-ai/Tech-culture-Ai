@@ -35,6 +35,10 @@ export default function ProjectDetailPage() {
       // Fetch related projects after getting the main project
       if (response.data.project) {
         fetchRelatedProjects(response.data.project.category);
+        setEnquiryFrom({
+          ...enquiryForm,
+          projectName: response.data.project.title || "General",
+        });
       }
     } catch (error) {
       console.error("Error fetching project:", error);
@@ -98,11 +102,6 @@ export default function ProjectDetailPage() {
       return;
     }
 
-    if (!enquiryForm.message.trim()) {
-      toast.error("Please enter your message");
-      return;
-    }
-
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(enquiryForm.email)) {
@@ -110,11 +109,7 @@ export default function ProjectDetailPage() {
       return;
     }
 
-    setEnquiryFrom({
-      ...enquiryForm,
-      projectName: project ? project.title : "General",
-    });
-
+  
     const loadingToast = toast.loading("Submitting your enquiry...");
 
     try {
@@ -328,9 +323,10 @@ export default function ProjectDetailPage() {
             Related <span className="text-gred">Projects</span>
           </h2>
           <p className="text-white/70 text-center mb-12 max-w-2xl mx-auto">
-            Explore more projects from the same category that showcase our expertise and innovation.
+            Explore more projects from the same category that showcase our
+            expertise and innovation.
           </p>
-          
+
           {relatedLoading ? (
             <div className="flex justify-center items-center py-12">
               <div className="flex flex-col items-center gap-4">
@@ -353,7 +349,12 @@ export default function ProjectDetailPage() {
                     onClick={() => {
                       // Update project id in context and navigate
                       setProjectid(relatedProject._id);
-                      router.push(`/portfolio/project/${relatedProject.title.replace(/\s+/g, "-")}`);
+                      router.push(
+                        `/portfolio/project/${relatedProject.title.replace(
+                          /\s+/g,
+                          "-"
+                        )}`
+                      );
                     }}
                   >
                     <div className="bg-gray-900/50 rounded-2xl overflow-hidden border border-gray-700/50 hover:border-orange-500/30 transition-all duration-300 group-hover:transform group-hover:-translate-y-2">
@@ -365,7 +366,7 @@ export default function ProjectDetailPage() {
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                        
+
                         {/* Status Badge */}
                         <div className="absolute top-4 left-4">
                           <span
@@ -375,7 +376,9 @@ export default function ProjectDetailPage() {
                                 : "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
                             }`}
                           >
-                            {relatedProject.status === "completed" ? "Completed" : "Ongoing"}
+                            {relatedProject.status === "completed"
+                              ? "Completed"
+                              : "Ongoing"}
                           </span>
                         </div>
 
@@ -392,39 +395,66 @@ export default function ProjectDetailPage() {
                         <h3 className="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">
                           {relatedProject.title}
                         </h3>
-                        <p className="text-gray-400 text-sm mb-4 overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                        <p
+                          className="text-gray-400 text-sm mb-4 overflow-hidden"
+                          style={{
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                          }}
+                        >
                           {relatedProject.description}
                         </p>
 
                         {/* Location */}
                         {relatedProject.location && (
                           <div className="flex items-center gap-2 mb-4">
-                            <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <svg
+                              className="w-4 h-4 text-gray-500"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                              />
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                              />
                             </svg>
-                            <span className="text-gray-500 text-sm">{relatedProject.location}</span>
+                            <span className="text-gray-500 text-sm">
+                              {relatedProject.location}
+                            </span>
                           </div>
                         )}
 
                         {/* Technologies */}
-                        {relatedProject.technologies && relatedProject.technologies.length > 0 && (
-                          <div className="flex flex-wrap gap-2">
-                            {relatedProject.technologies.slice(0, 3).map((tech, techIndex) => (
-                              <span
-                                key={techIndex}
-                                className="bg-orange-500/10 text-orange-300 border border-orange-500/20 px-2 py-1 rounded text-xs font-medium"
-                              >
-                                {tech}
-                              </span>
-                            ))}
-                            {relatedProject.technologies.length > 3 && (
-                              <span className="bg-gray-600/50 text-gray-400 px-2 py-1 rounded text-xs font-medium">
-                                +{relatedProject.technologies.length - 3} more
-                              </span>
-                            )}
-                          </div>
-                        )}
+                        {relatedProject.technologies &&
+                          relatedProject.technologies.length > 0 && (
+                            <div className="flex flex-wrap gap-2">
+                              {relatedProject.technologies
+                                .slice(0, 3)
+                                .map((tech, techIndex) => (
+                                  <span
+                                    key={techIndex}
+                                    className="bg-orange-500/10 text-orange-300 border border-orange-500/20 px-2 py-1 rounded text-xs font-medium"
+                                  >
+                                    {tech}
+                                  </span>
+                                ))}
+                              {relatedProject.technologies.length > 3 && (
+                                <span className="bg-gray-600/50 text-gray-400 px-2 py-1 rounded text-xs font-medium">
+                                  +{relatedProject.technologies.length - 3} more
+                                </span>
+                              )}
+                            </div>
+                          )}
                       </div>
                     </div>
                   </div>
@@ -434,7 +464,7 @@ export default function ProjectDetailPage() {
               {/* View All Projects Button */}
               <div className="text-center mt-12">
                 <Button
-                  className="!bg-gradient-to-r !from-orange-500 !to-yellow-500 !text-white !font-bold !capitalize !px-8 !py-3 !rounded-xl hover:!from-orange-600 hover:!to-yellow-600 !transition-all !duration-300"
+                  className="!bg-primary !text-white !font-bold !capitalize"
                   size="large"
                   onClick={() => router.push("/portfolio")}
                 >
@@ -445,11 +475,23 @@ export default function ProjectDetailPage() {
           ) : (
             <div className="text-center py-12">
               <div className="w-16 h-16 mx-auto mb-4 bg-gray-600/50 rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                <svg
+                  className="w-8 h-8 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                  />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">No Related Projects</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">
+                No Related Projects
+              </h3>
               <p className="text-gray-400 mb-6">
                 There are no other projects in this category at the moment.
               </p>
@@ -467,7 +509,7 @@ export default function ProjectDetailPage() {
       {/* Popup Enquiry Form */}
       {showEnquiryPopup && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-2xl shadow-2xl">
+          <div className="relative w-full max-w-lg bg-gray-900 rounded-2xl shadow-2xl">
             <button
               onClick={() => setShowEnquiryPopup(false)}
               className="absolute -top-4 -right-4 w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
@@ -477,10 +519,10 @@ export default function ProjectDetailPage() {
 
             <div className="p-6">
               <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-2xl font-bold text-white mb-2">
                   Get a Free Consultation
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-gray-300">
                   Leave your details and we&apos;ll get back to you shortly!
                 </p>
               </div>
@@ -494,7 +536,7 @@ export default function ProjectDetailPage() {
                     onChange={handleInputChange}
                     value={enquiryForm.name}
                     placeholder="Your Name"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
                   />
                 </div>
                 <div>
@@ -505,7 +547,7 @@ export default function ProjectDetailPage() {
                     value={enquiryForm.email}
                     type="email"
                     placeholder="Email Address"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
                   />
                 </div>
                 <div>
@@ -516,7 +558,7 @@ export default function ProjectDetailPage() {
                     value={enquiryForm.phone}
                     type="tel"
                     placeholder="Phone Number"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
                   />
                 </div>
                 <div>
@@ -527,7 +569,7 @@ export default function ProjectDetailPage() {
                     value={enquiryForm.message}
                     placeholder="How can we help you?"
                     rows={3}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
                   ></textarea>
                 </div>
                 <Button
