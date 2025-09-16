@@ -38,7 +38,7 @@ import { GoArrowUpRight } from "react-icons/go";
 export default function ProjectCards() {
   const router = useRouter()
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-    const { setCategoryid, categoryData, setCategoryData } = useSite();
+  const {  categoryData, setCategoryData } = useSite();
 
     useEffect(() => {
       const fetchData = async () => {
@@ -57,9 +57,13 @@ export default function ProjectCards() {
     }, [categoryData, setCategoryData]);
 
     const handleCategoryClick = (categoryId, categoryName) => {
-      setCategoryid(categoryId);
       router.push(
-        `/portfolio/category/${categoryName.replace(/\s+/g, "-").toLowerCase()}`
+        `/portfolio/category/${categoryName
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, "-")
+          .replace(/[^\w\-]+/g, "")
+          .replace(/\-\-+/g, "-")}`
       );
     };
     return (

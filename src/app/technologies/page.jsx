@@ -204,7 +204,7 @@ const Technologies = () => {
       {/* Interactive Technology Explorer */}
       <section className="py-20 bg-[#000319]">
         <div className="container">
-          <div className="text-center mb-16">
+          {/* <div className="text-center mb-16">
             
             <h2 className="mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2">
               <span className="text-gred">Interactive</span> Technology Explorer
@@ -213,7 +213,7 @@ const Technologies = () => {
               Explore our comprehensive technology stack. Click on any category
               to see the specific tools and frameworks we master.
             </p>
-          </div>
+          </div> */}
 
           {/* Technology Category Buttons */}
           <div

@@ -28,7 +28,7 @@ export const Brands = () => {
     <div className=' brands py-20 pb-0 pt-10'>
       <div className='container flex items-center gap-7'>
        <div className='w-[25%] txtWrapper'>
-         <h2 className='text-white/80 text-[22px]'>Trusted by <br />3200+ brands worldwide</h2>
+         <h2 className='text-white/80 text-[22px]'>Trusted by <br />100+ brands worldwide</h2>
        </div>
 
         <div className='relative marquee__Wrapper w-[75%]'>

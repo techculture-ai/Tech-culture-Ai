@@ -11,7 +11,7 @@ import AIPageHeader from "../../components/AIPageHeader";
 
 const HomeServices = () => {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-  const { setServiceid } = useSite();
+
   // Main services state
   const [mainServices, setMainServices] = useState([]);
   const [mainLoading, setMainLoading] = useState(false);
@@ -31,60 +31,64 @@ const HomeServices = () => {
   const SERVICES_PER_PAGE = 8; // Load 8 services at a time
 
   // Function to fetch main services with pagination
-  const fetchMainServices = useCallback(async (pageNum, isInitial = false) => {
-    if (mainLoading) return;
-    
-    setMainLoading(true);
-    try {
-      const res = await axios.get(
-        `${apiBaseUrl}/api/services?page=${pageNum}&limit=${SERVICES_PER_PAGE}&category=main`
-      );
-      
-      const newServices = res.data.services || [];
-      const pagination = res.data.pagination || {};
-      
-      if (isInitial) {
-        setMainServices(newServices);
-      } else {
-        setMainServices(prev => [...prev, ...newServices]);
+  const fetchMainServices = useCallback(
+    async (pageNum, isInitial = false) => {
+      if (mainLoading) return;
+
+      setMainLoading(true);
+      try {
+        const res = await axios.get(
+          `${apiBaseUrl}/api/services?page=${pageNum}&limit=${SERVICES_PER_PAGE}&category=main`
+        );
+
+        const newServices = res.data.services || [];
+        const pagination = res.data.pagination || {};
+
+        if (isInitial) {
+          setMainServices(newServices);
+        } else {
+          setMainServices((prev) => [...prev, ...newServices]);
+        }
+
+        setMainHasMore(pagination.hasMore || false);
+      } catch (error) {
+        console.log("Error fetching main services:", error);
+      } finally {
+        setMainLoading(false);
       }
-      
-      setMainHasMore(pagination.hasMore || false);
-      
-    } catch (error) {
-      console.log("Error fetching main services:", error);
-    } finally {
-      setMainLoading(false);
-    }
-  }, [apiBaseUrl, mainLoading]);
+    },
+    [apiBaseUrl, mainLoading]
+  );
 
   // Function to fetch industry services with pagination
-  const fetchIndustryServices = useCallback(async (pageNum, isInitial = false) => {
-    if (industryLoading) return;
-    
-    setIndustryLoading(true);
-    try {
-      const res = await axios.get(
-        `${apiBaseUrl}/api/services?page=${pageNum}&limit=${SERVICES_PER_PAGE}&category=industry`
-      );
-      
-      const newServices = res.data.services || [];
-      const pagination = res.data.pagination || {};
-      
-      if (isInitial) {
-        setIndustryServices(newServices);
-      } else {
-        setIndustryServices(prev => [...prev, ...newServices]);
+  const fetchIndustryServices = useCallback(
+    async (pageNum, isInitial = false) => {
+      if (industryLoading) return;
+
+      setIndustryLoading(true);
+      try {
+        const res = await axios.get(
+          `${apiBaseUrl}/api/services?page=${pageNum}&limit=${SERVICES_PER_PAGE}&category=industry`
+        );
+
+        const newServices = res.data.services || [];
+        const pagination = res.data.pagination || {};
+
+        if (isInitial) {
+          setIndustryServices(newServices);
+        } else {
+          setIndustryServices((prev) => [...prev, ...newServices]);
+        }
+
+        setIndustryHasMore(pagination.hasMore || false);
+      } catch (error) {
+        console.log("Error fetching industry services:", error);
+      } finally {
+        setIndustryLoading(false);
       }
-      
-      setIndustryHasMore(pagination.hasMore || false);
-      
-    } catch (error) {
-      console.log("Error fetching industry services:", error);
-    } finally {
-      setIndustryLoading(false);
-    }
-  }, [apiBaseUrl, industryLoading]);
+    },
+    [apiBaseUrl, industryLoading]
+  );
 
   // Initial load for main services
   useEffect(() => {
@@ -103,42 +107,46 @@ const HomeServices = () => {
   }, [fetchIndustryServices, industryInitialLoad]);
 
   // Intersection Observer callback for main services
-  const lastMainServiceElementRef = useCallback(node => {
-    if (mainLoading) return;
-    if (mainObserverRef.current) mainObserverRef.current.disconnect();
-    
-    mainObserverRef.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && mainHasMore) {
-        setMainPage(prevPage => {
-          const nextPage = prevPage + 1;
-          fetchMainServices(nextPage);
-          return nextPage;
-        });
-      }
-    });
-    
-    if (node) mainObserverRef.current.observe(node);
-  }, [mainLoading, mainHasMore, fetchMainServices]);
+  const lastMainServiceElementRef = useCallback(
+    (node) => {
+      if (mainLoading) return;
+      if (mainObserverRef.current) mainObserverRef.current.disconnect();
+
+      mainObserverRef.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && mainHasMore) {
+          setMainPage((prevPage) => {
+            const nextPage = prevPage + 1;
+            fetchMainServices(nextPage);
+            return nextPage;
+          });
+        }
+      });
+
+      if (node) mainObserverRef.current.observe(node);
+    },
+    [mainLoading, mainHasMore, fetchMainServices]
+  );
 
   // Intersection Observer callback for industry services
-  const lastIndustryServiceElementRef = useCallback(node => {
-    if (industryLoading) return;
-    if (industryObserverRef.current) industryObserverRef.current.disconnect();
-    
-    industryObserverRef.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && industryHasMore) {
-        setIndustryPage(prevPage => {
-          const nextPage = prevPage + 1;
-          fetchIndustryServices(nextPage);
-          return nextPage;
-        });
-      }
-    });
-    
-    if (node) industryObserverRef.current.observe(node);
-  }, [industryLoading, industryHasMore, fetchIndustryServices]);
+  const lastIndustryServiceElementRef = useCallback(
+    (node) => {
+      if (industryLoading) return;
+      if (industryObserverRef.current) industryObserverRef.current.disconnect();
 
+      industryObserverRef.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && industryHasMore) {
+          setIndustryPage((prevPage) => {
+            const nextPage = prevPage + 1;
+            fetchIndustryServices(nextPage);
+            return nextPage;
+          });
+        }
+      });
 
+      if (node) industryObserverRef.current.observe(node);
+    },
+    [industryLoading, industryHasMore, fetchIndustryServices]
+  );
 
   return (
     <>
@@ -162,10 +170,13 @@ const HomeServices = () => {
 
                   return (
                     <Link
-                      href={`/services/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
-                      onClick={() => {
-                        setServiceid(item._id);
-                      }}
+                      href={`/services/${item.title
+                        .toLowerCase()
+                        .trim()
+                        .replace(/\s+/g, "-") // spaces to hyphen
+                        .replace(/[^\w\-]+/g, "") // remove non-word chars
+                        .replace(/\-\-+/g, "-")}`}
+                      
                       key={`main-${item._id}-${index}`}
                       ref={isLast ? lastMainServiceElementRef : null}
                       className="box h-80 sm:h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all duration-300 animate-fadeInUp"
@@ -262,8 +273,13 @@ const HomeServices = () => {
 
                   return (
                     <Link
-                      href={`/services/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
-                      onClick={() => {setServiceid(item._id);}}
+                      href={`/services/${item.title
+                        .toLowerCase()
+                        .trim()
+                        .replace(/\s+/g, "-") // spaces to hyphen
+                        .replace(/[^\w\-]+/g, "") // remove non-word chars
+                        .replace(/\-\-+/g, "-")}`}
+                      
                       key={`industry-${item._id}-${index}`}
                       ref={isLast ? lastIndustryServiceElementRef : null}
                       className="box h-80 sm:h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all duration-300 animate-fadeInUp"

@@ -8,19 +8,22 @@ import { GoArrowUpRight } from "react-icons/go";
 import AIPageHeader from "../../components/AIPageHeader";
 import axios from "axios";
 
-
 export default function ProjectCards() {
-  const { setCategoryid, categoryData, setCategoryData } = useSite();
+  const { categoryData, setCategoryData } = useSite();
   const router = useRouter();
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-  
+
   const [projectCounts, setProjectCounts] = useState({});
   const [loading, setLoading] = useState(true);
 
   const handleCategoryClick = (categoryId, categoryName) => {
-    setCategoryid(categoryId);
     router.push(
-      `/portfolio/category/${categoryName.replace(/\s+/g, "-").toLowerCase()}`
+      `/portfolio/category/${categoryName
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/[^\w\-]+/g, "")
+        .replace(/\-\-+/g, "-")}`
     );
   };
 
@@ -28,7 +31,7 @@ export default function ProjectCards() {
     const fetchCategories = async () => {
       try {
         // Fetch categories
-        if(!categoryData){
+        if (!categoryData) {
           const categoriesRes = await axios.get(
             `${apiBaseUrl}/api/projects/category`
           );
@@ -38,7 +41,9 @@ export default function ProjectCards() {
         const counts = {};
         for (const category of categoryData) {
           try {
-            const projectsRes = await axios.get(`${apiBaseUrl}/api/projects/category/${category._id}`);
+            const projectsRes = await axios.get(
+              `${apiBaseUrl}/api/projects/category/${category._id}`
+            );
             counts[category._id] = projectsRes.data.projects.length;
           } catch (error) {
             counts[category._id] = 0;
@@ -59,21 +64,22 @@ export default function ProjectCards() {
       {/* AI Page Header */}
       <AIPageHeader
         title="Our Portfolio"
-        subtitle="Project Categories Across Industries"
+        subtitle="Explore our diverse portfolio across different technology domains
+            and discover innovative solutions we've built for our clients."
         description="Discover our expertise across different technology domains. Each category represents our specialized knowledge and successful implementations."
         aiWords={["AI-Powered", "Innovative", "AI"]}
       />
 
-      <section className="imageBg py-16 pt-0">
+      <section className="imageBg py-20 ">
         <div className="container">
-          <h2 className="mainHd text-[50px] font-bold text-white leading-[60px] text-center mb-4">
+          {/* <h2 className="mainHd text-[50px] font-bold text-white leading-[60px] text-center mb-4">
             <span className="text-gred">Project Categories </span> we specialize
             in{" "}
           </h2>
           <p className="text-white/80 font-light text-[20px] py-3 text-center w-[90%] lg:w-[50%] m-auto mb-12">
             Explore our diverse portfolio across different technology domains
             and discover innovative solutions we&apos;ve built for our clients.
-          </p>
+          </p> */}
 
           {loading ? (
             <div className="flex justify-center items-center py-20">

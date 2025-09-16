@@ -10,7 +10,7 @@ import AIPageHeader from "@/components/AIPageHeader";
 
 export default function CategoryProjectsPage() {
   const router = useRouter();
-  const { categoryid, setProjectid } = useSite();
+  const { categoryId } = useParams();
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
   
   const [projects, setProjects] = useState([]);
@@ -18,28 +18,35 @@ export default function CategoryProjectsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!categoryid) {
+    if (!categoryId) {
       router.push("/portfolio");
       return;
     }
     const fetchCategoryProjects = async () => {
       try {
         // Fetch category details
-        
         const categoryRes = await axios.get(
-          `${apiBaseUrl}/api/projects/category/${categoryid}`
+          `${apiBaseUrl}/api/projects/category-slug/${categoryId}`
         );
         setProjects(categoryRes.data.projects);
-        
+
         // If we have projects, get category info from the first project
         if (categoryRes.data.projects.length > 0) {
-          const categoryDetailRes = await axios.get(`${apiBaseUrl}/api/projects/category`);
-          const currentCategory = categoryDetailRes.data.categories.find(cat => cat._id === categoryid);
+          const categoryDetailRes = await axios.get(
+            `${apiBaseUrl}/api/projects/category`
+          );
+          const currentCategory = categoryDetailRes.data.categories.find(
+            (cat) => cat.slug === categoryId
+          );
           setCategory(currentCategory);
         } else {
           // If no projects, still get category details
-          const categoryDetailRes = await axios.get(`${apiBaseUrl}/api/projects/category`);
-          const currentCategory = categoryDetailRes.data.categories.find(cat => cat._id === categoryid);
+          const categoryDetailRes = await axios.get(
+            `${apiBaseUrl}/api/projects/category`
+          );
+          const currentCategory = categoryDetailRes.data.categories.find(
+            (cat) => cat.slug === categoryId
+          );
           setCategory(currentCategory);
         }
       } catch (error) {
@@ -49,14 +56,20 @@ export default function CategoryProjectsPage() {
       }
     };
 
-    if (categoryid) {
+    if (categoryId) {
       fetchCategoryProjects();
     }
-  }, [categoryid]);
+  }, [categoryId]);
 
   const handleProjectClick = (projectId, projectTitle) => {
-    setProjectid(projectId);
-    router.push(`/portfolio/project/${projectTitle.replace(/\s+/g, "-").toLowerCase()}`);
+
+    router.push(
+      `/portfolio/project/${projectTitle.toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-") // spaces to hyphen
+        .replace(/[^\w\-]+/g, "") // remove non-word chars
+        .replace(/\-\-+/g, "-")}`
+    );
   };
 
   if (loading) {

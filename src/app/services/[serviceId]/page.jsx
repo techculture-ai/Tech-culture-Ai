@@ -6,10 +6,12 @@ import Image from "next/image";
 import { IoArrowBack, IoCheckmarkCircle, IoCalendarOutline, IoLayersOutline } from "react-icons/io5";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import AIPageHeader from "../../../components/AIPageHeader";
+import SocialShare from "../../../components/SocialShare";
+import StructuredData from "../../../components/StructuredData";
 import { useSite } from "@/context/siteContext";
 
 const ServiceDetails = () => {
-  const { serviceid, setServiceid } = useSite();
+  const slug = useParams().serviceId;
   const router = useRouter();
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,20 +19,20 @@ const ServiceDetails = () => {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
-    if(!serviceid) {
-        router.push("/services");   
-        return;
+    if (!slug) {
+      router.push("/services");
+      return;
     }
-    if (serviceid) {
+    if (slug) {
       fetchServiceDetails();
       fetchRelatedServices();
     }
-  }, [serviceid]);
+  }, [slug]);
 
   const fetchServiceDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${apiBaseUrl}/api/services/${serviceid}`);
+      const response = await fetch(`${apiBaseUrl}/api/services/slug/${slug}`);
       const data = await response.json();
       
       if (data.service) {
@@ -49,8 +51,7 @@ const ServiceDetails = () => {
       const data = await response.json();
       
       if (data.services) {
-        // Filter out current service and get 3 related services
-        const filtered = data.services.filter(s => s._id !== serviceid);
+        const filtered = data.services.filter(s => s._id !== service?._id);
         setRelatedServices(filtered);
       }
     } catch (error) {
@@ -108,10 +109,15 @@ const ServiceDetails = () => {
 
   return (
     <>
+      {/* Structured Data for SEO */}
+      <StructuredData service={service} />
+      
       {/* AI Page Header */}
-      <AIPageHeader 
+      <AIPageHeader
         title={service.title}
-        subtitle={`${service.category.charAt(0).toUpperCase() + service.category.slice(1)} Service`}
+        subtitle={`${
+          service.category.charAt(0).toUpperCase() + service.category.slice(1)
+        } Service`}
         description={service.description}
         aiWords={["Advanced", "Professional", "Cutting-edge"]}
       />
@@ -120,8 +126,8 @@ const ServiceDetails = () => {
         <div className="container mx-auto px-4">
           {/* Back Button */}
           <div className="mb-8">
-            <Link 
-              href="/services" 
+            <Link
+              href="/services"
               className="inline-flex items-center gap-2 text-orange-400 hover:text-orange-300 transition-colors group"
             >
               <IoArrowBack className="group-hover:-translate-x-1 transition-transform" />
@@ -145,7 +151,8 @@ const ServiceDetails = () => {
                   <div className="absolute bottom-6 left-6 right-6">
                     <div className="flex items-center gap-3">
                       <span className="px-4 py-2 bg-orange-500/20 backdrop-blur-sm text-orange-300 text-sm font-medium rounded-full border border-orange-500/30">
-                        {service.category.charAt(0).toUpperCase() + service.category.slice(1)}
+                        {service.category.charAt(0).toUpperCase() +
+                          service.category.slice(1)}
                       </span>
                       <span className="px-4 py-2 bg-blue-500/20 backdrop-blur-sm text-blue-300 text-sm font-medium rounded-full border border-blue-500/30 flex items-center gap-2">
                         <IoCalendarOutline className="w-4 h-4" />
@@ -158,9 +165,19 @@ const ServiceDetails = () => {
 
               {/* Service Title & Description */}
               <div className="mb-8">
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                  {service.title}
-                </h1>
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+                  <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight flex-1">
+                    {service.title}
+                  </h1>
+                  <div className="flex-shrink-0">
+                    <SocialShare 
+                      url={typeof window !== 'undefined' ? window.location.href : `https://techculture.ai/services/${slug}`}
+                      title={service.title}
+                      description={service.description}
+                      hashtags="TechCultureAI,AI,TechnologyServices,DigitalTransformation"
+                    />
+                  </div>
+                </div>
                 <p className="text-gray-300 text-lg leading-relaxed">
                   {service.description}
                 </p>
@@ -175,12 +192,14 @@ const ServiceDetails = () => {
                   </h2>
                   <div className="grid sm:grid-cols-2 gap-4">
                     {service.features.map((feature, index) => (
-                      <div 
+                      <div
                         key={index}
                         className="flex items-start gap-3 p-4 bg-gray-800/50 rounded-xl border border-gray-700/50 hover:border-orange-500/30 transition-all duration-300 group"
                       >
                         <IoCheckmarkCircle className="w-6 h-6 text-green-400 mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform" />
-                        <span className="text-gray-200 font-medium">{feature}</span>
+                        <span className="text-gray-200 font-medium">
+                          {feature}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -193,17 +212,19 @@ const ServiceDetails = () => {
                   Ready to Get Started?
                 </h3>
                 <p className="text-gray-300 mb-6">
-                  Transform your business with our {service.title.toLowerCase()} solution. Contact our experts to discuss your specific requirements.
+                  Transform your business with our {service.title.toLowerCase()}{" "}
+                  solution. Contact our experts to discuss your specific
+                  requirements.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Link 
+                  <Link
                     href="/contact-us"
                     className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-8 py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-yellow-600 transition-all transform hover:scale-105"
                   >
                     Get Quote
                     <HiOutlineExternalLink className="w-5 h-5" />
                   </Link>
-                  <Link 
+                  <Link
                     href="/services"
                     className="inline-flex items-center justify-center gap-2 border border-orange-500 text-orange-400 px-8 py-3 rounded-xl font-semibold hover:bg-orange-500 hover:text-white transition-all"
                   >
@@ -243,13 +264,19 @@ const ServiceDetails = () => {
               {/* Related Services */}
               {relatedServices.length > 0 && (
                 <div className="bg-gray-800/50 rounded-2xl max-h-[75vh] p-6 border border-gray-700/50 backdrop-blur-sm h-full overflow-auto custom-scrollbar">
-                  <h3 className="text-xl font-bold text-white mb-6">More Services</h3>
+                  <h3 className="text-xl font-bold text-white mb-6">
+                    More Services
+                  </h3>
                   <div className="space-y-4">
                     {relatedServices.map((relatedService) => (
                       <Link
                         key={relatedService._id}
-                        onClick={() => { setServiceid(relatedService._id); }}
-                        href={`/services/${relatedService.title.replace(/\s+/g, "-")}`}
+                        href={`/services/${relatedService.title
+                          .toLowerCase()
+                          .trim()
+                          .replace(/\s+/g, "-") // spaces to hyphen
+                          .replace(/[^\w\-]+/g, "") // remove non-word chars
+                          .replace(/\-\-+/g, "-")}`}
                         className="block p-4 bg-gray-700/50 rounded-xl border border-gray-600/50 hover:border-orange-500/50 transition-all group"
                       >
                         <div className="flex gap-3">

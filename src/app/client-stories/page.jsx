@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { FaChartLine, FaQuoteLeft, FaRocket, FaTrophy, FaUsers } from "react-icons/fa";
+import { FaChartLine, FaQuoteLeft, FaRocket, FaTrophy, FaUserCircle, FaUsers } from "react-icons/fa";
 import { BsArrowRight, BsAward, BsEye } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
 import { HiSparkles, HiFire } from "react-icons/hi";
@@ -209,11 +209,12 @@ const ClientStories = () => {
                     {/* Profile */}
                     <div className="flex items-center gap-4">
                       <div className="relative">
-                        <img
+                        {/* <img
                           src={testimonial.image}
                           alt={testimonial.name}
                           className="w-16 h-16 rounded-full object-cover border-2 border-primary/60 shadow-lg"
-                        />
+                        /> */}
+                        <FaUserCircle className="text-white text-6xl" />
                         <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center border-2 border-white">
                           <MdVerified size={12} className="text-white" />
                         </div>
@@ -358,11 +359,12 @@ const ClientStories = () => {
 
               <div className="p-8">
                 <div className="flex items-center gap-6">
-                  <img
+                  {/* <img
                     src={selectedTestimonial.image}
                     alt={selectedTestimonial.name}
                     className="w-24 h-24 rounded-full object-cover border-4 border-primary/50"
-                  />
+                  /> */}
+                  <FaUserCircle className="text-white text-6xl" />
 
                   <div className="flex-1">
                     <h4 className="text-white text-[28px] font-bold mb-2">

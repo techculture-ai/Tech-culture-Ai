@@ -12,7 +12,7 @@ import { toast } from "react-hot-toast";
 
 export default function ProjectDetailPage() {
   const router = useRouter();
-  const { projectid, setProjectid } = useSite();
+  const { projectId: projectid } = useParams();
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
   const [showEnquiryPopup, setShowEnquiryPopup] = useState(false);
   const [enquiryForm, setEnquiryFrom] = useState({
@@ -30,11 +30,11 @@ export default function ProjectDetailPage() {
 
   const fetchProject = async () => {
     try {
-      const response = await axios.get(`${apiBaseUrl}/api/projects/${projectid}`);
+      const response = await axios.get(`${apiBaseUrl}/api/projects/slug/${projectid}`);
       setProject(response.data.project);
       // Fetch related projects after getting the main project
       if (response.data.project) {
-        fetchRelatedProjects(response.data.project.category);
+        fetchRelatedProjects(response.data.project.category,response.data.project._id);
         setEnquiryFrom({
           ...enquiryForm,
           projectName: response.data.project.title || "General",
@@ -47,15 +47,15 @@ export default function ProjectDetailPage() {
     }
   };
 
-  const fetchRelatedProjects = async (categoryId) => {
+  const fetchRelatedProjects = async (categoryId, currentProjectId) => {
     try {
       setRelatedLoading(true);
       const response = await axios.get(`${apiBaseUrl}/api/projects`);
       if (response.data.projects) {
         // Filter projects by same category and exclude current project
-        const filtered = response.data.projects
-          .filter(p => p.category === categoryId && p._id !== projectid)
-          .slice(0, 3); // Get only 3 related projects
+        const filtered = response.data.projects.filter(
+          (p) => p.category === categoryId && p._id !== currentProjectId
+        ).slice(0, 5); // Get only 3 related projects
         setRelatedProjects(filtered);
       }
     } catch (error) {
@@ -348,12 +348,13 @@ export default function ProjectDetailPage() {
                     className="group cursor-pointer"
                     onClick={() => {
                       // Update project id in context and navigate
-                      setProjectid(relatedProject._id);
                       router.push(
-                        `/portfolio/project/${relatedProject.title.replace(
-                          /\s+/g,
-                          "-"
-                        )}`
+                        `/portfolio/project/${relatedProject.title
+                          .toLowerCase()
+                          .trim()
+                          .replace(/\s+/g, "-") // spaces to hyphen
+                          .replace(/[^\w\-]+/g, "") // remove non-word chars
+                          .replace(/\-\-+/g, "-")}`
                       );
                     }}
                   >
