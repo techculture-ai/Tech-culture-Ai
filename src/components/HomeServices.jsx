@@ -68,7 +68,7 @@ const HomeServices = () => {
           </p>
           <br />
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-10 py-4 services px-4 lg:px-0">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-10  services  lg:px-0">
             {mainServices &&
               mainServices?.length !== 0 &&
               mainServices?.map((item, index) => {

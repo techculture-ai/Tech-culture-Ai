@@ -292,9 +292,9 @@ const ServiceDetails = () => {
                             <h4 className="text-white font-medium mb-1 line-clamp-2 group-hover:text-orange-400 transition-colors">
                               {relatedService.title}
                             </h4>
-                            <p className="text-gray-400 text-sm capitalize">
+                            {/* <p className="text-gray-400 text-sm capitalize">
                               {relatedService.category}
-                            </p>
+                            </p> */}
                           </div>
                         </div>
                       </Link>

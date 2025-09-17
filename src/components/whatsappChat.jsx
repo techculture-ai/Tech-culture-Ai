@@ -30,7 +30,7 @@ const WhatsAppChat = () => {
   return (
     <>
       {/* Floating Chat Button */}
-      <div className="fixed bottom-16 lg:bottom-6 right-6 z-[1005]">
+      <div className="fixed bottom-16 lg:bottom-6 right-6 z-[995]">
         {!isOpen ? (
           <button
             onClick={() => setIsOpen(true)}

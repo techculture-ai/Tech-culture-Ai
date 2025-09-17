@@ -40,6 +40,22 @@ const Header = () => {
         };
     }, []);
 
+    // Prevent background scrolling when enquiry popup is open
+    useEffect(() => {
+        if (showEnquiryPopup) {
+            // Prevent scrolling
+            document.body.style.overflow = 'hidden';
+        } else {
+            // Restore scrolling
+            document.body.style.overflow = 'unset';
+        }
+
+        // Cleanup function to restore scrolling when component unmounts
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [showEnquiryPopup]);
+
     const { settingsData, setSettingsData } = useSite();
     useEffect(() => {
       async function fetchData() {
@@ -291,8 +307,8 @@ const Header = () => {
         </header>
         {/* Popup Enquiry Form */}
         {showEnquiryPopup && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="relative w-full max-w-lg bg-gray-900 rounded-2xl shadow-2xl">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] flex items-center justify-center p-4">
+            <div className="relative w-full max-w-lg bg-gray-900 rounded-2xl shadow-2xl max-h-[80vh]">
               <button
                 onClick={() => setShowEnquiryPopup(false)}
                 className="absolute -top-4 -right-4 w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
@@ -300,7 +316,7 @@ const Header = () => {
                 <IoClose />
               </button>
 
-              <div className="p-6">
+              <div className="p-6 max-h-[80vh] overflow-y-auto">
                 <div className="text-center mb-6">
                   <h3 className="text-2xl font-bold text-white mb-2">
                     Get a Free Consultation
