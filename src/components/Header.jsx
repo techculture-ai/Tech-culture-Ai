@@ -9,8 +9,15 @@ import React, { useEffect, useState } from 'react'
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoClose } from 'react-icons/io5';
 import { toast } from 'react-hot-toast';
+import { ImWhatsapp } from "react-icons/im";
 
 const Header = () => {
+  const contact = 7428238091;
+  const sendToWhatsApp = () => {
+    const encodedMessage = encodeURIComponent("Hii");
+    const whatsappURL = `https://wa.me/${contact}?text=${encodedMessage}`;
+    window.open(whatsappURL, "_blank");
+  };
     const pathname = usePathname();
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
     const [isScrolled, setIsScrolled] = useState(false);
@@ -292,13 +299,19 @@ const Header = () => {
               ></div>
             )}
 
-            <Button
-              className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-6 !py-2 !capitalize !font-bold !hidden lg:!flex"
-              size="large"
-              onClick={() => setShowEnquiryPopup(true)}
-            >
-              Schedule Demo
-            </Button>
+            <div className="flex items-center gap-5">
+              <ImWhatsapp
+                className="text-green-600 text-3xl cursor-pointer"
+                onClick={sendToWhatsApp}
+              />
+              <Button
+                className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-6 !py-2 !capitalize !font-bold !hidden lg:!flex"
+                size="large"
+                onClick={() => setShowEnquiryPopup(true)}
+              >
+                Schedule Demo
+              </Button>
+            </div>
           </div>
         </header>
         {/* Popup Enquiry Form */}

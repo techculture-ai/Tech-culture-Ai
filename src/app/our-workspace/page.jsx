@@ -11,6 +11,7 @@ const OurWorkspace = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [modalImageLoading, setModalImageLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredImages, setFilteredImages] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -78,13 +79,19 @@ const OurWorkspace = () => {
   };
 
   const openImageModal = (image) => {
+    setModalImageLoading(true);
     setSelectedImage(image);
     document.body.style.overflow = "hidden";
   };
 
   const closeImageModal = () => {
     setSelectedImage(null);
+    setModalImageLoading(false);
     document.body.style.overflow = "unset";
+  };
+
+  const handleImageLoad = () => {
+    setModalImageLoading(false);
   };
 
   const handleModalBackdropClick = (e) => {
@@ -93,6 +100,32 @@ const OurWorkspace = () => {
       closeImageModal();
     }
   };
+
+  // Skeleton component for loading state
+  const ImageSkeleton = () => (
+    <div className="relative bg-gray-900/90 backdrop-blur-sm rounded-lg overflow-hidden">
+      <div className="w-full h-[75vh] max-h-[600px] bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 animate-pulse relative">
+        {/* Shimmer effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
+        
+        {/* Loading icon in center */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-16 h-16 border-4 border-orange-500/30 border-t-orange-500 rounded-full animate-spin"></div>
+            <p className="text-white/70 text-sm font-medium">Loading high quality image...</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Skeleton info section */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-6">
+        <div className="h-6 bg-gray-600/50 rounded mb-2 animate-pulse w-3/4"></div>
+        <div className="flex items-center gap-4">
+          <div className="h-4 w-20 bg-gray-600/50 rounded animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  );
 
   if (loading) {
     return (
@@ -213,6 +246,9 @@ const OurWorkspace = () => {
                       width={400}
                       height={300}
                       className="w-full h-[300px] object-cover transition-transform duration-500 group-hover:scale-110"
+                      loading="lazy"
+                      placeholder="blur"
+                      blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMzMzO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM1NTU7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyYWRpZW50KSIgLz4KPC9zdmc+"
                     />
 
                     {/* Overlay */}
@@ -290,13 +326,18 @@ const OurWorkspace = () => {
             </button>
 
             {/* Image Container */}
-            <div className="relative bg-gray-900/90 backdrop-blur-sm rounded-lg overflow-hidden">
+            {modalImageLoading && <ImageSkeleton />}
+            
+            <div className={`relative bg-gray-900/90 backdrop-blur-sm rounded-lg overflow-hidden transition-opacity duration-300 ${modalImageLoading ? 'opacity-0 absolute inset-0' : 'opacity-100'}`}>
               <Image
                 src={selectedImage.url}
                 alt={selectedImage.title}
                 width={1200}
                 height={800}
                 className="w-full h-auto max-h-[75vh] object-contain"
+                onLoad={handleImageLoad}
+                loading="eager"
+                priority={true}
               />
 
               {/* Image Info */}

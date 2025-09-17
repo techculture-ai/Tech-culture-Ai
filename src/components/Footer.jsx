@@ -19,6 +19,7 @@ import Link from "next/link";
 
 const Footer = () => {
   const [email, setEmail] = React.useState("");
+  const [serviceLinks, setServiceLinks] = React.useState([]);
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -39,6 +40,22 @@ const Footer = () => {
           }
         }
       }
+      async function fetchServiceLinks() {
+        try{
+          const res = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/services?category=main&showOnHomePage=true&limit=5`
+          );
+          if (res.status === 200) {
+            setServiceLinks(res.data.services || []);
+          }
+        }
+        catch(error){
+          console.log(error);
+          toast.error("Failed to fetch service links");
+        }
+      }
+
+      fetchServiceLinks();
       fetchData();
     }, [settingsData, setSettingsData]);
 
@@ -52,13 +69,13 @@ const Footer = () => {
       { name: "Technologies", href: "/technologies" },
     ];
 
-    const serviceLinks = [
-      { name: "Web Development", href: "/services" },
-      { name: "Mobile App Development", href: "/services" },
-      { name: "Cloud Solutions", href: "/services" },
-      { name: "Digital Marketing", href: "/services" },
-      { name: "UI/UX Design", href: "/services" },
-    ];
+    // const serviceLinks = [
+    //   { name: "Web Development", href: "/services" },
+    //   { name: "Mobile App Development", href: "/services" },
+    //   { name: "Cloud Solutions", href: "/services" },
+    //   { name: "Digital Marketing", href: "/services" },
+    //   { name: "UI/UX Design", href: "/services" },
+    // ];
 
     const companyLinks = [
       { name: "FAQs", href: "/contact-us" },
@@ -252,14 +269,14 @@ const Footer = () => {
                     Services
                   </h3>
                   <ul className="space-y-2 sm:space-y-3">
-                    {serviceLinks.map((link) => (
-                      <li key={link.name}>
+                    {serviceLinks && serviceLinks.map((link) => (
+                      <li key={link.slug}>
                         <Link
-                          href={link.href}
+                          href={`services/${link.slug}`}
                           className="text-gray-400 hover:text-orange-400 transition-colors duration-300 flex items-center gap-2 group text-sm sm:text-base"
                         >
                           <span className="group-hover:translate-x-1 transition-transform duration-300">
-                            {link.name}
+                            {link.title}
                           </span>
                         </Link>
                       </li>

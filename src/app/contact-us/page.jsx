@@ -17,6 +17,7 @@ const ContactUs = () => {
   const { settingsData, setSettingsData } = useSite();
   const [faqs, setFaqs] = useState([]);
   const [faqsLoading, setFaqsLoading] = useState(true);
+  const [services, setServices] = useState([]);
   
   useEffect(() => {
     AOS.init({ duration: 1000, offset: 50 });
@@ -52,8 +53,23 @@ const ContactUs = () => {
       }
     }
     
+    async function fetchServiceLinks() {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/services?category=main&limit=99`
+        );
+        if (res.status === 200) {
+          setServices(res.data.services || []);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to fetch service links");
+      }
+    }
+
     fetchData();
     fetchFAQs();
+    fetchServiceLinks();
   }, [settingsData, setSettingsData]);
 
   const [formData, setFormData] = useState({
@@ -115,14 +131,7 @@ const ContactUs = () => {
     }
   ];
 
-  const services = [
-    "AI Consulting",
-    "Machine Learning",
-    "Data Analytics",
-    "Automation Solutions",
-    "Custom Development",
-    "Other"
-  ];
+ 
 
   return (
     <>
@@ -292,10 +301,10 @@ const ContactUs = () => {
                     {services.map((service, index) => (
                       <option
                         key={index}
-                        value={service}
+                        value={service.title}
                         className="bg-[#000319]"
                       >
-                        {service}
+                        {service.title}
                       </option>
                     ))}
                   </select>

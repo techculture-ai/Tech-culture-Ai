@@ -333,7 +333,7 @@ export default function ProjectDetailPage() {
       )} */}
 
       {/* Related Projects Section */}
-      <section className="pb-20 px-4">
+      {relatedProjects.length > 0 && <section className="pb-20 px-4">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center">
             Related <span className="text-gred">Projects</span>
@@ -521,7 +521,7 @@ export default function ProjectDetailPage() {
             </div>
           )}
         </div>
-      </section>
+      </section>}
 
       {/* Popup Enquiry Form */}
       {showEnquiryPopup && (
