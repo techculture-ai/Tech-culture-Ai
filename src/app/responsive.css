@@ -19,7 +19,7 @@
   .projectCards{white-space: nowrap !important; overflow-x: scroll; display: block !important;}
   .projectCards .group{display: inline-block !important; width: 300px !important; margin-right: 20px !important;}
 
-    .technologies{white-space: nowrap !important; overflow-x: scroll; display: block !important;}
+    .technologies{white-space: nowrap !important; }
   .projectCards button{display: inline-block !important; width: auto !important; margin-right: 20px !important;}
 
       .texhCard{white-space: nowrap !important; overflow-x: scroll; display: block !important;}
@@ -27,8 +27,8 @@
 .homescreenExpTab {position: static !important; display: none !important;}
 
 
-  .services{white-space: nowrap !important; overflow-x: scroll; display: block !important;}
-  .services .box{display: inline-block !important; width: 280px !important; margin-right: 20px !important;}
+  .services{white-space: nowrap !important;}
+  .services .box{display: inline-block !important; }
   .services .box *{white-space: break-spaces !important;}
 
 

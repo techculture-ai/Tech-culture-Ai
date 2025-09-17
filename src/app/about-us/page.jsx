@@ -101,7 +101,7 @@ const About = () => {
               {/* <span className="animateText txt-shadow">About Us</span> */}
               <img
                 src="/about__small__img__2.png"
-                className="aboutIconImg absolute top-16 right-40"
+                className="aboutIconImg absolute md:top-16 md:right-40 top-0 right-0 "
                 alt="image"
               />
             </div>
@@ -159,9 +159,9 @@ const About = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-[#000319]">
+      <section className=" bg-[#000319]">
         <div className="container">
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {stats.map((stat, index) => (
               <div
                 key={index}
@@ -277,7 +277,7 @@ const About = () => {
       </section>
 
       {/* Our Values Section */}
-      <section className="py-20 bg-[#000319]">
+      <section className=" bg-[#000319]">
         <div className="container">
           <div className="text-center mb-16">
             

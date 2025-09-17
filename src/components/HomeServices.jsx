@@ -68,7 +68,7 @@ const HomeServices = () => {
           </p>
           <br />
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 py-4 services">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 py-4 services">
             {mainServices &&
               mainServices?.length !== 0 &&
               mainServices?.map((item, index) => {
@@ -102,7 +102,7 @@ const HomeServices = () => {
               })}
           </div>
 
-          <div className="lg:flex items-center justify-center mt-10 hidden">
+          <div className="flex items-center justify-center mt-10 ">
             {mainServices.length > 4 && (
               <Button
                 className="!bg-white !text-gray-800 !font-bold !capitalize items-center"

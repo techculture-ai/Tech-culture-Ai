@@ -100,11 +100,11 @@ const Technologies = () => {
             <div className='container'>
                 
 
-                <h2 className='mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2'>
+                <h2 className='mainHd text-[30px] sm:text-[35px] lg:text-[40px] font-bold text-white leading-[40px] sm:leading-[50px] lg:leading-[60px] text-center mt-2'>
                     <span className='text-gred'>Technologies</span> We Use
                 </h2>
 
-                <p className="text-gray-300 text-[20px] text-center">
+                <p className="text-gray-300 text-[16px] sm:text-[18px] lg:text-[20px] text-center max-w-4xl mx-auto">
                     We leverage cutting-edge technologies and industry-leading tools to deliver exceptional solutions
                 </p>
 
@@ -117,19 +117,38 @@ const Technologies = () => {
                     </div>
                 ) : (
                     <>
-                        <div className='flex items-center justify-center flex-wrap gap-4 mt-4 technologies'>
+                        <div className="flex flex-wrap items-center justify-center gap-3 lg:gap-4 mt-4 technologies">
                             {
                                 technologyData?.length > 0 && technologyData?.map((item, index) => {
                                     return (
                                         <Button 
                                             key={index} 
-                                            className={`bg-[#000319] !text-gray-300 !rounded-full !px-5 !py-2 !font-[600] !text-[15px] !capitalize hover:bg-[#222f47] items-center gap-2 ${isActive === index && '!bg-primary !text-white'}`} 
+                                            className={`
+                                                group relative overflow-hidden
+                                                !text-[14px] lg:!text-[16px] !font-[600] !capitalize !rounded-full !px-4 lg:!px-6 !py-3
+                                                transition-all duration-500 transform hover:scale-105
+                                                ${
+                                                    isActive === index
+                                                        ? "!bg-gradient-to-r !from-[#ff6333] !via-[#e15226] !to-[#fe9272] !text-white !shadow-xl !shadow-primary/30"
+                                                        : "!bg-[#1e293b80] !text-gray-300 !border !border-[rgba(255,255,255,0.1)] hover:!bg-[#2d3748] hover:!text-white hover:!border-primary/30"
+                                                }
+                                            `}
                                             onClick={() => {
                                                 setIsActive(index);
                                                 setIsActiveTech(item)
                                             }}
                                         >
-                                            {item?.title}
+                                            <span className="flex items-center gap-2 lg:gap-3 relative z-10">
+                                                <div className={`w-5 h-5 bg-primary/20 rounded-full flex items-center justify-center ${isActive === index ? 'bg-white/80' : ''}`}>
+                                                    <span className="text-primary text-xs font-bold">
+                                                        {item?.title?.charAt(0).toUpperCase()}
+                                                    </span>
+                                                </div>
+                                                <span className="hidden sm:inline">{item?.title}</span>
+                                                <span className="sm:hidden">
+                                                    {item?.title.split(" ")[0]}
+                                                </span>
+                                            </span>
                                         </Button>
                                     )
                                 })
@@ -141,48 +160,71 @@ const Technologies = () => {
 
                         {
                             isActiveTech && (
-                                <div className='technologiesSection'>
-                                    <h2 className='text-center text-white text-[35px] font-bold'>
-                                        {isActiveTech?.title}
-                                    </h2>
-                                    <br />
+                                <div className="relative">
+                                    {/* Floating Background Elements */}
+                                    <div className="absolute -top-10 -left-10 w-32 h-32 bg-primary/5 rounded-full blur-3xl"></div>
+                                    <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
 
-                                    <div className='p-8 bg-[#01051d] rounded-md border border-[rgba(255,255,255,0.1)]'>
-                                        {isActiveTech?.items?.length > 0 ? (
-                                            <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 texhCard'>
-                                                {
-                                                    isActiveTech.items.map((item, index) => {
-                                                        return (
-                                                          <div
-                                                            className="box bg-slate-800/50 p-3 rounded-lg flex flex-col 
-                                                                gap-2 justify-center text-center h-32 border border-[rgba(255,255,255,0.050)] 
-                                                                transition-all hover:scale-110 hover:bg-slate-700 hover:border-primary/30"
-                                                            key={index}
-                                                          >
-                                                            <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mx-auto mb-2">
-                                                              {iconMap[
-                                                                item?.name
-                                                              ] || (
-                                                                <span className="text-primary text-xl font-bold">
-                                                                  {item?.name
-                                                                    ?.charAt(0)
-                                                                    .toUpperCase()}
-                                                                </span>
-                                                              )}
-                                                            </div>
-                                                            <h3 className="text-white/80 text-[15px] font-bold">
-                                                              {item?.name}
-                                                            </h3>
-                                                          </div>
-                                                        );
-                                                    })
-                                                }
+                                    <div className="relative bg-gradient-to-br from-[#0a0f1c] via-[#0f1419] to-[#0a0f1c] rounded-2xl border border-[rgba(255,255,255,0.1)] overflow-hidden">
+                                        {/* Header Section */}
+                                        <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-6 lg:p-8 border-b border-[rgba(255,255,255,0.1)]">
+                                            <div className="flex items-center gap-4 mb-4">
+                                                <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center">
+                                                    <span className="text-white text-xl font-bold">
+                                                        {isActiveTech?.title?.charAt(0).toUpperCase()}
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <h2 className="text-white text-[24px] lg:text-[32px] font-bold">
+                                                        {isActiveTech?.title}
+                                                    </h2>
+                                                    <p className="text-primary text-[14px] lg:text-[16px] font-medium">
+                                                        {isActiveTech?.items?.length || 0} Technologies Available
+                                                    </p>
+                                                </div>
                                             </div>
-                                        ) : (
-                                            <div className="text-center text-gray-400 py-8">
-                                                <p>No technologies found in this category</p>
-                                            </div>
-                                        )}
+                                        </div>
+
+                                        {/* Technologies Grid */}
+                                        <div className="p-6 lg:p-12">
+                                            {isActiveTech?.items?.length > 0 ? (
+                                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 lg:gap-6">
+                                                    {
+                                                        isActiveTech.items.map((item, index) => {
+                                                            return (
+                                                                <div
+                                                                    className="group relative bg-[#252b3d] p-4 rounded-xl border border-[rgba(255,255,255,0.1)] hover:border-primary/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10"
+                                                                    key={index}
+                                                                >
+                                                                    <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-xl bg-primary"></div>
+                                                                    
+                                                                    <div className="relative z-10 flex flex-col items-center text-center">
+                                                                        <div className="w-12 h-12 lg:w-14 lg:h-14 bg-primary/20 rounded-lg flex items-center justify-center mb-3 group-hover:bg-primary/30 transition-colors">
+                                                                            {iconMap[item?.name] || (
+                                                                                <span className="text-primary text-lg lg:text-xl font-bold">
+                                                                                    {item?.name?.charAt(0).toUpperCase()}
+                                                                                </span>
+                                                                            )}
+                                                                        </div>
+                                                                        <h3 className="text-white/90 text-[13px] lg:text-[15px] font-semibold leading-tight">
+                                                                            {item?.name}
+                                                                        </h3>
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })
+                                                    }
+                                                </div>
+                                            ) : (
+                                                <div className="text-center text-gray-400 py-12">
+                                                    <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                        <span className="text-gray-500 text-2xl">💻</span>
+                                                    </div>
+                                                    <p className="text-lg">No technologies found in this category</p>
+                                                    <p className="text-sm mt-2">Technologies will appear here once added to the database</p>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             )

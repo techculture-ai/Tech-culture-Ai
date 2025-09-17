@@ -256,23 +256,22 @@ const Header = () => {
                   <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
                 )}
               </Link>
-
-              <div className="flex lg:hidden w-full">
-                <Button
-                  className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-6 !py-2 !capitalize !font-bold"
-                  size="large"
-                  onClick={() => setIsOpenNav(false)}
-                >
-                  Schedule Demo
-                </Button>
-              </div>
             </nav>
 
-            <AiOutlineMenu
-              size={30}
-              className="block lg:hidden text-white"
-              onClick={() => setIsOpenNav(true)}
-            />
+            <div className="flex items-center gap-3 lg:hidden">
+              <Button
+                className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-4 !py-2 !capitalize !font-bold !text-sm"
+                size="small"
+                onClick={() => setShowEnquiryPopup(true)}
+              >
+                Schedule Demo
+              </Button>
+              <AiOutlineMenu
+                size={30}
+                className="text-white"
+                onClick={() => setIsOpenNav(true)}
+              />
+            </div>
 
             {isOpenNav === true && (
               <div

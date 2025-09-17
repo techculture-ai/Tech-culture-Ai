@@ -244,8 +244,8 @@ const Technologies = () => {
                     }}
                   >
                     <span className="flex items-center gap-2 lg:gap-3 relative z-10">
-                      <div className="w-5 h-5 bg-primary/20 rounded-full flex items-center justify-center">
-                        <span className="text-primary text-xs font-bold">
+                      <div className={`w-5 h-5 bg-primary/20 rounded-full flex items-center justify-center ${isActive === index ? 'bg-white/80' : ''}`}>
+                        <span className={`text-primary text-xs font-bold `}>
                           {item?.title?.charAt(0).toUpperCase()}
                         </span>
                       </div>
