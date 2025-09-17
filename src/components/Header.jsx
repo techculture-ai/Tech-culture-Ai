@@ -299,9 +299,9 @@ const Header = () => {
               ></div>
             )}
 
-            <div className="flex items-center gap-5">
+            <div className=" items-center gap-5 hidden lg:flex">
               <ImWhatsapp
-                className="text-green-600 text-3xl cursor-pointer"
+                className="text-green-600 text-3xl cursor-pointer hidden lg:block"
                 onClick={sendToWhatsApp}
               />
               <Button
