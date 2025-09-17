@@ -115,9 +115,7 @@ const ServiceDetails = () => {
       {/* AI Page Header */}
       <AIPageHeader
         title={service.title}
-        subtitle={`${
-          service.category.charAt(0).toUpperCase() + service.category.slice(1)
-        } Service`}
+        subtitle={``}
         description={service.description}
         aiWords={["Advanced", "Professional", "Cutting-edge"]}
       />

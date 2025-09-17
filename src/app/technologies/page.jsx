@@ -354,7 +354,7 @@ const Technologies = () => {
                   )}
 
                   {/* Technology Stats */}
-                  <div className="mt-12 grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                  <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
                     <div className="text-center p-4 bg-[#252b3d] rounded-lg border border-[rgba(255,255,255,0.1)] hover:border-primary/30 transition-all">
                       <div className="text-[20px] lg:text-[24px] font-bold text-primary">
                         {isActiveTech?.items?.length || 0}+

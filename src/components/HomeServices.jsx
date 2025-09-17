@@ -68,7 +68,7 @@ const HomeServices = () => {
           </p>
           <br />
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 py-4 services">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-10 py-4 services px-4 lg:px-0">
             {mainServices &&
               mainServices?.length !== 0 &&
               mainServices?.map((item, index) => {
@@ -82,18 +82,18 @@ const HomeServices = () => {
                         .replace(/[^\w\-]+/g, "")
                         .replace(/\-\-+/g, "-")}`}
                       key={`main-home-${item._id}-${index}`}
-                      className="box h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all"
+                      className="box h-64 sm:h-80 lg:h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all"
                     >
                       <img
                         src={item?.image}
                         className="full transition-all h-full object-cover"
                         alt={item?.title || "Service"}
                       />
-                      <div className="info p-6 absolute top-0 left-0 z-50 w-full h-full ">
-                        <div className="flex justify-between items-center !absolute bottom-5 pr-5 w-[96%]">
-                          <h2 className="text-gray-100 text-[25px] font-light px-5 leading-8">
+                      <div className="info p-3 sm:p-4 lg:p-6 absolute top-0 left-0 z-50 w-full h-full ">
+                        <div className="flex justify-between items-center !absolute bottom-3 sm:bottom-4 lg:bottom-5 pr-3 sm:pr-4 lg:pr-5 w-[96%]">
+                          <h3 className="text-gray-100 text-[1.125rem] sm:text-lg lg:text-[25px] font-light px-2 sm:px-3 lg:px-5 leading-tight sm:leading-6 lg:leading-8">
                             {item?.title}
-                          </h2>
+                          </h3>
                         </div>
                       </div>
                     </Link>
@@ -102,10 +102,10 @@ const HomeServices = () => {
               })}
           </div>
 
-          <div className="flex items-center justify-center mt-10 ">
+          <div className="flex flex-row items-center justify-center mt-10 gap-2 sm:gap-4 px-4">
             {mainServices.length > 4 && (
               <Button
-                className="!bg-white !text-gray-800 !font-bold !capitalize items-center"
+                className="!bg-white !text-gray-800 !font-bold !capitalize items-center flex-1 sm:flex-none !h-12"
                 size="large"
                 onClick={handleToggleExpand}
               >
@@ -117,12 +117,12 @@ const HomeServices = () => {
                 )}
               </Button>
             )}
-            <Link href="/services" className="ml-4">
+            <Link href="/services" className="flex-1 sm:flex-none">
               <Button
-                className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white  !capitalize !font-bold "
+                className="bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white  !capitalize !font-bold w-full sm:w-auto !h-12"
                 size="large"
               >
-                View All Services
+                View All 
                 <IoIosArrowRoundForward size={30} />
               </Button>
             </Link>
