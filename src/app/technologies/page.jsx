@@ -246,7 +246,11 @@ const Technologies = () => {
                     }}
                   >
                     <span className="flex items-center gap-2 lg:gap-3 relative z-10">
-                      <div className={`w-5 h-5 bg-primary/20 rounded-full flex items-center justify-center ${isActive === index ? 'bg-white/80' : ''}`}>
+                      <div
+                        className={`w-5 h-5 bg-primary/20 rounded-full flex items-center justify-center ${
+                          isActive === index ? "bg-white/80" : ""
+                        }`}
+                      >
                         <span className={`text-primary text-xs font-bold `}>
                           {item?.title?.charAt(0).toUpperCase()}
                         </span>
@@ -393,7 +397,7 @@ const Technologies = () => {
 
                   {/* Category Description */}
                   <div className="mt-12 text-center">
-                    <p className="text-white/70 text-[16px] lg:text-[18px] max-w-3xl mx-auto leading-7">
+                    <p className="text-white/70 text-[16px] lg:text-[18px] max-w-3xl mx-auto leading-7 text-justify md:text-center">
                       Each technology in our{" "}
                       <span className="text-primary font-medium">
                         {isActiveTech?.title}

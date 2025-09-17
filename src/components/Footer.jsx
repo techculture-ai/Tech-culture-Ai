@@ -190,7 +190,7 @@ const Footer = () => {
                     <div className="w-12 h-1 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full mt-2"></div>
                   </div>
 
-                  <p className="text-gray-400 mb-6 leading-relaxed text-sm sm:text-base">
+                  <p className="text-gray-400 mb-6 leading-relaxed text-sm sm:text-base text-justify md:text-start">
                     Our platform leverages machine learning to analyze usage
                     trends, minimize inefficiencies, and promote smarter, more
                     sustainable operations.
@@ -296,7 +296,8 @@ const Footer = () => {
                 <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
                   <div className="text-center md:text-center">
                     <p className="text-gray-400 text-sm sm:text-base">
-                      &copy; {currentYear} TechCulture Solutions Pvt. Ltd. All rights reserved.
+                      &copy; {currentYear} TechCulture Solutions Pvt. Ltd. All
+                      rights reserved.
                     </p>
                   </div>
 

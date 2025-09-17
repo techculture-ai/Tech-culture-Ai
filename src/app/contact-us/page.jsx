@@ -260,7 +260,7 @@ const ContactUs = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       className="w-full h-12 bg-[#000319] border border-[rgba(255,255,255,0.2)] rounded-lg px-4 text-white placeholder-white/50 focus:border-primary focus:outline-none transition-all"
-                      placeholder="+1 (555) 123-4567"
+                      placeholder="+91 123 456 7890"
                     />
                   </div>
                   <div>
@@ -400,12 +400,12 @@ const ContactUs = () => {
                   We typically respond to all inquiries within 24 hours. For
                   urgent matters, call us directly for immediate assistance.
                 </p>
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-green-400 text-[14px] font-medium">
                     Our team is online
                   </span>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

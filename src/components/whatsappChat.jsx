@@ -5,7 +5,7 @@ import { MessageCircle, X, Send } from "lucide-react";
 const WhatsAppChat = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
- const contact = 8799720115
+ const contact = 7428238091
 
   const quickMessages = [
     "Tell me about your AI services",

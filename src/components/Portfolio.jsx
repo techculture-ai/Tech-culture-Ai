@@ -72,7 +72,7 @@ export default function ProjectCards() {
           <h2 className="mainHd text-[50px] font-bold text-white leading-[60px] text-center">
             <span className="text-gred">Our </span> Portfolio
           </h2>
-          <p className="text-white/80 font-light text-[20px] py-3 text-center w-[90%] lg:w-[50%] m-auto">
+          <p className="text-white/80 font-light text-[20px] py-3 text-justify md:text-center w-[90%] lg:w-[50%] m-auto ">
             Using machine learning to track usage patterns, our platform reduces
             energy overuse and improves operational sustainability.
           </p>

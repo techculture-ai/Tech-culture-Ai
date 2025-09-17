@@ -123,8 +123,8 @@ const OurWorkspace = () => {
       <section className="py-20 bg-[#000319] min-h-screen custom-scrollbar">
         <div className="container mx-auto px-4">
           {/* Stats and Controls */}
-          <div className="mb-12">
-            {/* <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
+          {/* <div className="mb-12">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
               
               <div className="flex items-center gap-8">
                 <div className="text-center">
@@ -146,11 +146,11 @@ const OurWorkspace = () => {
                   <div className="text-gray-400 text-sm">Showing</div>
                 </div>
               </div>
-            </div> */}
+            </div>
 
-            {/* Search and Filter */}
+            
             <div className="flex flex-col md:flex-row gap-4">
-              {/* Search */}
+              
               <div className="relative flex-1">
                 <IoSearchOutline className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
@@ -162,7 +162,7 @@ const OurWorkspace = () => {
                 />
               </div>
 
-              {/* Category Filter */}
+             
               <div className="relative">
                 <select
                   value={selectedCategory}
@@ -193,7 +193,7 @@ const OurWorkspace = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Images Grid */}
           {filteredImages.length > 0 ? (
@@ -235,7 +235,7 @@ const OurWorkspace = () => {
                     </h3>
                     <div className="flex items-center justify-between text-gray-400 text-sm">
                       <span className="capitalize">{image.category}</span>
-                      <span>{formatDate(image.createdAt)}</span>
+                      {/* <span>{formatDate(image.createdAt)}</span> */}
                     </div>
                   </div>
                 </div>
@@ -308,9 +308,9 @@ const OurWorkspace = () => {
                   <span className="px-3 py-1 bg-orange-500/20 backdrop-blur-sm text-orange-300 text-sm font-medium rounded-full border border-orange-500/30">
                     {selectedImage.category}
                   </span>
-                  <span className="text-gray-300 text-sm">
+                  {/* <span className="text-gray-300 text-sm">
                     {formatDate(selectedImage.createdAt)}
-                  </span>
+                  </span> */}
                 </div>
               </div>
             </div>

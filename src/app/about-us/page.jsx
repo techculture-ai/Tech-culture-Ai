@@ -110,15 +110,13 @@ const About = () => {
               className="info w-[50%] flex flex-col gap-5"
               data-aos="fade-left"
             >
-              
-
               <h2 className="mainHd text-[50px] font-bold text-white leading-[60px]">
                 Driving Business Excellence Through
                 <br />
                 <span className="text-gred">AI Innovation</span>
               </h2>
 
-              <p className="text-white/70 text-[20px]">
+              <p className="text-white/70 text-[20px] text-justify">
                 At Techculture, we specialize in delivering cutting edge AI
                 driven solutions that redefine the way organizations function.
                 With more than 8 years of expertise in technology and
@@ -196,7 +194,7 @@ const About = () => {
                     Our Mission
                   </h3>
                 </div>
-                <p className="text-white/80 text-[18px] leading-7">
+                <p className="text-white/80 text-[18px] leading-7 text-justify md:text-start">
                   We are committed to helping businesses across the globe
                   harness the power of intelligent solutions that simplify
                   complex processes, improve efficiency, and build long-term
@@ -244,7 +242,7 @@ const About = () => {
                     Our Vision
                   </h3>
                 </div>
-                <p className="text-white/80 text-[18px] leading-7">
+                <p className="text-white/80 text-[18px] leading-7 text-justify md:text-start">
                   Our vision is to lead the world in delivering AI-driven
                   solutions for business, empowering organizations everywhere to
                   unlock artificial intelligence&apos;s potential and drive
@@ -280,7 +278,6 @@ const About = () => {
       <section className=" bg-[#000319]">
         <div className="container">
           <div className="text-center mb-16">
-            
             <h2 className="mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2">
               What <span className="text-gred">Drives Us</span>
             </h2>
@@ -305,7 +302,7 @@ const About = () => {
                     <h4 className="text-[24px] font-bold text-white">
                       {value.title}
                     </h4>
-                    <p className="text-white/70 text-[16px] leading-6">
+                    <p className="text-white/70 text-[16px] leading-6 text-justify md:text-start">
                       {value.description}
                     </p>
                   </div>
@@ -376,7 +373,6 @@ const About = () => {
       <section className="py-20 bg-[#000319]">
         <div className="container">
           <div className="text-center mb-16">
-            
             <h2 className="mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2">
               Why We&apos;re <span className="text-gred">Different</span>
             </h2>
@@ -397,7 +393,7 @@ const About = () => {
               <h4 className="text-[24px] font-bold text-white mb-4">
                 Deep Expertise
               </h4>
-              <p className="text-white/70 text-[16px]">
+              <p className="text-white/70 text-[16px] text-justify md:text-center">
                 Our team of AI specialists brings decades of combined experience
                 in machine learning, data science, and business automation.
               </p>
@@ -415,7 +411,7 @@ const About = () => {
               <h4 className="text-[24px] font-bold text-white mb-4">
                 Custom Solutions
               </h4>
-              <p className="text-white/70 text-[16px]">
+              <p className="text-white/70 text-[16px] text-justify md:text-center">
                 Every business is unique. We create tailored AI solutions that
                 perfectly align with your specific needs and business
                 objectives.
@@ -434,7 +430,7 @@ const About = () => {
               <h4 className="text-[24px] font-bold text-white mb-4">
                 Proven Results
               </h4>
-              <p className="text-white/70 text-[16px]">
+              <p className="text-white/70 text-[16px] text-justify md:text-center">
                 With 200+ successful projects and a 98% client satisfaction
                 rate, we have a proven track record of delivering exceptional
                 results.

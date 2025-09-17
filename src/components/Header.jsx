@@ -101,11 +101,7 @@ const Header = () => {
             toast.error("Please enter your phone number");
             return;
           }
-          
-          if (!enquiryForm.message.trim()) {
-            toast.error("Please enter your message");
-            return;
-          }
+      
     
           // Email validation
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

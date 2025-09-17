@@ -38,7 +38,7 @@ const About = () => {
                 <span className="text-gred">AI Innovation</span>
               </h2>
 
-              <p className="text-white/70 text-[20px]">
+              <p className="text-white/70 text-[20px] text-justify">
                 At Techculture, we specialize in delivering cutting edge AI
                 driven solutions that redefine the way organizations function.
                 With more than 8 years of expertise in technology and
