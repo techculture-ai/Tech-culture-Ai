@@ -5,13 +5,21 @@ import "./responsive.css";
 import { SiteProvider } from "@/context/siteContext";
 import { Toaster } from "react-hot-toast";
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 export const metadata = {
   title: "TechCulture AI",
-  description:
-    "Leading IT & Technology Solutions company specializing in Hardware, Software, Enterprise, and GIS Solutions.",
+  description: "Ready to Redefine Success with Technology That Works?",
   icons: {
     icon: "/favicon.ico",
   },
+  images: [
+    {
+      "url": `${baseUrl}/aiml.png`,
+      width: 800,
+      height: 600,
+      alt: "TechCulture AI",
+    }
+  ]
 };
 
 export default function RootLayout({ children }) {

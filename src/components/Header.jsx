@@ -217,6 +217,16 @@ const Header = () => {
                 )}
               </Link>
               <Link
+                href={"/our-workspace"}
+                className={getLinkClasses("/our-workspace")}
+                onClick={() => setIsOpenNav(false)}
+              >
+                Our Workspace
+                {isActiveLink("/our-workspace") && (
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                )}
+              </Link>
+              {/* <Link
                 href={"/client-stories"}
                 className={getLinkClasses("/client-stories")}
                 onClick={() => setIsOpenNav(false)}
@@ -225,7 +235,7 @@ const Header = () => {
                 {isActiveLink("/client-stories") && (
                   <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
                 )}
-              </Link>
+              </Link> */}
               {/* <Link
                 href={"/team"}
                 className={getLinkClasses("/team")}

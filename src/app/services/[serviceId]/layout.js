@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
           type: 'website',
           images: [
             {
-              url: `${baseUrl}/images/default-og-image.jpg`,
+              url: `${baseUrl}/aiml.png`,
               width: 1200,
               height: 630,
               alt: 'TechCulture AI - Professional Technology Services',
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }) {
           card: 'summary_large_image',
           title: 'Service Not Found | TechCulture AI',
           description: 'The requested service could not be found. Explore our AI-driven technology solutions.',
-          images: [`${baseUrl}/images/default-og-image.jpg`],
+          images: [`${baseUrl}/aiml.png`],
         },
       };
     }
@@ -70,7 +70,7 @@ export async function generateMetadata({ params }) {
       const serviceUrl = `${baseUrl}/services/${serviceSlug}`;
       
       // Open Graph image - use service image or fallback
-      const ogImage = service.image || `${baseUrl}/images/default-service-og.jpg`;
+      const ogImage = service.image || `${baseUrl}/aiml.png`;
       
       return {
         title: serviceTitle,
