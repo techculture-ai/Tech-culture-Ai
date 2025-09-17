@@ -38,6 +38,7 @@ import {
   SiFirebase,
   SiNextdotjs,
   SiTailwindcss,
+  SiCodeigniter,
 } from "react-icons/si";
 
 
@@ -67,6 +68,7 @@ const iconMap = {
   "Next.js": <SiNextdotjs className="w-6 h-6 text-primary" />,
   Tailwind: <SiTailwindcss className="w-6 h-6 text-primary" />,
   Bootstrap: <FaBootstrap className="w-6 h-6 text-primary" />,
+  CodeIgniter: <SiCodeigniter className="w-6 h-6 text-primary" />,
 };
 
 

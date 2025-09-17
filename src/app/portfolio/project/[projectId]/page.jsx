@@ -126,13 +126,13 @@ export default function ProjectDetailPage() {
     }
 
   
-    const loadingToast = toast.loading("Submitting your enquiry...");
+    // const loadingToast = toast.loading("Submitting your enquiry...");
 
     try {
       const res = await axios.post(`${apiBaseUrl}/api/enquiries`, enquiryForm);
 
       if (res.status === 201) {
-        toast.dismiss(loadingToast);
+        // toast.dismiss(loadingToast);
         toast.success(
           "Enquiry submitted successfully! We'll get back to you soon."
         );
@@ -144,11 +144,11 @@ export default function ProjectDetailPage() {
         });
         setShowEnquiryPopup(false);
       } else {
-        toast.dismiss(loadingToast);
+        // toast.dismiss(loadingToast);
         toast.error("Failed to submit enquiry. Please try again.");
       }
     } catch (error) {
-      toast.dismiss(loadingToast);
+      // toast.dismiss(loadingToast);
       console.error("Error submitting enquiry form:", error);
 
       if (error.response?.data?.message) {
