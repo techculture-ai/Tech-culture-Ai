@@ -272,7 +272,7 @@ const Footer = () => {
                     {serviceLinks && serviceLinks.map((link) => (
                       <li key={link.slug}>
                         <Link
-                          href={`services/${link.slug}`}
+                          href={`/services/${link.slug}`}
                           className="text-gray-400 hover:text-orange-400 transition-colors duration-300 flex items-center gap-2 group text-sm sm:text-base"
                         >
                           <span className="group-hover:translate-x-1 transition-transform duration-300">

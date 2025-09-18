@@ -224,9 +224,9 @@ export default function ProjectDetailPage() {
             Back
           </button>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* Project Image */}
-            <div className="relative">
+            <div className="sticky top-8">
               <div className="aspect-[4/3] relative rounded-2xl overflow-hidden">
                 <img
                   src={project.image}
@@ -249,17 +249,23 @@ export default function ProjectDetailPage() {
             </div>
 
             {/* Project Details */}
-            <div>
+            <div className="space-y-6">
               {/* <h1 className="text-4xl lg:text-5xl font-bold mb-6">
                 <span className="text-gred">{project.title}</span>
               </h1> */}
-              <p className="text-xl font-semibold mb-2">Description</p>
-              <p className="text-white/80 text-lg leading-relaxed mb-6">
-                {project.description}
-              </p>
+              
+              {/* Description Section */}
+              <div>
+                <p className="text-xl font-semibold mb-4">Description</p>
+                <div 
+                  className="prose-project-description text-lg leading-relaxed max-w-none"
+                  dangerouslySetInnerHTML={{ __html: project.description }}
+                />
+              </div>
 
+              {/* Location Section */}
               {project.location && (
-                <div className="mb-6">
+                <div>
                   <h3 className="text-xl font-semibold mb-2">Location</h3>
                   <p className="text-white/70">📍 {project.location}</p>
                 </div>
@@ -267,7 +273,7 @@ export default function ProjectDetailPage() {
 
               {/* Technologies */}
               {project.technologies && project.technologies.length > 0 && (
-                <div className="mb-6">
+                <div>
                   <h3 className="text-xl font-semibold mb-4">
                     Technologies Used
                   </h3>
