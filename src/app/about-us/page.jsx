@@ -98,15 +98,15 @@ const About = () => {
         <div className="container">
           <div className="flex items-center gap-20 wrapper">
             <div className="img relative w-[50%]" data-aos="fade-right">
-              <Image src="/about__2.png" alt="image" fill/>
+              <Image src="/about__2.png" alt="image" width={500} height={400} />
               {/* <span className="animateText txt-shadow">About Us</span> */}
               <Image
                 src="/about__small__img__2.png"
                 className="aboutIconImg absolute md:top-16 md:right-40 top-0 right-0 "
                 alt="image"
-                fill
-              />             
-              
+                width={100}
+                height={100}
+              />
             </div>
 
             <div
