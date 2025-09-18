@@ -9,6 +9,7 @@ import { useSite } from "@/context/siteContext";
 import AIPageHeader from "../../components/AIPageHeader";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Image from "next/image";
 
 const Team = () => {
   const { teamData, setTeamData } = useSite();
@@ -96,10 +97,13 @@ const Team = () => {
                
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                <img
+                <Image
                   src={member.image}
                   alt={member.name}
                   className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-500"
+                  width={400}
+                  height={384}
+                  style={{objectFit: 'cover'}}
                 />
 
                 <div className="info absolute top-0 left-0 w-full h-full z-50 p-6 flex justify-between flex-col">
@@ -171,10 +175,13 @@ const Team = () => {
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                    <img
+                    <Image
                       src={member.profilePicture || "/team.png"}
                       alt={member.name}
                       className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-500"
+                      width={400}
+                      height={384}
+                      style={{objectFit: 'cover'}}
                     />
 
                     <div className="info absolute top-0 left-0 w-full h-full z-50 p-6 flex justify-between flex-col">

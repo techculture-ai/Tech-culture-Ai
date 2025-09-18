@@ -9,6 +9,7 @@ import { MdOutlineShowChart } from "react-icons/md";
 import { FiUsers } from "react-icons/fi";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { useRouter } from 'next/navigation';
+import Image from "next/image";
 
 const About = () => {
 
@@ -23,12 +24,14 @@ const About = () => {
         <div className="container">
           <div className="flex items-center gap-20 wrapper">
             <div className="img relative w-[50%]">
-              <img src="/about__2.png" alt="image" />
+              <Image src="/about__2.png" alt="image" width={500} height={400} />
               {/* <span className="animateText txt-shadow">About Us</span> */}
-              <img
+              <Image
                 src="/about__small__img__2.png"
                 className="aboutIconImg absolute md:top-16 md:right-40 top-0 right-0 "
                 alt="image"
+                width={100}
+                height={100}
               />
             </div>
 

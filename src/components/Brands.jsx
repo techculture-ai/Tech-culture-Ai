@@ -2,6 +2,7 @@ import { useSite } from '@/context/siteContext';
 import axios from 'axios';
 import React, { useEffect } from 'react'
 import Marquee from "react-fast-marquee";
+import Image from "next/image";
 export const Brands = () => {
 
   const { settingsData, setSettingsData } = useSite();
@@ -36,7 +37,7 @@ export const Brands = () => {
             {setSettingsData && 
             settingsData?.clients.map((url,index) => (
               <div className='box bg-[#1e293b80] p-11 flex items-center justify-center rounded-lg h-28 w-52' key={index}>
-                <img src={url} className='w-full' alt='image' />
+                <Image src={url} className='w-full' alt='image' width={150} height={80} style={{objectFit: 'contain'}} />
               </div>
             ))}  
           </Marquee>

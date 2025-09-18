@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { GoArrowUpRight } from "react-icons/go";
 import AIPageHeader from "../../components/AIPageHeader";
 import axios from "axios";
+import Image from "next/image";
 
 export default function ProjectCards() {
   const { categoryData, setCategoryData } = useSite();
@@ -96,10 +97,13 @@ export default function ProjectCards() {
                       handleCategoryClick(category._id, category.name)
                     }
                   >
-                    <img
+                    <Image
                       src={category?.image}
                       alt={category.name}
                       className="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-110"
+                      width={400}
+                      height={500}
+                      style={{objectFit: 'cover'}}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                     {projectCounts[category._id] > 0 && (

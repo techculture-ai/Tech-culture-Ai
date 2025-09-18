@@ -1,6 +1,7 @@
 "use client"
 import React, { useRef } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
+import Image from "next/image";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -19,7 +20,7 @@ const Testimonials = () => {
     return (
         <section className='py-20 pb-10'>
             <div className='container relative'>
-                <img src={"/testimonial__small__img.png"} alt='image' className='testimonial__2__small__icon' />
+                <Image src="/testimonial__small__img.png" alt='image' className='testimonial__2__small__icon' width={100} height={100} />
                 <div className='flex items-center justify-center'>
                     <span className='bg-orange-50 p-1 px-3 border border-[#ffad4f] rounded-full 
                     text-[14px] text-primary'>CUSTOMER STORIES</span>
@@ -55,7 +56,7 @@ const Testimonials = () => {
                                 <div className='flex items-center justify-between gap-5 mt-5'>
                                     <div className='flex items-center gap-5'>
                                         <div className='flex items-center justify-center rounded-full w-20 h-20'>
-                                            <img src={"https://foxpixel.vercel.app/bastun/bastun/img/testimonial/testimonial__3.png"} alt='image' className='w-full h-full object-cover' />
+                                            <Image src="https://foxpixel.vercel.app/bastun/bastun/img/testimonial/testimonial__3.png" alt='image' className='w-full h-full object-cover' width={80} height={80} />
                                         </div>
 
                                         <div className='info flex flex-col'>
@@ -64,7 +65,7 @@ const Testimonials = () => {
                                         </div>
                                     </div>
 
-                                    <img src={"/testimonial__small.png"} alt='image' />
+                                    <Image src="/testimonial__small.png" alt='image' width={40} height={40} />
                                 </div>
                             </div>
                         </SwiperSlide>
@@ -79,7 +80,7 @@ const Testimonials = () => {
                                 <div className='flex items-center justify-between gap-5 mt-5'>
                                     <div className='flex items-center gap-5'>
                                         <div className='flex items-center justify-center rounded-full w-20 h-20'>
-                                            <img src={"https://foxpixel.vercel.app/bastun/bastun/img/testimonial/testimonial__3.png"} alt='image' className='w-full h-full object-cover' />
+                                            <Image src="https://foxpixel.vercel.app/bastun/bastun/img/testimonial/testimonial__3.png" alt='image' className='w-full h-full object-cover' width={80} height={80} />
                                         </div>
 
                                         <div className='info flex flex-col'>
@@ -88,7 +89,7 @@ const Testimonials = () => {
                                         </div>
                                     </div>
 
-                                    <img src={"/testimonial__small.png"} alt='image' />
+                                    <Image src="/testimonial__small.png" alt='image' width={40} height={40} />
                                 </div>
                             </div>
                         </SwiperSlide>
@@ -104,7 +105,7 @@ const Testimonials = () => {
                                 <div className='flex items-center justify-between gap-5 mt-5'>
                                     <div className='flex items-center gap-5'>
                                         <div className='flex items-center justify-center rounded-full w-20 h-20'>
-                                            <img src={"https://foxpixel.vercel.app/bastun/bastun/img/testimonial/testimonial__3.png"} alt='image' className='w-full h-full object-cover' />
+                                            <Image src="https://foxpixel.vercel.app/bastun/bastun/img/testimonial/testimonial__3.png" alt='image' className='w-full h-full object-cover' width={80} height={80} />
                                         </div>
 
                                         <div className='info flex flex-col'>
@@ -113,7 +114,7 @@ const Testimonials = () => {
                                         </div>
                                     </div>
 
-                                    <img src={"/testimonial__small.png"} alt='image' />
+                                    <Image src="/testimonial__small.png" alt='image' width={40} height={40} />
                                 </div>
                             </div>
                         </SwiperSlide>
@@ -129,7 +130,7 @@ const Testimonials = () => {
                                 <div className='flex items-center justify-between gap-5 mt-5'>
                                     <div className='flex items-center gap-5'>
                                         <div className='flex items-center justify-center rounded-full w-20 h-20'>
-                                            <img src={"https://foxpixel.vercel.app/bastun/bastun/img/testimonial/testimonial__3.png"} alt='image' className='w-full h-full object-cover' />
+                                            <Image src="https://foxpixel.vercel.app/bastun/bastun/img/testimonial/testimonial__3.png" alt='image' className='w-full h-full object-cover' width={80} height={80} />
                                         </div>
 
                                         <div className='info flex flex-col'>
@@ -138,7 +139,7 @@ const Testimonials = () => {
                                         </div>
                                     </div>
 
-                                    <img src={"/testimonial__small.png"} alt='image' />
+                                    <Image src="/testimonial__small.png" alt='image' width={40} height={40} />
                                 </div>
                             </div>
                         </SwiperSlide>

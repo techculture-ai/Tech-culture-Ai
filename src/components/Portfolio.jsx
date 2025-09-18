@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GoArrowUpRight } from "react-icons/go";
+import Image from "next/image";
 
 // const projects = [
 //     {
@@ -85,10 +86,13 @@ export default function ProjectCards() {
                   className="group relative flex-1 basis-2/7 overflow-hidden rounded-3xl shadow-lg cursor-pointer transition-all duration-500 hover:flex-[2]"
                   onClick={() => handleCategoryClick(category._id, category.name)}
                 >
-                  <img
+                  <Image
                     src={category?.image}
                     alt={category.name}
                     className="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-110"
+                    width={400}
+                    height={500}
+                    style={{objectFit: 'cover'}}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                   <div className="absolute top-4 right-4 bg-white text-black rounded-full p-2 group-hover:bg-primary group-hover:text-white transition">

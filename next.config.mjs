@@ -32,6 +32,11 @@ const nextConfig = {
         hostname: "res.cloudinary.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "seoc-html-v2.vercel.app",
+        port: "",
+      },
     ],
   },
 };

@@ -2,10 +2,11 @@ import React from 'react'
 import { IoStar } from "react-icons/io5";
 import { FaCircleCheck } from "react-icons/fa6";
 import { TypeAnimation } from 'react-type-animation';
+import Image from "next/image";
 const HomeScreen = () => {
     return (
       <section className="homeScreen h-[1200px] relative">
-        <img src={"/plus.png"} alt="image" className="plusImg keyframe5" />
+        <Image src="/plus.png" alt="image" className="plusImg keyframe5" width={50} height={50} />
         <div className="container">
           <div className="flex items-center justify-center pt-[100px] lg:pt-[200px]">
             
@@ -71,10 +72,12 @@ const HomeScreen = () => {
             </span>
           </h2>
 
-          <img
-            src={"/homeScreenaimg3.png"}
+          <Image
+            src="/homeScreenaimg3.png"
             alt="image"
             className="absolute top-96 left-36 aniamtion-key-2"
+            width={200}
+            height={200}
           />
 
           <br />
@@ -88,18 +91,20 @@ const HomeScreen = () => {
           </p>
 
           <div className="homeScreenImg absolute bottom-0 left-0 w-full text-center flex items-center justify-center">
-            <img
-              src={
-                "https://seoc-html-v2.vercel.app/assets/img/all-images/new-img/header-img14.png"
-              }
+            <Image
+              src="https://seoc-html-v2.vercel.app/assets/img/all-images/new-img/header-img14.png"
               alt="img"
               className="w-[750px] hidden lg:block"
+              width={750}
+              height={500}
             />
 
-            <img
-              src={"/elements29.png"}
+            <Image
+              src="/elements29.png"
               className="homeScreen_img2 absolute homeScreen_img2Animation"
               alt="image"
+              width={100}
+              height={100}
             />
 
             <div
@@ -129,7 +134,7 @@ const HomeScreen = () => {
                 <br />& assigned to grow your business.”
               </h4>
               <span className="text-primary text-[16px] text-left flex items-center gap-1">
-                <img src={"/star1.png"} alt="image" />
+                <Image src="/star1.png" alt="image" width={16} height={16} />
                 CEO & Founder
               </span>
             </div>

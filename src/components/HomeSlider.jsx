@@ -1,6 +1,7 @@
 "use client"
 import React, { useRef } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
+import Image from "next/image";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -36,7 +37,7 @@ const HomeSlider = () => {
             >
                 <SwiperSlide>
                     <div className="item bg-[url('/slide1.jpg')] h-screen w-full bg-cover bg-center relative">
-                        <img src={"/slide1.jpg"} className='w-full h-screen object-cover' />
+                        <Image src="/slide1.jpg" className='w-full h-screen object-cover' alt="slide1" fill style={{objectFit: 'cover'}} />
                         <div className='info absolute top-[25%] left-[5.6%] w-[70%] h-screen flex flex-col z-[60] gap-4'>
                             <div className='block'>
                                 <span className='bg-[rgba(255,255,255,0.1)] inline-block text-gray-300 text-[14px] font-light rounded-full px-4 py-1 border border-[rgba(255,255,255,0.1)]'>Cloud Solutions</span>
@@ -60,7 +61,7 @@ const HomeSlider = () => {
 
                 <SwiperSlide>
                     <div className="item bg-[url('/slide2.jpg')] h-screen w-full bg-cover bg-center relative">
-                        <img src={"/slide2.jpg"} className='w-full h-screen object-cover' />
+                        <Image src="/slide2.jpg" className='w-full h-screen object-cover' alt="slide2" fill style={{objectFit: 'cover'}} />
                         <div className='info absolute top-[25%] left-[5.6%] w-[70%] h-screen flex flex-col z-[60] gap-4'>
                             <div className='block'>
                                 <span className='bg-[rgba(255,255,255,0.1)] inline-block text-gray-300 text-[14px] font-light rounded-full px-4 py-1 border border-[rgba(255,255,255,0.1)]'>Cybersecurity & Compliance</span>

@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
+import Image from "next/image";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -83,10 +84,13 @@ const Team = () => {
               teamData.map((member, index) => (
                 <SwiperSlide key={index}>
                   <div className="teamItem relative rounded-lg overflow-hidden border border-[rgba(255,255,255,0.1)]">
-                    <img
+                    <Image
                       src={member.profilePicture}
                       alt={member.name}
                       className="w-full"
+                      width={400}
+                      height={500}
+                      style={{objectFit: 'cover'}}
                     />
                     <div className="info absolute top-0 left-0 w-full h-full z-50 p-5 flex justify-between flex-col">
                       <h4 className="text-white/70">{member.designation}</h4>

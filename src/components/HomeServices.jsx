@@ -7,6 +7,7 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import { IoIosArrowRoundDown } from "react-icons/io";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import axios from 'axios';
+import Image from "next/image";
 
 const HomeServices = () => {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -84,10 +85,13 @@ const HomeServices = () => {
                       key={`main-home-${item._id}-${index}`}
                       className="box h-64 sm:h-80 lg:h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all"
                     >
-                      <img
+                      <Image
                         src={item?.image}
                         className="full transition-all h-full object-cover"
                         alt={item?.title || "Service"}
+                        width={400}
+                        height={400}
+                        style={{objectFit: 'cover'}}
                       />
                       <div className="info p-3 sm:p-4 lg:p-6 absolute top-0 left-0 z-50 w-full h-full ">
                         <div className="flex justify-between items-center !absolute bottom-3 sm:bottom-4 lg:bottom-5 pr-3 sm:pr-4 lg:pr-5 w-[96%]">

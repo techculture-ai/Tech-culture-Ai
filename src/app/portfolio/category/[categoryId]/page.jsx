@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { GoArrowUpRight } from "react-icons/go";
 import { useSite } from "@/context/siteContext";
 import AIPageHeader from "@/components/AIPageHeader";
+import Image from "next/image";
 
 export default function CategoryProjectsPage() {
   const router = useRouter();
@@ -142,10 +143,13 @@ export default function CategoryProjectsPage() {
                   onClick={() => handleProjectClick(project._id, project.title)}
                 >
                   <div className="aspect-[4/3] relative">
-                    <img
+                    <Image
                       src={project.image}
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      width={400}
+                      height={300}
+                      style={{objectFit: 'cover'}}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
 

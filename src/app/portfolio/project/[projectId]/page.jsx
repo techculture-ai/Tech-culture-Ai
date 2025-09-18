@@ -9,6 +9,7 @@ import { useSite } from "@/context/siteContext";
 import AIPageHeader from "@/components/AIPageHeader";
 import { IoClose } from "react-icons/io5";
 import { toast } from "react-hot-toast";
+import Image from "next/image";
 
 export default function ProjectDetailPage() {
   const router = useRouter();
@@ -228,10 +229,13 @@ export default function ProjectDetailPage() {
             {/* Project Image */}
             <div className="sticky top-8">
               <div className="aspect-[4/3] relative rounded-2xl overflow-hidden">
-                <img
+                <Image
                   src={project.image}
                   alt={project.title}
                   className="w-full h-full object-cover"
+                  width={600}
+                  height={450}
+                  style={{objectFit: 'cover'}}
                 />
                 {/* Status Badge */}
                 <div className="absolute top-4 left-4">
@@ -383,10 +387,13 @@ export default function ProjectDetailPage() {
                     <div className="bg-gray-900/50 rounded-2xl overflow-hidden border border-gray-700/50 hover:border-orange-500/30 transition-all duration-300 group-hover:transform group-hover:-translate-y-2">
                       {/* Project Image */}
                       <div className="aspect-[4/3] relative overflow-hidden">
-                        <img
+                        <Image
                           src={relatedProject.image}
                           alt={relatedProject.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          width={400}
+                          height={300}
+                          style={{objectFit: 'cover'}}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 

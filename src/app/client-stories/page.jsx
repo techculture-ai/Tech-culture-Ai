@@ -10,6 +10,7 @@ import AIPageHeader from "../../components/AIPageHeader";
 import { Brands } from "@/components/Brands";
 import { FiHeart } from "react-icons/fi";
 import { testimonialService } from "../../services/testimonialService";
+import Image from "next/image";
 
 const ClientStories = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -186,11 +187,12 @@ const ClientStories = () => {
                 >
                   {/* Background Image */}
                   <div className="absolute inset-0">
-                    <img
+                    <Image
                       src={testimonial.backgroundImage}
                       alt="Background"
                       className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                       style={{ filter: "brightness(0.3) contrast(1.2)" }}
+                      fill
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/20"></div>
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-orange-400/20 opacity-60"></div>
@@ -337,11 +339,13 @@ const ClientStories = () => {
               </button>
 
               <div className="relative h-80">
-                <img
+                <Image
                   src={selectedTestimonial.backgroundImage}
                   alt="Background"
                   className="w-full h-full object-cover"
-                  style={{ filter: "brightness(0.4)" }}
+                  style={{ filter: "brightness(0.4)", objectFit: 'cover' }}
+                  width={800}
+                  height={320}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
 

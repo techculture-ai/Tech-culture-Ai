@@ -13,6 +13,7 @@ import {
   FaExpand
 } from "react-icons/fa";
 import { HiSparkles, HiFire } from "react-icons/hi";
+import Image from "next/image";
 import { BsArrowRight, BsEye, BsGithub } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { MdVerified } from "react-icons/md";
@@ -163,10 +164,13 @@ const ProjectDetail = () => {
             {/* Project Image */}
             <div className="relative group">
               <div className="relative overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
-                <img
+                <Image
                   src={project.image}
                   alt={project.title}
                   className="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-110"
+                  width={600}
+                  height={400}
+                  style={{objectFit: 'cover'}}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
@@ -304,10 +308,13 @@ const ProjectDetail = () => {
                     className="group relative overflow-hidden rounded-2xl border border-white/10 cursor-pointer transform hover:scale-105 transition-all duration-500"
                     onClick={() => handleImageClick(imageUrl, index)}
                   >
-                    <img
+                    <Image
                       src={imageUrl}
                       alt={`${project.title} - Image ${index + 1}`}
                       className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                      width={400}
+                      height={256}
+                      style={{objectFit: 'cover'}}
                     />
 
                     {/* Overlay */}
@@ -408,10 +415,13 @@ const ProjectDetail = () => {
               )}
 
               {/* Image */}
-              <img
+              <Image
                 src={selectedImage}
                 alt={`${project.title} - Gallery Image`}
                 className="w-full h-auto max-h-[90vh] object-contain rounded-2xl"
+                width={800}
+                height={600}
+                style={{objectFit: 'contain'}}
               />
 
               {/* Image Counter */}

@@ -18,6 +18,7 @@ import { FiPhone } from "react-icons/fi";
 import Link from "next/link";
 import AIPageHeader from "../../components/AIPageHeader";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const About = () => {
   const router = useRouter();
@@ -97,13 +98,15 @@ const About = () => {
         <div className="container">
           <div className="flex items-center gap-20 wrapper">
             <div className="img relative w-[50%]" data-aos="fade-right">
-              <img src="/about__2.png" alt="image" />
+              <Image src="/about__2.png" alt="image" fill/>
               {/* <span className="animateText txt-shadow">About Us</span> */}
-              <img
+              <Image
                 src="/about__small__img__2.png"
                 className="aboutIconImg absolute md:top-16 md:right-40 top-0 right-0 "
                 alt="image"
-              />
+                fill
+              />             
+              
             </div>
 
             <div

@@ -8,6 +8,7 @@ import { IoIosArrowRoundUp } from "react-icons/io";
 import { useSite } from "@/context/siteContext";
 import axios from "axios";
 import AIPageHeader from "../../components/AIPageHeader";
+import Image from "next/image";
 
 const HomeServices = () => {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -186,11 +187,14 @@ const HomeServices = () => {
                         }ms`,
                       }}
                     >
-                      <img
+                      <Image
                         src={item?.image}
                         className="w-full h-full object-cover transition-all duration-300 group-hover:scale-110"
                         alt={item?.title || "Service"}
                         loading="lazy"
+                        width={400}
+                        height={300}
+                        style={{objectFit: 'cover'}}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                       <div className="info p-4 sm:p-6 absolute bottom-0 left-0 z-50 w-full">
@@ -289,11 +293,14 @@ const HomeServices = () => {
                         }ms`,
                       }}
                     >
-                      <img
+                      <Image
                         src={item?.image}
                         className="w-full h-full object-cover transition-all duration-300 group-hover:scale-110"
                         alt={item?.title || "Service"}
                         loading="lazy"
+                        width={400}
+                        height={300}
+                        style={{objectFit: 'cover'}}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                       <div className="info p-4 sm:p-6 absolute bottom-0 left-0 z-50 w-full">
