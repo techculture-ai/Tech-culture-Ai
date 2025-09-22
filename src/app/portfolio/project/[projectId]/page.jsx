@@ -229,13 +229,10 @@ export default function ProjectDetailPage() {
             {/* Project Image */}
             <div className="sticky top-8">
               <div className="aspect-[4/3] relative rounded-2xl overflow-hidden">
-                <Image
+                <img
                   src={project.image}
                   alt={project.title}
                   className="w-full h-full object-cover"
-                  width={600}
-                  height={450}
-                  style={{objectFit: 'cover'}}
                 />
                 {/* Status Badge */}
                 <div className="absolute top-4 left-4">
