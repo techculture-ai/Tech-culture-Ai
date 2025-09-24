@@ -196,7 +196,7 @@ export default function ProjectDetailPage() {
     <div className="min-h-screen bg-black text-white">
       {project && (
         <AIPageHeader
-          title={`${project.title} Projects`}
+          title={`${project.title}`}
           subtitle="Transforming Business Through Intelligent Innovation"
           description="Discover how our advanced AI technologies and expert team are revolutionizing the way businesses operate and grow."
           aiWords={["AI-Powered", "Intelligent", "Advanced"]}
