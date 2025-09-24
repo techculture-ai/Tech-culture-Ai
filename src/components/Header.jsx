@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineMenu } from "react-icons/ai";
-import { IoClose } from 'react-icons/io5';
+import { IoClose, IoChevronDown } from 'react-icons/io5';
 import { toast } from 'react-hot-toast';
 import { ImWhatsapp } from "react-icons/im";
 
@@ -23,6 +23,9 @@ const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isOpenNav, setIsOpenNav] = useState(false);
     const [showEnquiryPopup, setShowEnquiryPopup] = useState(false);
+    const [headerServices, setHeaderServices] = useState([]);
+    const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
+    
      const [enquiryForm, setEnquiryFrom] = useState({
        name: "",
        email: "",
@@ -62,6 +65,22 @@ const Header = () => {
             document.body.style.overflow = 'unset';
         };
     }, [showEnquiryPopup]);
+
+    // Fetch header services
+    useEffect(() => {
+        const fetchHeaderServices = async () => {
+            try {
+                const response = await axios.get(`${apiBaseUrl}/api/services?showOnHeader=true`);
+                if (response.status === 200) {
+                    setHeaderServices(response.data.services || []);
+                }
+            } catch (error) {
+                console.error("Error fetching header services:", error);
+            }
+        };
+        
+        fetchHeaderServices();
+    }, [apiBaseUrl]);
 
     const { settingsData, setSettingsData } = useSite();
     useEffect(() => {
@@ -215,6 +234,80 @@ const Header = () => {
                   <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
                 )}
               </Link>
+
+              {/* Services Dropdown */}
+              <div
+                className="relative group"
+                onMouseEnter={() => setIsServicesDropdownOpen(true)}
+                onMouseLeave={() => setIsServicesDropdownOpen(false)}
+              >
+                <div
+                  className={`${getLinkClasses(
+                    "/automation"
+                  )} flex items-center gap-1 cursor-pointer`}
+                >
+                  AI-Automation
+                  <IoChevronDown
+                    className={`text-sm transition-transform duration-300 ${
+                      isServicesDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                  {/* {isActiveLink("/services") && (
+                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                  )} */}
+                </div>
+
+                {/* Dropdown Menu */}
+                <div
+                  className={`absolute top-full left-0 mt-2 min-w-[280px] bg-white dark:bg-gray-800 shadow-2xl rounded-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 ${
+                    isServicesDropdownOpen
+                      ? "opacity-100 visible transform translate-y-0"
+                      : "opacity-0 invisible transform translate-y-2"
+                  }`}
+                >
+                  <div className="overflow-hidden rounded-lg">
+                    {/* View All Services Link */}
+                    {/* <Link
+                      href="/services"
+                      className="block px-4 py-3 text-gray-800 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200 border-b border-gray-100 dark:border-gray-700"
+                      onClick={() => {
+                        setIsOpenNav(false);
+                        setIsServicesDropdownOpen(false);
+                      }}
+                    >
+                      <div className="font-semibold">View All Services</div>
+                      <div className="text-sm opacity-70">
+                        Explore our complete service portfolio
+                      </div>
+                    </Link> */}
+
+                    {/* Individual Services */}
+                    {headerServices.length > 0 ? (
+                      headerServices.map((service) => (
+                        <Link
+                          key={service._id}
+                          href={`/services/${service.slug}`}
+                          className="block px-4 py-3 text-gray-800 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200"
+                          onClick={() => {
+                            setIsOpenNav(false);
+                            setIsServicesDropdownOpen(false);
+                          }}
+                        >
+                          <div className="font-medium">{service.title}</div>
+                          {/* <div className="text-sm opacity-70 line-clamp-1">
+                            {service.description}
+                          </div> */}
+                        </Link>
+                      ))
+                    ) : (
+                      <div className="px-4 py-3 text-gray-500 dark:text-gray-400 text-sm">
+                        No services available
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
               <Link
                 href={"/portfolio"}
                 className={getLinkClasses("/portfolio")}
@@ -260,7 +353,7 @@ const Header = () => {
                 className={getLinkClasses("/team")}
                 onClick={() => setIsOpenNav(false)}
               >
-                Our Experts 
+                Our Experts 
                 {isActiveLink("/team") && (
                   <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
                 )}

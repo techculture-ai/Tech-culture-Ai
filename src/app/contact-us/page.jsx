@@ -289,7 +289,7 @@ const ContactUs = () => {
 
                 <div>
                   <label className="block text-white font-medium mb-2">
-                    Service Interest
+                    Service Interest *
                   </label>
                   <select
                     name="service"
@@ -312,13 +312,13 @@ const ContactUs = () => {
 
                 <div>
                   <label className="block text-white font-medium mb-2">
-                    Message *
+                    Message 
                   </label>
                   <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    required
+                    
                     rows={5}
                     className="w-full bg-[#000319] border border-[rgba(255,255,255,0.2)] rounded-lg px-4 py-3 text-white placeholder-white/50 focus:border-primary focus:outline-none transition-all resize-none"
                     placeholder="Tell us about your project and how we can help..."

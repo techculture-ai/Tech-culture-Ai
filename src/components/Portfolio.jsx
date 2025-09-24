@@ -165,7 +165,7 @@ export default function ProjectCards() {
           size="large"
           onClick={() => router.push("/portfolio")}
         >
-          View All Products
+          View All
         </Button>
       </div>
     </section>

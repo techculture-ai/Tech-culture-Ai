@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { IoArrowBack, IoCheckmarkCircle, IoCalendarOutline, IoLayersOutline } from "react-icons/io5";
+import { IoArrowBack, IoCheckmarkCircle, IoCalendarOutline, IoLayersOutline, IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import AIPageHeader from "../../../components/AIPageHeader";
 import SocialShare from "../../../components/SocialShare";
@@ -16,6 +16,7 @@ const ServiceDetails = () => {
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [relatedServices, setRelatedServices] = useState([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
@@ -67,6 +68,41 @@ const ServiceDetails = () => {
     });
   };
 
+  // Get all images for slider (main image + slider images)
+  const getAllImages = () => {
+    const images = [];
+    if (service?.image) {
+      images.push(service.image);
+    }
+    if (service?.sliderImage && service.sliderImage.length > 0) {
+      images.push(...service.sliderImage);
+    }
+    return images;
+  };
+
+  const allImages = service ? getAllImages() : [];
+  const hasSlider = allImages.length > 1;
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % allImages.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length);
+  };
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
+  // Auto-play slider
+  useEffect(() => {
+    if (hasSlider && allImages.length > 1) {
+      const interval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+      return () => clearInterval(interval);
+    }
+  }, [hasSlider, allImages.length]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#000319] flex items-center justify-center">
@@ -111,7 +147,7 @@ const ServiceDetails = () => {
     <>
       {/* Structured Data for SEO */}
       <StructuredData service={service} />
-      
+
       {/* AI Page Header */}
       <AIPageHeader
         title={service.title}
@@ -136,28 +172,71 @@ const ServiceDetails = () => {
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Main Content */}
             <div className="lg:col-span-2">
-              {/* Service Image */}
-              {service.image && (
+              {/* Service Image/Slider */}
+              {allImages.length > 0 && (
                 <div className="relative h-96 rounded-2xl overflow-hidden mb-8 group">
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <div className="flex items-center gap-3">
-                      <span className="px-4 py-2 bg-orange-500/20 backdrop-blur-sm text-orange-300 text-sm font-medium rounded-full border border-orange-500/30">
-                        {service.category.charAt(0).toUpperCase() +
-                          service.category.slice(1)}
-                      </span>
-                      <span className="px-4 py-2 bg-blue-500/20 backdrop-blur-sm text-blue-300 text-sm font-medium rounded-full border border-blue-500/30 flex items-center gap-2">
-                        <IoCalendarOutline className="w-4 h-4" />
-                        {formatDate(service.createdAt)}
-                      </span>
-                    </div>
-                  </div>
+                  {hasSlider ? (
+                    // Image Slider
+                    <>
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={allImages[currentSlide]}
+                          alt={`${service.title} - Image ${currentSlide + 1}`}
+                          fill
+                          className="object-cover transition-all duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                      </div>
+
+                      {/* Navigation Arrows */}
+                      <button
+                        onClick={prevSlide}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100"
+                        aria-label="Previous image"
+                      >
+                        <IoChevronBack className="w-6 h-6" />
+                      </button>
+                      <button
+                        onClick={nextSlide}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100"
+                        aria-label="Next image"
+                      >
+                        <IoChevronForward className="w-6 h-6" />
+                      </button>
+
+                      {/* Slide Indicators */}
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                        {allImages.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={() => goToSlide(index)}
+                            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                              index === currentSlide
+                                ? "bg-orange-500 scale-125"
+                                : "bg-white/50 hover:bg-white/80"
+                            }`}
+                            aria-label={`Go to slide ${index + 1}`}
+                          />
+                        ))}
+                      </div>
+
+                      {/* Image Counter */}
+                      <div className="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm font-medium">
+                        {currentSlide + 1} / {allImages.length}
+                      </div>
+                    </>
+                  ) : (
+                    // Single Image
+                    <>
+                      <Image
+                        src={allImages[0]}
+                        alt={service.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    </>
+                  )}
                 </div>
               )}
 
@@ -168,17 +247,28 @@ const ServiceDetails = () => {
                     {service.title}
                   </h1>
                   <div className="flex-shrink-0">
-                    <SocialShare 
-                      url={typeof window !== 'undefined' ? window.location.href : `https://techculture.ai/services/${slug}`}
+                    <SocialShare
+                      url={
+                        typeof window !== "undefined"
+                          ? window.location.href
+                          : `https://techculture.ai/services/${slug}`
+                      }
                       title={service.title}
                       description={service.description}
                       hashtags="TechCultureAI,AI,TechnologyServices,DigitalTransformation"
                     />
                   </div>
                 </div>
-                <p className="text-gray-300 text-lg leading-relaxed">
+                {/* <p className="text-gray-300 text-lg leading-relaxed">
                   {service.description}
-                </p>
+                </p> */}
+                <div>
+                  {/* <p className="text-xl font-semibold mb-4">Description</p> */}
+                  <div
+                    className="prose-project-description text-lg leading-relaxed max-w-none"
+                    dangerouslySetInnerHTML={{ __html: service.description }}
+                  />
+                </div>
               </div>
 
               {/* Features Section */}
@@ -234,31 +324,6 @@ const ServiceDetails = () => {
 
             {/* Sidebar */}
             <div className="lg:col-span-1">
-              {/* Service Info Card */}
-              {/* <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700/50 mb-8 backdrop-blur-sm">
-                <h3 className="text-xl font-bold text-white mb-6">Service Information</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center py-3 border-b border-gray-700/50">
-                    <span className="text-gray-400">Category</span>
-                    <span className="text-white font-medium capitalize">{service.category}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-3 border-b border-gray-700/50">
-                    <span className="text-gray-400">Features</span>
-                    <span className="text-white font-medium">{service.features?.length || 0}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-3 border-b border-gray-700/50">
-                    <span className="text-gray-400">Added</span>
-                    <span className="text-white font-medium">{formatDate(service.createdAt)}</span>
-                  </div>
-                  {service.order !== undefined && (
-                    <div className="flex justify-between items-center py-3">
-                      <span className="text-gray-400">Priority</span>
-                      <span className="text-white font-medium">#{service.order}</span>
-                    </div>
-                  )}
-                </div>
-              </div> */}
-
               {/* Related Services */}
               {relatedServices.length > 0 && (
                 <div className="bg-gray-800/50 rounded-2xl max-h-[75vh] p-6 border border-gray-700/50 backdrop-blur-sm h-full overflow-auto custom-scrollbar">
@@ -269,12 +334,7 @@ const ServiceDetails = () => {
                     {relatedServices.map((relatedService) => (
                       <Link
                         key={relatedService._id}
-                        href={`/services/${relatedService.title
-                          .toLowerCase()
-                          .trim()
-                          .replace(/\s+/g, "-") // spaces to hyphen
-                          .replace(/[^\w\-]+/g, "") // remove non-word chars
-                          .replace(/\-\-+/g, "-")}`}
+                        href={`/services/${relatedService.slug}`}
                         className="block p-4 bg-gray-700/50 rounded-xl border border-gray-600/50 hover:border-orange-500/50 transition-all group"
                       >
                         <div className="flex gap-3">
@@ -292,9 +352,6 @@ const ServiceDetails = () => {
                             <h4 className="text-white font-medium mb-1 line-clamp-2 group-hover:text-orange-400 transition-colors">
                               {relatedService.title}
                             </h4>
-                            {/* <p className="text-gray-400 text-sm capitalize">
-                              {relatedService.category}
-                            </p> */}
                           </div>
                         </div>
                       </Link>
