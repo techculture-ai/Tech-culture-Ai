@@ -177,7 +177,7 @@ const Header = () => {
         >
           <div className="container flex items-center justify-between">
             <Link href={"/"} className="logo flex items-center gap-2">
-              <div className="relative w-[80px] h-[80px]">
+              <div className="relative w-[150px] h-[80px]">
                 {/* Adjust size as needed */}
                 {settingsData && (
                   <Image
