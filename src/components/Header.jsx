@@ -25,6 +25,7 @@ const Header = () => {
     const [showEnquiryPopup, setShowEnquiryPopup] = useState(false);
     const [headerServices, setHeaderServices] = useState([]);
     const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
+    const [isMobileSubmenuOpen, setIsMobileSubmenuOpen] = useState(false);
     
      const [enquiryForm, setEnquiryFrom] = useState({
        name: "",
@@ -65,6 +66,25 @@ const Header = () => {
             document.body.style.overflow = 'unset';
         };
     }, [showEnquiryPopup]);
+
+    // Close dropdown when clicking outside (desktop only)
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (window.innerWidth > 1024 && isServicesDropdownOpen && !event.target.closest('.services-dropdown')) {
+                setIsServicesDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [isServicesDropdownOpen]);
+
+    // Reset mobile submenu when closing mobile nav
+    useEffect(() => {
+        if (!isOpenNav) {
+            setIsMobileSubmenuOpen(false);
+        }
+    }, [isOpenNav]);
 
     // Fetch header services
     useEffect(() => {
@@ -187,6 +207,32 @@ const Header = () => {
         return `${baseClasses} ${isActiveLink(path) ? activeClasses : inactiveClasses}`;
     };
 
+    // Handle services dropdown toggle for desktop
+    const handleServicesClick = (e) => {
+        e.preventDefault();
+        if (window.innerWidth > 1024) {
+            setIsServicesDropdownOpen(!isServicesDropdownOpen);
+        } else {
+            // Mobile - toggle submenu
+            setIsMobileSubmenuOpen(!isMobileSubmenuOpen);
+        }
+    };
+
+    // Handle mouse events for desktop hover
+    const handleMouseEnter = () => {
+        // Only enable hover on desktop (screen width > 1024px)
+        if (window.innerWidth > 1024) {
+            setIsServicesDropdownOpen(true);
+        }
+    };
+
+    const handleMouseLeave = () => {
+        // Only enable hover on desktop (screen width > 1024px)
+        if (window.innerWidth > 1024) {
+            setIsServicesDropdownOpen(false);
+        }
+    };
+
     return (
       <>
         <header
@@ -210,41 +256,43 @@ const Header = () => {
             </Link>
 
             <nav
-              className={`flex items-center gap-7 fixed top-0 -right-[100%] lg:static bg-[#040416] lg:bg-transparent flex-col lg:flex-row h-screen lg:h-auto z-[101] opacity-0 lg:opacity-100 ${
+              className={`flex items-center gap-7 fixed top-0 -right-[100%] lg:static bg-[#040416] lg:bg-transparent flex-col lg:flex-row h-screen lg:h-auto z-[101] opacity-0 lg:opacity-100 pt-20 lg:pt-0 px-6 lg:px-0 w-80 lg:w-auto ${
                 isOpenNav === true && "opacity-100 right-0"
               }`}
             >
               <Link
                 href={"/about-us"}
-                className={getLinkClasses("/about-us")}
+                className={`${getLinkClasses("/about-us")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
                 onClick={() => setIsOpenNav(false)}
               >
                 Who We Are
                 {isActiveLink("/about-us") && (
-                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full hidden lg:block"></span>
                 )}
               </Link>
+              
               <Link
                 href={"/services"}
-                className={getLinkClasses("/services")}
+                className={`${getLinkClasses("/services")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
                 onClick={() => setIsOpenNav(false)}
               >
                 What We Do
                 {isActiveLink("/services") && (
-                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full hidden lg:block"></span>
                 )}
               </Link>
 
-              {/* Services Dropdown */}
+              {/* Services Dropdown - Desktop only */}
               <div
-                className="relative group"
-                onMouseEnter={() => setIsServicesDropdownOpen(true)}
-                onMouseLeave={() => setIsServicesDropdownOpen(false)}
+                className="services-dropdown relative group hidden lg:block"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
               >
                 <div
                   className={`${getLinkClasses(
                     "/automation"
                   )} flex items-center gap-1 cursor-pointer`}
+                  onClick={handleServicesClick}
                 >
                   AI-Automation
                   <IoChevronDown
@@ -252,12 +300,9 @@ const Header = () => {
                       isServicesDropdownOpen ? "rotate-180" : ""
                     }`}
                   />
-                  {/* {isActiveLink("/services") && (
-                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
-                  )} */}
                 </div>
 
-                {/* Dropdown Menu */}
+                {/* Desktop Dropdown Menu */}
                 <div
                   className={`absolute top-full left-0 mt-2 min-w-[280px] bg-white dark:bg-gray-800 shadow-2xl rounded-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 ${
                     isServicesDropdownOpen
@@ -266,21 +311,6 @@ const Header = () => {
                   }`}
                 >
                   <div className="overflow-hidden rounded-lg">
-                    {/* View All Services Link */}
-                    {/* <Link
-                      href="/services"
-                      className="block px-4 py-3 text-gray-800 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200 border-b border-gray-100 dark:border-gray-700"
-                      onClick={() => {
-                        setIsOpenNav(false);
-                        setIsServicesDropdownOpen(false);
-                      }}
-                    >
-                      <div className="font-semibold">View All Services</div>
-                      <div className="text-sm opacity-70">
-                        Explore our complete service portfolio
-                      </div>
-                    </Link> */}
-
                     {/* Individual Services */}
                     {headerServices.length > 0 ? (
                       headerServices.map((service) => (
@@ -294,9 +324,6 @@ const Header = () => {
                           }}
                         >
                           <div className="font-medium">{service.title}</div>
-                          {/* <div className="text-sm opacity-70 line-clamp-1">
-                            {service.description}
-                          </div> */}
                         </Link>
                       ))
                     ) : (
@@ -308,64 +335,80 @@ const Header = () => {
                 </div>
               </div>
 
+              {/* Mobile AI-Automation Menu */}
+              <div className="w-full lg:hidden">
+                <div
+                  className={`${getLinkClasses(
+                    "/automation"
+                  )} flex items-center justify-between cursor-pointer w-full py-3 border-b border-gray-700`}
+                  onClick={handleServicesClick}
+                >
+                  <span>AI-Automation</span>
+                  <IoChevronDown
+                    className={`text-sm transition-transform duration-300 ${
+                      isMobileSubmenuOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+
+                {/* Mobile Submenu */}
+                {isMobileSubmenuOpen && headerServices.length > 0 && (
+                  <div className="ml-4 mt-2 space-y-2">
+                    {headerServices.map((service) => (
+                      <Link
+                        key={service._id}
+                        href={`/services/${service.slug}`}
+                        className="block text-gray-300 hover:text-primary transition-colors duration-200 py-2 text-[16px] border-b border-gray-800 last:border-none"
+                        onClick={() => {
+                          setIsOpenNav(false);
+                          setIsMobileSubmenuOpen(false);
+                        }}
+                      >
+                        {service.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <Link
                 href={"/portfolio"}
-                className={getLinkClasses("/portfolio")}
+                className={`${getLinkClasses("/portfolio")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
                 onClick={() => setIsOpenNav(false)}
               >
                 Portfolio
                 {isActiveLink("/portfolio") && (
-                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full hidden lg:block"></span>
                 )}
               </Link>
               <Link
                 href={"/technologies"}
-                className={getLinkClasses("/technologies")}
+                className={`${getLinkClasses("/technologies")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
                 onClick={() => setIsOpenNav(false)}
               >
                 Technologies
                 {isActiveLink("/technologies") && (
-                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full hidden lg:block"></span>
                 )}
               </Link>
               <Link
                 href={"/our-workspace"}
-                className={getLinkClasses("/our-workspace")}
+                className={`${getLinkClasses("/our-workspace")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
                 onClick={() => setIsOpenNav(false)}
               >
                 Our Workspace
                 {isActiveLink("/our-workspace") && (
-                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full hidden lg:block"></span>
                 )}
               </Link>
-              {/* <Link
-                href={"/client-stories"}
-                className={getLinkClasses("/client-stories")}
-                onClick={() => setIsOpenNav(false)}
-              >
-                Client Stories
-                {isActiveLink("/client-stories") && (
-                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
-                )}
-              </Link> */}
-              {/* <Link
-                href={"/team"}
-                className={getLinkClasses("/team")}
-                onClick={() => setIsOpenNav(false)}
-              >
-                Our Experts 
-                {isActiveLink("/team") && (
-                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
-                )}
-              </Link> */}
               <Link
                 href={"/contact-us"}
-                className={getLinkClasses("/contact-us")}
+                className={`${getLinkClasses("/contact-us")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0`}
                 onClick={() => setIsOpenNav(false)}
               >
                 Contact Us
                 {isActiveLink("/contact-us") && (
-                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full hidden lg:block"></span>
                 )}
               </Link>
             </nav>
