@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { IoSearchOutline, IoCloseOutline } from "react-icons/io5";
+import { IoSearchOutline, IoCloseOutline, IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { BiImageAlt } from "react-icons/bi";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import AIPageHeader from "../../components/AIPageHeader";
@@ -11,6 +11,7 @@ const OurWorkspace = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [modalImageLoading, setModalImageLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredImages, setFilteredImages] = useState([]);
@@ -78,16 +79,34 @@ const OurWorkspace = () => {
     });
   };
 
-  const openImageModal = (image) => {
+  const openImageModal = (image, index) => {
     setModalImageLoading(true);
     setSelectedImage(image);
+    setSelectedImageIndex(index);
     document.body.style.overflow = "hidden";
   };
 
   const closeImageModal = () => {
     setSelectedImage(null);
+    setSelectedImageIndex(0);
     setModalImageLoading(false);
     document.body.style.overflow = "unset";
+  };
+
+  const navigateImage = (direction) => {
+    const currentIndex = selectedImageIndex;
+    const totalImages = filteredImages.length;
+    
+    let newIndex;
+    if (direction === 'next') {
+      newIndex = currentIndex === totalImages - 1 ? 0 : currentIndex + 1;
+    } else {
+      newIndex = currentIndex === 0 ? totalImages - 1 : currentIndex - 1;
+    }
+    
+    setModalImageLoading(true);
+    setSelectedImageIndex(newIndex);
+    setSelectedImage(filteredImages[newIndex]);
   };
 
   const handleImageLoad = () => {
@@ -100,6 +119,33 @@ const OurWorkspace = () => {
       closeImageModal();
     }
   };
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (!selectedImage) return;
+      
+      switch (e.key) {
+        case 'ArrowLeft':
+          e.preventDefault();
+          navigateImage('prev');
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          navigateImage('next');
+          break;
+        case 'Escape':
+          e.preventDefault();
+          closeImageModal();
+          break;
+      }
+    };
+
+    if (selectedImage) {
+      document.addEventListener('keydown', handleKeyPress);
+      return () => document.removeEventListener('keydown', handleKeyPress);
+    }
+  }, [selectedImage, selectedImageIndex]);
 
   // Skeleton component for loading state
   const ImageSkeleton = () => (
@@ -155,79 +201,6 @@ const OurWorkspace = () => {
 
       <section className="py-20 bg-[#000319] min-h-screen custom-scrollbar">
         <div className="container mx-auto px-4">
-          {/* Stats and Controls */}
-          {/* <div className="mb-12">
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
-              
-              <div className="flex items-center gap-8">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white mb-1">
-                    {images.length}
-                  </div>
-                  <div className="text-gray-400 text-sm">Total Images</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white mb-1">
-                    {categories.length}
-                  </div>
-                  <div className="text-gray-400 text-sm">Categories</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white mb-1">
-                    {filteredImages.length}
-                  </div>
-                  <div className="text-gray-400 text-sm">Showing</div>
-                </div>
-              </div>
-            </div>
-
-            
-            <div className="flex flex-col md:flex-row gap-4">
-              
-              <div className="relative flex-1">
-                <IoSearchOutline className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  type="text"
-                  placeholder="Search workspace images..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                />
-              </div>
-
-             
-              <div className="relative">
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="appearance-none bg-gray-800/50 border border-gray-700/50 rounded-lg px-4 py-3 pr-10 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent min-w-[180px] w-full md:w-auto"
-                >
-                  <option value="all">All Categories</option>
-                  {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category.charAt(0).toUpperCase() + category.slice(1)}
-                    </option>
-                  ))}
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none z-10">
-                  <svg
-                    className="w-4 h-4 text-gray-400 flex-shrink-0"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div> */}
-
           {/* Images Grid */}
           {filteredImages.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -235,7 +208,7 @@ const OurWorkspace = () => {
                 <div
                   key={image._id}
                   className="group cursor-pointer rounded-2xl overflow-hidden bg-gray-800/30 border border-gray-700/30 hover:border-orange-500/50 transition-all duration-300 workspace-image-hover workspace-grid-item"
-                  onClick={() => openImageModal(image)}
+                  onClick={() => openImageModal(image, index)}
                   style={{ animationDelay: `${(index % 8) * 0.1}s` }}
                 >
                   {/* Image */}
@@ -271,7 +244,6 @@ const OurWorkspace = () => {
                     </h3>
                     <div className="flex items-center justify-between text-gray-400 text-sm">
                       <span className="capitalize">{image.category}</span>
-                      {/* <span>{formatDate(image.createdAt)}</span> */}
                     </div>
                   </div>
                 </div>
@@ -325,6 +297,38 @@ const OurWorkspace = () => {
               <IoCloseOutline className="w-6 h-6" />
             </button>
 
+            {/* Navigation Buttons */}
+            {filteredImages.length > 1 && (
+              <>
+                {/* Previous Button */}
+                <button
+                  onClick={() => navigateImage('prev')}
+                  className="fixed left-6 top-1/2 -translate-y-1/2 z-[1000] bg-black/50 backdrop-blur-sm text-white hover:text-orange-400 transition-all p-3 rounded-full hover:bg-black/70 group"
+                  aria-label="Previous image"
+                >
+                  <IoChevronBack className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
+                </button>
+
+                {/* Next Button */}
+                <button
+                  onClick={() => navigateImage('next')}
+                  className="fixed right-6 top-1/2 -translate-y-1/2 z-[1000] bg-black/50 backdrop-blur-sm text-white hover:text-orange-400 transition-all p-3 rounded-full hover:bg-black/70 group"
+                  aria-label="Next image"
+                >
+                  <IoChevronForward className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
+                </button>
+              </>
+            )}
+
+            {/* Image Counter */}
+            {filteredImages.length > 1 && (
+              <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[1000] bg-black/50 backdrop-blur-sm text-white px-4 py-2 rounded-full">
+                <span className="text-sm font-medium">
+                  {selectedImageIndex + 1} of {filteredImages.length}
+                </span>
+              </div>
+            )}
+
             {/* Image Container */}
             {modalImageLoading && <ImageSkeleton />}
             
@@ -349,12 +353,16 @@ const OurWorkspace = () => {
                   <span className="px-3 py-1 bg-orange-500/20 backdrop-blur-sm text-orange-300 text-sm font-medium rounded-full border border-orange-500/30">
                     {selectedImage.category}
                   </span>
-                  {/* <span className="text-gray-300 text-sm">
-                    {formatDate(selectedImage.createdAt)}
-                  </span> */}
                 </div>
               </div>
             </div>
+
+            {/* Keyboard Navigation Hint */}
+            {filteredImages.length > 1 && (
+              <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[1000] bg-black/30 backdrop-blur-sm text-white/70 px-4 py-2 rounded-full text-xs">
+                Use ← → arrow keys or click buttons to navigate
+              </div>
+            )}
           </div>
         </div>
       )}
