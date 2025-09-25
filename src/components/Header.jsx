@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link'
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoClose, IoChevronDown } from 'react-icons/io5';
@@ -19,6 +19,7 @@ const Header = () => {
     window.open(whatsappURL, "_blank");
   };
     const pathname = usePathname();
+    const router = useRouter();
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
     const [isScrolled, setIsScrolled] = useState(false);
     const [isOpenNav, setIsOpenNav] = useState(false);
@@ -26,6 +27,7 @@ const Header = () => {
     const [headerServices, setHeaderServices] = useState([]);
     const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
     const [isMobileSubmenuOpen, setIsMobileSubmenuOpen] = useState(false);
+    const [navigationSource, setNavigationSource] = useState('direct'); // 'services', 'automation', 'direct'
     
      const [enquiryForm, setEnquiryFrom] = useState({
        name: "",
@@ -50,6 +52,14 @@ const Header = () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
+
+    // Track navigation source from sessionStorage
+    useEffect(() => {
+        const storedSource = sessionStorage.getItem('navigationSource');
+        if (storedSource) {
+            setNavigationSource(storedSource);
+        }
+    }, [pathname]);
 
     // Prevent background scrolling when enquiry popup is open
     useEffect(() => {
@@ -191,9 +201,31 @@ const Header = () => {
         }
     }
     
+    // Helper function to check if current service is in AI-Automation dropdown
+    const isAiAutomationService = () => {
+        if (!pathname.startsWith('/services/')) return false;
+        
+        const currentSlug = pathname.replace('/services/', '');
+        return headerServices.some(service => service.slug === currentSlug);
+    };
+    
     // Function to check if current path matches the nav link
     const isActiveLink = (path) => {
         if (path === '/' && pathname === '/') return true;
+        
+        // Special handling for services
+        if (path === '/services') {
+            // Active for main services page OR if navigated from services page to an individual service
+            return pathname === '/services' || (pathname.startsWith('/services/') && navigationSource === 'services');
+        }
+        
+        // Special handling for AI-Automation
+        if (path === '/automation') {
+            // Active only if it's an AI service AND user came from automation dropdown
+            return isAiAutomationService() && navigationSource === 'automation';
+        }
+        
+        // Default behavior for other paths
         if (path !== '/' && pathname.startsWith(path)) return true;
         return false;
     };
@@ -233,6 +265,16 @@ const Header = () => {
         }
     };
 
+    // Handle navigation with source tracking
+    const handleNavigation = (href, source) => {
+        sessionStorage.setItem('navigationSource', source);
+        setNavigationSource(source);
+        router.push(href);
+        setIsOpenNav(false);
+        setIsServicesDropdownOpen(false);
+        setIsMobileSubmenuOpen(false);
+    };
+
     return (
       <>
         <header
@@ -241,7 +283,14 @@ const Header = () => {
           }`}
         >
           <div className="container flex items-center justify-between">
-            <Link href={"/"} className="logo flex items-center gap-2">
+            <Link 
+              href={"/"} 
+              className="logo flex items-center gap-2"
+              onClick={() => {
+                sessionStorage.removeItem('navigationSource');
+                setNavigationSource('direct');
+              }}
+            >
               <div className="relative w-[150px] h-[80px]">
                 {/* Adjust size as needed */}
                 {settingsData && (
@@ -263,7 +312,7 @@ const Header = () => {
               <Link
                 href={"/about-us"}
                 className={`${getLinkClasses("/about-us")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
-                onClick={() => setIsOpenNav(false)}
+                onClick={() => handleNavigation("/about-us", "direct")}
               >
                 Who We Are
                 {isActiveLink("/about-us") && (
@@ -274,7 +323,7 @@ const Header = () => {
               <Link
                 href={"/services"}
                 className={`${getLinkClasses("/services")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
-                onClick={() => setIsOpenNav(false)}
+                onClick={() => handleNavigation("/services", "services")}
               >
                 What We Do
                 {isActiveLink("/services") && (
@@ -300,6 +349,9 @@ const Header = () => {
                       isServicesDropdownOpen ? "rotate-180" : ""
                     }`}
                   />
+                  {isActiveLink("/automation") && (
+                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                  )}
                 </div>
 
                 {/* Desktop Dropdown Menu */}
@@ -314,17 +366,13 @@ const Header = () => {
                     {/* Individual Services */}
                     {headerServices.length > 0 ? (
                       headerServices.map((service) => (
-                        <Link
+                        <button
                           key={service._id}
-                          href={`/services/${service.slug}`}
-                          className="block px-4 py-3 text-gray-800 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200"
-                          onClick={() => {
-                            setIsOpenNav(false);
-                            setIsServicesDropdownOpen(false);
-                          }}
+                          className="block w-full text-left px-4 py-3 text-gray-800 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200"
+                          onClick={() => handleNavigation(`/services/${service.slug}`, "automation")}
                         >
                           <div className="font-medium">{service.title}</div>
-                        </Link>
+                        </button>
                       ))
                     ) : (
                       <div className="px-4 py-3 text-gray-500 dark:text-gray-400 text-sm">
@@ -355,17 +403,13 @@ const Header = () => {
                 {isMobileSubmenuOpen && headerServices.length > 0 && (
                   <div className="ml-4 mt-2 space-y-2">
                     {headerServices.map((service) => (
-                      <Link
+                      <button
                         key={service._id}
-                        href={`/services/${service.slug}`}
-                        className="block text-gray-300 hover:text-primary transition-colors duration-200 py-2 text-[16px] border-b border-gray-800 last:border-none"
-                        onClick={() => {
-                          setIsOpenNav(false);
-                          setIsMobileSubmenuOpen(false);
-                        }}
+                        className="block w-full text-left text-gray-300 hover:text-primary transition-colors duration-200 py-2 text-[16px] border-b border-gray-800 last:border-none"
+                        onClick={() => handleNavigation(`/services/${service.slug}`, "automation")}
                       >
                         {service.title}
-                      </Link>
+                      </button>
                     ))}
                   </div>
                 )}
@@ -374,7 +418,7 @@ const Header = () => {
               <Link
                 href={"/portfolio"}
                 className={`${getLinkClasses("/portfolio")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
-                onClick={() => setIsOpenNav(false)}
+                onClick={() => handleNavigation("/portfolio", "direct")}
               >
                 Portfolio
                 {isActiveLink("/portfolio") && (
@@ -384,7 +428,7 @@ const Header = () => {
               <Link
                 href={"/technologies"}
                 className={`${getLinkClasses("/technologies")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
-                onClick={() => setIsOpenNav(false)}
+                onClick={() => handleNavigation("/technologies", "direct")}
               >
                 Technologies
                 {isActiveLink("/technologies") && (
@@ -394,7 +438,7 @@ const Header = () => {
               <Link
                 href={"/our-workspace"}
                 className={`${getLinkClasses("/our-workspace")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
-                onClick={() => setIsOpenNav(false)}
+                onClick={() => handleNavigation("/our-workspace", "direct")}
               >
                 Our Workspace
                 {isActiveLink("/our-workspace") && (
@@ -404,7 +448,7 @@ const Header = () => {
               <Link
                 href={"/contact-us"}
                 className={`${getLinkClasses("/contact-us")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0`}
-                onClick={() => setIsOpenNav(false)}
+                onClick={() => handleNavigation("/contact-us", "direct")}
               >
                 Contact Us
                 {isActiveLink("/contact-us") && (
@@ -514,7 +558,7 @@ const Header = () => {
                       placeholder="How can we help you?"
                       rows={3}
                       className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
-                    ></textarea>
+                    />
                   </div>
                   <Button
                     type="submit"

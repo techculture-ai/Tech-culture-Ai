@@ -100,7 +100,6 @@ const HomeServices = () => {
                       .replace(/\s+/g, "-") // spaces to hyphen
                       .replace(/[^\w\-]+/g, "") // remove non-word chars
                       .replace(/\-\-+/g, "-")}`}
-                    
                     key={`main-${item._id}`}
                     className="box h-80 sm:h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all duration-300 animate-fadeInUp"
                     style={{
@@ -114,7 +113,7 @@ const HomeServices = () => {
                       loading="lazy"
                       width={400}
                       height={300}
-                      style={{objectFit: 'cover'}}
+                      style={{ objectFit: "cover" }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                     <div className="info p-4 sm:p-6 absolute bottom-0 left-0 z-50 w-full">
@@ -122,9 +121,15 @@ const HomeServices = () => {
                         {item?.title}
                       </h2>
                       {item?.description && (
-                        <p className="text-gray-300 text-sm mt-2 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          {item.description}
-                        </p>
+                        // <p className="text-gray-300 text-sm mt-2 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        //   {item.description}
+                        // </p>
+                        <div
+                          className="prose-project-description text-gray-300 text-sm mt-2 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 leading-relaxed"
+                          dangerouslySetInnerHTML={{
+                            __html: item.description,
+                          }}
+                        />
                       )}
                     </div>
 
@@ -184,7 +189,6 @@ const HomeServices = () => {
                       .replace(/\s+/g, "-") // spaces to hyphen
                       .replace(/[^\w\-]+/g, "") // remove non-word chars
                       .replace(/\-\-+/g, "-")}`}
-                    
                     key={`industry-${item._id}`}
                     className="box h-80 sm:h-96 rounded-md overflow-hidden relative group hover:-translate-y-3 transition-all duration-300 animate-fadeInUp"
                     style={{
@@ -198,7 +202,7 @@ const HomeServices = () => {
                       loading="lazy"
                       width={400}
                       height={300}
-                      style={{objectFit: 'cover'}}
+                      style={{ objectFit: "cover" }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                     <div className="info p-4 sm:p-6 absolute bottom-0 left-0 z-50 w-full">

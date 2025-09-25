@@ -6,11 +6,15 @@ import Image from "next/image";
 const HomeScreen = () => {
     return (
       <section className="homeScreen h-[1200px] relative">
-        <Image src="/plus.png" alt="image" className="plusImg keyframe5" width={50} height={50} />
+        <Image
+          src="/plus.png"
+          alt="image"
+          className="plusImg keyframe5"
+          width={50}
+          height={50}
+        />
         <div className="container">
-          <div className="flex items-center justify-center pt-[100px] lg:pt-[200px]">
-            
-          </div>
+          <div className="flex items-center justify-center pt-[100px] lg:pt-[200px]"></div>
           <h1
             className="text-white font-bold space-x-2 text-[60px] leading-[80px] text-center my-2 txt-shadow"
             data-aos="fade-up"
@@ -25,7 +29,7 @@ const HomeScreen = () => {
           >
             <span className="relative text-center txtLine text-primary">
               <TypeAnimation
-                className='pb-2'
+                className="pb-2"
                 sequence={[
                   // Same substring at the start will only be typed out once, initially
                   "Website Design & Development",
@@ -92,7 +96,7 @@ const HomeScreen = () => {
 
           <div className="homeScreenImg absolute bottom-0 left-0 w-full text-center flex items-center justify-center">
             <Image
-              src="https://seoc-html-v2.vercel.app/assets/img/all-images/new-img/header-img14.png"
+              src="/banner-tc-4.png"
               alt="img"
               className="w-[750px] hidden lg:block"
               width={750}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import { GoArrowUpRight } from "react-icons/go";
@@ -28,22 +28,45 @@ export default function ProjectDetailPage() {
   const [loading, setLoading] = useState(true);
   const [relatedProjects, setRelatedProjects] = useState([]);
   const [relatedLoading, setRelatedLoading] = useState(false);
+  const [showAdditionalContent, setShowAdditionalContent] = useState(false);
+
+  // Refs for height comparison
+  const imageRef = useRef(null);
+  const descriptionRef = useRef(null);
 
   // Prevent background scrolling when enquiry popup is open
-      useEffect(() => {
-          if (showEnquiryPopup) {
-              // Prevent scrolling
-              document.body.style.overflow = 'hidden';
-          } else {
-              // Restore scrolling
-              document.body.style.overflow = 'unset';
-          }
-  
-          // Cleanup function to restore scrolling when component unmounts
-          return () => {
-              document.body.style.overflow = 'unset';
-          };
-      }, [showEnquiryPopup]);
+  useEffect(() => {
+    if (showEnquiryPopup) {
+      // Prevent scrolling
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Restore scrolling
+      document.body.style.overflow = 'unset';
+    }
+
+    // Cleanup function to restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showEnquiryPopup]);
+
+  // Check if description height exceeds image height
+  useEffect(() => {
+    const checkHeight = () => {
+      if (imageRef.current && descriptionRef.current) {
+        const imageHeight = imageRef.current.offsetHeight;
+        const descriptionHeight = descriptionRef.current.offsetHeight;
+        setShowAdditionalContent(descriptionHeight > imageHeight);
+      }
+    };
+
+    // Check height after project loads and DOM updates
+    if (project) {
+      setTimeout(checkHeight, 100);
+      window.addEventListener('resize', checkHeight);
+      return () => window.removeEventListener('resize', checkHeight);
+    }
+  }, [project]);
   
   const fetchProject = async () => {
     try {
@@ -126,14 +149,10 @@ export default function ProjectDetailPage() {
       return;
     }
 
-  
-    // const loadingToast = toast.loading("Submitting your enquiry...");
-
     try {
       const res = await axios.post(`${apiBaseUrl}/api/enquiries`, enquiryForm);
 
       if (res.status === 201) {
-        // toast.dismiss(loadingToast);
         toast.success(
           "Enquiry submitted successfully! We'll get back to you soon."
         );
@@ -145,11 +164,9 @@ export default function ProjectDetailPage() {
         });
         setShowEnquiryPopup(false);
       } else {
-        // toast.dismiss(loadingToast);
         toast.error("Failed to submit enquiry. Please try again.");
       }
     } catch (error) {
-      // toast.dismiss(loadingToast);
       console.error("Error submitting enquiry form:", error);
 
       if (error.response?.data?.message) {
@@ -165,8 +182,57 @@ export default function ProjectDetailPage() {
       }
     }
   };
-    
 
+  // Additional Content Component (Location, Technologies, Actions)
+  const AdditionalContent = ({ className = "" }) => (
+    <div className={`space-y-6 ${className}`}>
+      {/* Location Section */}
+      {project.location && (
+        <div>
+          <h3 className="text-xl font-semibold mb-2">Location</h3>
+          <p className="text-white/70">📍 {project.location}</p>
+        </div>
+      )}
+
+      {/* Technologies */}
+      {project.technologies && project.technologies.length > 0 && (
+        <div>
+          <h3 className="text-xl font-semibold mb-4">
+            Technologies Used
+          </h3>
+          <div className="flex flex-wrap gap-3">
+            {project.technologies.map((tech, idx) => (
+              <span
+                key={idx}
+                className="bg-primary/20 text-primary border border-primary/30 px-4 py-2 rounded-full text-sm font-medium"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Action Buttons */}
+      <div className="flex gap-4">
+        <Button
+          className="!bg-primary !text-white !font-bold !capitalize"
+          size="large"
+          onClick={() => router.push("/portfolio")}
+        >
+          View More Projects
+        </Button>
+        <Button
+          className="!bg-white !text-gray-800 !font-bold !capitalize"
+          size="large"
+          onClick={() => setShowEnquiryPopup(true)}
+        >
+          Get In Touch
+        </Button>
+      </div>
+    </div>
+  );
+    
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -226,37 +292,43 @@ export default function ProjectDetailPage() {
           </button>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Project Image */}
-            <div className="sticky top-8">
-              <div className="aspect-[4/3] relative rounded-2xl overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover"
-                />
-                {/* Status Badge */}
-                <div className="absolute top-4 left-4">
-                  <span
-                    className={`px-4 py-2 rounded-full text-sm font-medium ${
-                      project.status === "completed"
-                        ? "bg-green-500/20 text-green-300 border border-green-500/30"
-                        : "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
-                    }`}
-                  >
-                    {project.status === "completed" ? "Completed" : "Ongoing"}
-                  </span>
+            {/* Left Column - Project Image and Additional Content */}
+            <div className="space-y-8">
+              {/* Project Image */}
+              <div ref={imageRef} className="sticky top-8">
+                <div className="aspect-[4/3] relative rounded-2xl overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Status Badge */}
+                  <div className="absolute top-4 left-4">
+                    <span
+                      className={`px-4 py-2 rounded-full text-sm font-medium ${
+                        project.status === "completed"
+                          ? "bg-green-500/20 text-green-300 border border-green-500/30"
+                          : "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
+                      }`}
+                    >
+                      {project.status === "completed" ? "Completed" : "Ongoing"}
+                    </span>
+                  </div>
                 </div>
               </div>
+
+              {/* Additional Content - Show under image when content is too long */}
+              {showAdditionalContent && (
+                <div className="lg:block hidden">
+                  <AdditionalContent />
+                </div>
+              )}
             </div>
 
-            {/* Project Details */}
+            {/* Right Column - Project Details */}
             <div className="space-y-6">
-              {/* <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-                <span className="text-gred">{project.title}</span>
-              </h1> */}
-
               {/* Description Section */}
-              <div>
+              <div ref={descriptionRef}>
                 <p className="text-xl font-semibold mb-4">Description</p>
                 <div
                   className="prose-project-description text-lg leading-relaxed max-w-none"
@@ -264,80 +336,14 @@ export default function ProjectDetailPage() {
                 />
               </div>
 
-              {/* Location Section */}
-              {project.location && (
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">Location</h3>
-                  <p className="text-white/70">📍 {project.location}</p>
-                </div>
-              )}
-
-              {/* Technologies */}
-              {project.technologies && project.technologies.length > 0 && (
-                <div>
-                  <h3 className="text-xl font-semibold mb-4">
-                    Technologies Used
-                  </h3>
-                  <div className="flex flex-wrap gap-3">
-                    {project.technologies.map((tech, idx) => (
-                      <span
-                        key={idx}
-                        className="bg-primary/20 text-primary border border-primary/30 px-4 py-2 rounded-full text-sm font-medium"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Action Buttons */}
-              <div className="flex gap-4">
-                <Button
-                  className="!bg-primary !text-white !font-bold !capitalize"
-                  size="large"
-                  onClick={() => router.push("/portfolio")}
-                >
-                  View More Projects
-                </Button>
-                <Button
-                  className="!bg-white !text-gray-800 !font-bold !capitalize"
-                  size="large"
-                  onClick={() => setShowEnquiryPopup(true)}
-                >
-                  Get In Touch
-                </Button>
+              {/* Additional Content - Show in right column when content is short, or always on mobile */}
+              <div className={`${showAdditionalContent ? 'lg:hidden' : ''} block`}>
+                <AdditionalContent />
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Portfolio Images */}
-      {/* {project.portfolioImages && project.portfolioImages.length > 0 && (
-        <section className="pb-20 px-4">
-          <div className="container mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">
-              Project <span className="text-gred">Gallery</span>
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {project.portfolioImages.map((image, index) => (
-                <div
-                  key={index}
-                  className="aspect-[4/3] relative rounded-xl overflow-hidden group"
-                >
-                  <img
-                    src={image}
-                    alt={`${project.title} gallery ${index + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )} */}
 
       {/* Related Projects Section */}
       {relatedProjects.length > 0 && (
@@ -369,15 +375,14 @@ export default function ProjectDetailPage() {
                   {relatedProjects.map((relatedProject, index) => (
                     <div
                       key={relatedProject._id}
-                      className="group cursor-pointer h-full" // Added h-full
+                      className="group cursor-pointer h-full"
                       onClick={() => {
-                        // Update project id in context and navigate
                         router.push(
                           `/portfolio/project/${relatedProject.title
                             .toLowerCase()
                             .trim()
-                            .replace(/\s+/g, "-") // spaces to hyphen
-                            .replace(/[^\w\-]+/g, "") // remove non-word chars
+                            .replace(/\s+/g, "-")
+                            .replace(/[^\w\-]+/g, "")
                             .replace(/\-\-+/g, "-")}`
                         );
                       }}
@@ -418,26 +423,13 @@ export default function ProjectDetailPage() {
                           </div>
                         </div>
 
-                        {/* Project Info - This will flex to fill remaining space */}
+                        {/* Project Info */}
                         <div className="p-6 flex flex-col flex-grow">
                           <h3 className="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">
                             {relatedProject.title}
                           </h3>
-                          
-                          {/* <div
-                            className="prose-project-description leading-relaxed max-w-none text-gray-400 text-sm mb-4 flex-grow"
-                            style={{
-                              display: "-webkit-box",
-                              WebkitLineClamp: 3, // Increased from 2 to 3 for better consistency
-                              WebkitBoxOrient: "vertical",
-                              overflow: "hidden",
-                            }}
-                            dangerouslySetInnerHTML={{
-                              __html: relatedProject.description,
-                            }}
-                          /> */}
 
-                          {/* Location - Fixed position from bottom */}
+                          {/* Location */}
                           {relatedProject.location && (
                             <div className="flex items-center gap-2 mb-4 mt-auto">
                               <svg
@@ -465,7 +457,7 @@ export default function ProjectDetailPage() {
                             </div>
                           )}
 
-                          {/* Technologies - Always at bottom */}
+                          {/* Technologies */}
                           {relatedProject.technologies &&
                             relatedProject.technologies.length > 0 && (
                               <div className="flex flex-wrap gap-2 mt-auto">
