@@ -575,9 +575,9 @@ const Header = () => {
         {/* Popup Enquiry Form */}
         {showEnquiryPopup && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] flex items-center justify-center p-4">
-            <div 
+            <div
               className="relative w-full max-w-lg bg-gray-900 rounded-2xl shadow-2xl max-h-[90vh] flex flex-col"
-              style={{ overflow: 'hidden' }}
+              style={{ overflow: "hidden" }}
             >
               <button
                 onClick={() => setShowEnquiryPopup(false)}
@@ -586,12 +586,12 @@ const Header = () => {
                 <IoClose />
               </button>
 
-              <div 
+              <div
                 className="p-6 flex-1"
-                style={{ 
-                  overflowY: 'auto',
-                  scrollbarWidth: 'none',
-                  msOverflowStyle: 'none'
+                style={{
+                  overflowY: "auto",
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
                 }}
                 css={`
                   &::-webkit-scrollbar {
@@ -704,7 +704,7 @@ const Header = () => {
 
                   {/* Info Text */}
                   <p className="text-xs text-gray-400 text-center mt-2">
-                    * Required fields. We'll contact you within 24 hours.
+                    * Required fields. We&apos;ll contact you within 24 hours.
                   </p>
                 </form>
               </div>

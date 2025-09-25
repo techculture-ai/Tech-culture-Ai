@@ -96,7 +96,7 @@ const HomeScreen = () => {
 
           <div className="homeScreenImg absolute bottom-0 left-0 w-full text-center flex items-center justify-center">
             <Image
-              src="/banner-tc-4.png"
+              src="/banner-tc-8.png"
               alt="img"
               className="w-[750px] hidden lg:block"
               width={750}

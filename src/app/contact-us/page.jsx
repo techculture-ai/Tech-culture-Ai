@@ -161,14 +161,28 @@ const ContactUs = () => {
                   {info.title}
                 </h4>
                 <div className="space-y-2 mb-3">
-                  {info.details.map((detail, idx) => (
-                    <a href={detail.startsWith('http') ? detail : detail.startsWith('mailto:') ? detail : detail.startsWith('tel:') ? detail : detail.includes('@') ? `mailto:${detail}` : `tel:${detail}`}
-                      key={idx}
-                      className="text-white/80 text-[18px] font-medium"
-                    >
-                      {detail}
-                    </a>
-                  ))}
+                  {info.details?.map(
+                    (detail, idx) =>
+                      detail && (
+                        <a
+                          href={
+                            (detail || "").startsWith("http")
+                              ? detail
+                              : (detail || "").startsWith("mailto:")
+                              ? detail
+                              : (detail || "").startsWith("tel:")
+                              ? detail
+                              : (detail || "").includes("@")
+                              ? `mailto:${detail}`
+                              : `tel:${detail}`
+                          }
+                          key={idx}
+                          className="text-white/80 text-[18px] font-medium"
+                        >
+                          {detail}
+                        </a>
+                      )
+                  )}
                 </div>
                 <p className="text-white/60 text-[14px]">{info.description}</p>
               </div>
@@ -192,7 +206,7 @@ const ContactUs = () => {
                   </p>
                   <p className="text-white/80 text-[18px] ">
                     <span className="font-bold">Corporate Office:</span>{" "}
-                    {settingsData?.officeAddress}   
+                    {settingsData?.officeAddress}
                   </p>
                 </div>
                 <p className="text-white/60 text-[14px]">
@@ -312,13 +326,12 @@ const ContactUs = () => {
 
                 <div>
                   <label className="block text-white font-medium mb-2">
-                    Message 
+                    Message
                   </label>
                   <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    
                     rows={5}
                     className="w-full bg-[#000319] border border-[rgba(255,255,255,0.2)] rounded-lg px-4 py-3 text-white placeholder-white/50 focus:border-primary focus:outline-none transition-all resize-none"
                     placeholder="Tell us about your project and how we can help..."
@@ -425,7 +438,6 @@ const ContactUs = () => {
       <section className="py-20 bg-[#000319]">
         <div className="container">
           <div className="text-center mb-16">
-            
             <h2 className="mainHd text-[40px] font-bold text-white leading-[60px] text-center mt-2">
               Frequently <span className="text-gred">Asked Questions</span>
             </h2>
