@@ -203,7 +203,7 @@ const Header = () => {
             return;
           }
 
-          const loadingToast = toast.loading("Submitting your enquiry...");
+          // const loadingToast = toast.loading("Submitting your enquiry...");
           
           try {
             // Prepare data for submission
@@ -225,7 +225,7 @@ const Header = () => {
             const res = await axios.post(`${apiBaseUrl}/api/enquiries`, submissionData);
             
             if (res.status === 201) {
-              toast.dismiss(loadingToast);
+              // toast.dismiss(loadingToast);
               toast.success(res.data.message || "Enquiry submitted successfully! We'll get back to you soon.");
               setEnquiryFrom({
                 name: "",
@@ -236,11 +236,11 @@ const Header = () => {
               });
               setShowEnquiryPopup(false);
             } else {
-              toast.dismiss(loadingToast);
+              // toast.dismiss(loadingToast);
               toast.error("Failed to submit enquiry. Please try again.");
             }
           } catch (error) {
-            toast.dismiss(loadingToast);
+            // toast.dismiss(loadingToast);
             console.error("Error submitting enquiry form:", error);
             
             if (error.response?.data?.message) {
