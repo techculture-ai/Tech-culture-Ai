@@ -165,9 +165,9 @@ const Footer = () => {
                   <span className="text-white text-[14px] sm:text-[16px]">
                     Call Us 24/7
                   </span>
-                  <span className="text-white text-[18px] sm:text-[22px] font-bold truncate">
+                  <a href={`tel:${settingsData?.contactNo}`} className="text-white text-[18px] sm:text-[22px] font-bold truncate">
                     {settingsData?.contactNo}
-                  </span>
+                  </a>
                 </div>
               </div>
 
@@ -182,9 +182,9 @@ const Footer = () => {
                   <span className="text-white text-[14px] sm:text-[16px]">
                     Mail Us Anytime
                   </span>
-                  <span className="text-white text-[18px] sm:text-[22px] font-bold truncate">
+                  <a href={`mailto:${settingsData?.email}`} className="text-white text-[18px] sm:text-[22px] font-bold truncate">
                     {settingsData?.email}
-                  </span>
+                  </a>
                 </div>
               </div>
             </div>
@@ -219,18 +219,18 @@ const Footer = () => {
                         size={18}
                         className="text-orange-500 flex-shrink-0"
                       />
-                      <span className="text-sm sm:text-base break-all">
+                      <a href={`mailto:${settingsData?.email}`} className="text-sm sm:text-base break-all">
                         {settingsData?.email}
-                      </span>
+                      </a>
                     </div>
                     <div className="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors">
                       <MdOutlinePhone
                         size={18}
                         className="text-orange-500 flex-shrink-0"
                       />
-                      <span className="text-sm sm:text-base">
+                      <a href={`tel:${settingsData?.contactNo}`} className="text-sm sm:text-base">
                         {settingsData?.contactNo}
-                      </span>
+                      </a>
                     </div>
                     {/* <div className="flex items-start gap-3 text-gray-400 hover:text-orange-400 transition-colors">
                       <LuMapPin size={18} className="text-orange-500 flex-shrink-0 mt-1" />

@@ -162,12 +162,12 @@ const ContactUs = () => {
                 </h4>
                 <div className="space-y-2 mb-3">
                   {info.details.map((detail, idx) => (
-                    <p
+                    <a href={detail.startsWith('http') ? detail : detail.startsWith('mailto:') ? detail : detail.startsWith('tel:') ? detail : detail.includes('@') ? `mailto:${detail}` : `tel:${detail}`}
                       key={idx}
                       className="text-white/80 text-[18px] font-medium"
                     >
                       {detail}
-                    </p>
+                    </a>
                   ))}
                 </div>
                 <p className="text-white/60 text-[14px]">{info.description}</p>

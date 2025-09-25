@@ -96,8 +96,8 @@ const About = () => {
       {/* Hero Section */}
       <section className="py-24 pt-10 aboutSection imageBg">
         <div className="container">
-          <div className="flex items-center gap-20 wrapper">
-            <div className="img relative w-[50%]" data-aos="fade-right">
+          <div className="flex items-center gap-5 wrapper">
+            <div className="img relative w-[40%]" data-aos="fade-right">
               <Image src="/about-01.png" alt="image" width={500} height={400} />
               {/* <span className="animateText txt-shadow">About Us</span> */}
               <Image
@@ -110,7 +110,7 @@ const About = () => {
             </div>
 
             <div
-              className="info w-[50%] flex flex-col gap-5"
+              className="info w-[60%] flex flex-col gap-5"
               data-aos="fade-left"
             >
               <h2 className="mainHd text-[50px] font-bold text-white leading-[60px]">
@@ -128,18 +128,29 @@ const About = () => {
                 efficiency, and accelerate sustainable growth.
               </p>
 
-              <div className="flex items-center gap-5 flex-col lg:flex-row justify-start text-left">
-                <span className="flex items-center gap-2 text-white/70 text-[18px] w-full lg:w-auto">
+              <div 
+                className="flex items-center gap-5 lg:flex-row lg:justify-start lg:text-left overflow-x-auto lg:overflow-x-visible"
+                style={{
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none'
+                }}
+                css={`
+                  &::-webkit-scrollbar {
+                    display: none;
+                  }
+                `}
+              >
+                <span className="flex items-center gap-2 text-white/70 text-[18px] whitespace-nowrap flex-shrink-0 lg:w-auto">
                   <MdOutlineShowChart size={20} className="text-primary" />
                   Custom Solutions
                 </span>
 
-                <span className="flex items-center gap-2 text-white/70 text-[18px] w-full lg:w-auto">
+                <span className="flex items-center gap-2 text-white/70 text-[18px] whitespace-nowrap flex-shrink-0 lg:w-auto">
                   <FiUsers size={20} className="text-primary" />
                   Expert Team
                 </span>
 
-                <span className="flex items-center gap-2 text-white/70 text-[18px] w-full lg:w-auto">
+                <span className="flex items-center gap-2 text-white/70 text-[18px] whitespace-nowrap flex-shrink-0 lg:w-auto">
                   <IoChatbubbleOutline size={20} className="text-primary" />
                   24/7 Chat Support
                 </span>

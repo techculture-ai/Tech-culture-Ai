@@ -5,11 +5,12 @@ import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { AiOutlineMenu } from "react-icons/ai";
-import { IoClose, IoChevronDown } from 'react-icons/io5';
+import { IoClose, IoChevronDown, IoCalendarOutline } from 'react-icons/io5';
 import { toast } from 'react-hot-toast';
 import { ImWhatsapp } from "react-icons/im";
+import ModernDateTimePicker from "./datetimepicker"
 
 const Header = () => {
   const contact = 7428238091;
@@ -27,13 +28,16 @@ const Header = () => {
     const [headerServices, setHeaderServices] = useState([]);
     const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
     const [isMobileSubmenuOpen, setIsMobileSubmenuOpen] = useState(false);
-    const [navigationSource, setNavigationSource] = useState('direct'); // 'services', 'automation', 'direct'
+    const [navigationSource, setNavigationSource] = useState('direct');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const dateTimePickerRef = useRef(null);
     
      const [enquiryForm, setEnquiryFrom] = useState({
        name: "",
        email: "",
        phone: "",
        message: "",
+       demoDateTime: "",
      });
 
     useEffect(() => {
@@ -122,7 +126,6 @@ const Header = () => {
             );
             if (res.status === 200) {
               setSettingsData(res.data.data);
-              console.log("im data ", res.data);
             }
           } catch (error) {
             console.log(error);
@@ -139,54 +142,105 @@ const Header = () => {
           });
         }
 
+    // Get minimum datetime (current time + 1 hour) in Indian timezone
+    const getMinDateTime = () => {
+        const now = new Date();
+        // Convert to Indian Standard Time (IST)
+        const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
+        const istTime = new Date(now.getTime() + istOffset);
+        istTime.setHours(istTime.getHours() + 1); // Add 1 hour buffer
+        return istTime.toISOString().slice(0, 16); // Format: YYYY-MM-DDTHH:mm
+    };
+
+    // Handle date time picker focus with scroll
+    const handleDateTimePickerFocus = () => {
+        setTimeout(() => {
+            if (dateTimePickerRef.current) {
+                dateTimePickerRef.current.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }
+        }, 100);
+    };
+
     const handleSubmit = async (e) => {
           e.preventDefault();
+          setIsSubmitting(true);
           
           // Basic validation
           if (!enquiryForm.name.trim()) {
             toast.error("Please enter your name");
+            setIsSubmitting(false);
             return;
           }
           
           if (!enquiryForm.email.trim()) {
             toast.error("Please enter your email");
+            setIsSubmitting(false);
             return;
           }
           
           if (!enquiryForm.phone.trim()) {
             toast.error("Please enter your phone number");
+            setIsSubmitting(false);
             return;
           }
-      
     
           // Email validation
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!emailRegex.test(enquiryForm.email)) {
             toast.error("Please enter a valid email address");
+            setIsSubmitting(false);
             return;
           }
-    
-          // const loadingToast = toast.loading("Submitting your enquiry...");
+
+          // Phone validation
+          const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+          if (!phoneRegex.test(enquiryForm.phone.replace(/\s+/g, ''))) {
+            toast.error("Please enter a valid phone number");
+            setIsSubmitting(false);
+            return;
+          }
+
+          const loadingToast = toast.loading("Submitting your enquiry...");
           
           try {
-            const res = await axios.post(`${apiBaseUrl}/api/enquiries`, enquiryForm);
+            // Prepare data for submission
+            const submissionData = {
+              ...enquiryForm,
+              projectName: "General",
+              timezone: "Asia/Kolkata" // Default to Indian timezone
+            };
+
+            // If datetime is provided, split it into date and time for backend
+            if (enquiryForm.demoDateTime) {
+                const datetime = new Date(enquiryForm.demoDateTime);
+                submissionData.demoDate = datetime.toISOString().split('T')[0];
+                submissionData.demoTime = datetime.toTimeString().slice(0, 5);
+                // Remove the combined field
+                delete submissionData.demoDateTime;
+            }
+
+            const res = await axios.post(`${apiBaseUrl}/api/enquiries`, submissionData);
             
             if (res.status === 201) {
-              // toast.dismiss(loadingToast);
-              toast.success("Enquiry submitted successfully! We'll get back to you soon.");
+              toast.dismiss(loadingToast);
+              toast.success(res.data.message || "Enquiry submitted successfully! We'll get back to you soon.");
               setEnquiryFrom({
                 name: "",
                 email: "",
                 phone: "",
                 message: "",
+                demoDateTime: "",
               });
               setShowEnquiryPopup(false);
             } else {
-              // toast.dismiss(loadingToast);
+              toast.dismiss(loadingToast);
               toast.error("Failed to submit enquiry. Please try again.");
             }
           } catch (error) {
-            // toast.dismiss(loadingToast);
+            toast.dismiss(loadingToast);
             console.error("Error submitting enquiry form:", error);
             
             if (error.response?.data?.message) {
@@ -198,7 +252,9 @@ const Header = () => {
             } else {
               toast.error("Failed to submit enquiry. Please check your connection and try again.");
             }
-        }
+          } finally {
+            setIsSubmitting(false);
+          }
     }
     
     // Helper function to check if current service is in AI-Automation dropdown
@@ -283,12 +339,12 @@ const Header = () => {
           }`}
         >
           <div className="container flex items-center justify-between">
-            <Link 
-              href={"/"} 
+            <Link
+              href={"/"}
               className="logo flex items-center gap-2"
               onClick={() => {
-                sessionStorage.removeItem('navigationSource');
-                setNavigationSource('direct');
+                sessionStorage.removeItem("navigationSource");
+                setNavigationSource("direct");
               }}
             >
               <div className="relative w-[150px] h-[80px]">
@@ -311,7 +367,9 @@ const Header = () => {
             >
               <Link
                 href={"/about-us"}
-                className={`${getLinkClasses("/about-us")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
+                className={`${getLinkClasses(
+                  "/about-us"
+                )} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
                 onClick={() => handleNavigation("/about-us", "direct")}
               >
                 Who We Are
@@ -319,10 +377,12 @@ const Header = () => {
                   <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full hidden lg:block"></span>
                 )}
               </Link>
-              
+
               <Link
                 href={"/services"}
-                className={`${getLinkClasses("/services")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
+                className={`${getLinkClasses(
+                  "/services"
+                )} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
                 onClick={() => handleNavigation("/services", "services")}
               >
                 What We Do
@@ -369,7 +429,12 @@ const Header = () => {
                         <button
                           key={service._id}
                           className="block w-full text-left px-4 py-3 text-gray-800 dark:text-gray-200 hover:bg-primary hover:text-white transition-colors duration-200"
-                          onClick={() => handleNavigation(`/services/${service.slug}`, "automation")}
+                          onClick={() =>
+                            handleNavigation(
+                              `/services/${service.slug}`,
+                              "automation"
+                            )
+                          }
                         >
                           <div className="font-medium">{service.title}</div>
                         </button>
@@ -406,7 +471,12 @@ const Header = () => {
                       <button
                         key={service._id}
                         className="block w-full text-left text-gray-300 hover:text-primary transition-colors duration-200 py-2 text-[16px] border-b border-gray-800 last:border-none"
-                        onClick={() => handleNavigation(`/services/${service.slug}`, "automation")}
+                        onClick={() =>
+                          handleNavigation(
+                            `/services/${service.slug}`,
+                            "automation"
+                          )
+                        }
                       >
                         {service.title}
                       </button>
@@ -417,7 +487,9 @@ const Header = () => {
 
               <Link
                 href={"/portfolio"}
-                className={`${getLinkClasses("/portfolio")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
+                className={`${getLinkClasses(
+                  "/portfolio"
+                )} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
                 onClick={() => handleNavigation("/portfolio", "direct")}
               >
                 Portfolio
@@ -427,7 +499,9 @@ const Header = () => {
               </Link>
               <Link
                 href={"/technologies"}
-                className={`${getLinkClasses("/technologies")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
+                className={`${getLinkClasses(
+                  "/technologies"
+                )} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
                 onClick={() => handleNavigation("/technologies", "direct")}
               >
                 Technologies
@@ -437,7 +511,9 @@ const Header = () => {
               </Link>
               <Link
                 href={"/our-workspace"}
-                className={`${getLinkClasses("/our-workspace")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
+                className={`${getLinkClasses(
+                  "/our-workspace"
+                )} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0 border-b border-gray-700 lg:border-none`}
                 onClick={() => handleNavigation("/our-workspace", "direct")}
               >
                 Our Workspace
@@ -447,7 +523,9 @@ const Header = () => {
               </Link>
               <Link
                 href={"/contact-us"}
-                className={`${getLinkClasses("/contact-us")} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0`}
+                className={`${getLinkClasses(
+                  "/contact-us"
+                )} w-full lg:w-auto text-left lg:text-center py-3 lg:py-0`}
                 onClick={() => handleNavigation("/contact-us", "direct")}
               >
                 Contact Us
@@ -497,25 +575,45 @@ const Header = () => {
         {/* Popup Enquiry Form */}
         {showEnquiryPopup && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] flex items-center justify-center p-4">
-            <div className="relative w-full max-w-lg bg-gray-900 rounded-2xl shadow-2xl max-h-[80vh]">
+            <div 
+              className="relative w-full max-w-lg bg-gray-900 rounded-2xl shadow-2xl max-h-[90vh] flex flex-col"
+              style={{ overflow: 'hidden' }}
+            >
               <button
                 onClick={() => setShowEnquiryPopup(false)}
-                className="absolute -top-4 -right-4 w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
+                className="absolute top-4 right-4 w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors z-10"
               >
                 <IoClose />
               </button>
 
-              <div className="p-6 max-h-[80vh] overflow-y-auto">
+              <div 
+                className="p-6 flex-1"
+                style={{ 
+                  overflowY: 'auto',
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none'
+                }}
+                css={`
+                  &::-webkit-scrollbar {
+                    display: none;
+                  }
+                `}
+              >
                 <div className="text-center mb-6">
                   <h3 className="text-2xl font-bold text-white mb-2">
-                    Get a Free Consultation
+                    Schedule a Demo
                   </h3>
                   <p className="text-gray-300">
-                    Leave your details and we&apos;ll get back to you shortly!
+                    Book a personalized demo or just leave your details for a
+                    consultation
+                  </p>
+                  <p className="text-xs text-gray-400 mt-2">
+                    * All times are in Indian Standard Time (IST)
                   </p>
                 </div>
 
                 <form className="space-y-4 text-white" onSubmit={handleSubmit}>
+                  {/* Basic Information */}
                   <div>
                     <input
                       type="text"
@@ -523,10 +621,12 @@ const Header = () => {
                       id="name"
                       onChange={handleInputChange}
                       value={enquiryForm.name}
-                      placeholder="Your Name"
+                      placeholder="Your Name *"
+                      required
                       className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
                     />
                   </div>
+
                   <div>
                     <input
                       id="email"
@@ -534,10 +634,12 @@ const Header = () => {
                       onChange={handleInputChange}
                       value={enquiryForm.email}
                       type="email"
-                      placeholder="Email Address"
+                      placeholder="Email Address *"
+                      required
                       className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
                     />
                   </div>
+
                   <div>
                     <input
                       id="phone"
@@ -545,27 +647,65 @@ const Header = () => {
                       onChange={handleInputChange}
                       value={enquiryForm.phone}
                       type="tel"
-                      placeholder="Phone Number"
+                      placeholder="Phone Number *"
+                      required
                       className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
                     />
                   </div>
+
+                  {/* Demo Scheduling Section */}
+                  <div className="relative" ref={dateTimePickerRef}>
+                    {/* <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Schedule Demo (Optional)
+                    </label> */}
+
+                    <ModernDateTimePicker
+                      value={enquiryForm.demoDateTime}
+                      onChange={handleInputChange}
+                      minDateTime={getMinDateTime()}
+                      onFocus={handleDateTimePickerFocus}
+                    />
+
+                    {/* <p className="text-xs text-gray-500 mt-1">
+                      Leave empty if you just want to submit an enquiry
+                    </p> */}
+                  </div>
+
+                  {/* Message */}
                   <div>
                     <textarea
                       id="message"
                       name="message"
                       onChange={handleInputChange}
                       value={enquiryForm.message}
-                      placeholder="How can we help you?"
+                      placeholder="Tell us about your requirements or questions..."
                       rows={3}
                       className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
                     />
                   </div>
+
+                  {/* Submit Button */}
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-6 !py-2 !capitalize !font-bold transition-all duration-300"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-[#ff6333] via-[#e15226] to-[#fe9272] !text-white !rounded-md !px-6 !py-3 !capitalize !font-bold transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    Send Message
+                    {isSubmitting ? (
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        Submitting...
+                      </div>
+                    ) : enquiryForm.demoDateTime ? (
+                      "Schedule Demo"
+                    ) : (
+                      "Send Enquiry"
+                    )}
                   </Button>
+
+                  {/* Info Text */}
+                  <p className="text-xs text-gray-400 text-center mt-2">
+                    * Required fields. We'll contact you within 24 hours.
+                  </p>
                 </form>
               </div>
             </div>
