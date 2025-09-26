@@ -187,31 +187,37 @@ export default function ProjectDetailPage() {
   const AdditionalContent = ({ className = "" }) => (
     <div className={`space-y-6 ${className}`}>
       {/* Location Section */}
-      {project.location && (
-        <div>
-          <h3 className="text-xl font-semibold mb-2">Location</h3>
-          <p className="text-white/70">📍 {project.location}</p>
-        </div>
-      )}
-
-      {/* Technologies */}
-      {project.technologies && project.technologies.length > 0 && (
-        <div>
-          <h3 className="text-xl font-semibold mb-4">
-            Technologies Used
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            {project.technologies.map((tech, idx) => (
-              <span
-                key={idx}
-                className="bg-primary/20 text-primary border border-primary/30 px-4 py-2 rounded-full text-sm font-medium"
-              >
-                {tech}
-              </span>
-            ))}
+      <div
+        className={`${
+          showAdditionalContent
+            ? "flex justify-between items-start pr-4"
+            : "space-y-6"
+        } `}
+      >
+        {/* Technologies */}
+        {project.technologies && project.technologies.length > 0 && (
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Technologies Used</h3>
+            <div className="flex flex-wrap gap-3">
+              {project.technologies.map((tech, idx) => (
+                <span
+                  key={idx}
+                  className="bg-primary/20 text-primary border border-primary/30 px-4 py-2 rounded-full text-sm font-medium"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {project.location && (
+          <div>
+            <h3 className="text-xl font-semibold mb-2">Location</h3>
+            <p className="text-white/70">📍 {project.location}</p>
+          </div>
+        )}
+      </div>
 
       {/* Action Buttons */}
       <div className="flex gap-4">

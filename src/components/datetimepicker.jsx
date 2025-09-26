@@ -9,7 +9,7 @@ import {
 
 const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("date"); // 'date' or 'time'
+  const [activeTab, setActiveTab] = useState("date");
   const [tempDate, setTempDate] = useState("");
   const [tempTime, setTempTime] = useState("");
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -18,9 +18,9 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
   // Initialize temp values from props
   useEffect(() => {
     if (value) {
-      const date = new Date(value);
-      setTempDate(date.toISOString().split("T")[0]);
-      setTempTime(date.toTimeString().slice(0, 5));
+      const [datePart, timePart] = value.split("T");
+      setTempDate(datePart);
+      setTempTime(timePart);
     }
   }, [value]);
 
@@ -49,31 +49,53 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
     return options;
   };
 
-  // Generate calendar days
+  // Generate calendar days - Fixed to avoid timezone issues
   const generateCalendarDays = () => {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
+
+    // Create dates using local timezone to avoid offset issues
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    const startDate = new Date(firstDay);
-    startDate.setDate(startDate.getDate() - firstDay.getDay());
+    const startDate = new Date(year, month, 1 - firstDay.getDay());
 
     const days = [];
     const today = new Date();
-    const minDate = minDateTime ? new Date(minDateTime) : null;
+    today.setHours(0, 0, 0, 0); // Reset time for comparison
+
+    // Get minimum date if provided
+    let minDate = null;
+    if (minDateTime) {
+      minDate = new Date(minDateTime);
+      minDate.setHours(0, 0, 0, 0);
+    }
 
     for (let i = 0; i < 42; i++) {
-      const date = new Date(startDate);
-      date.setDate(startDate.getDate() + i);
+      // Create date using year, month, day to avoid timezone issues
+      const currentDate = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate() + i
+      );
 
-      const isCurrentMonth = date.getMonth() === month;
-      const isToday = date.toDateString() === today.toDateString();
-      const isSelected = tempDate === date.toISOString().split("T")[0];
-      const isDisabled = minDate && date < minDate.setHours(0, 0, 0, 0);
+      const isCurrentMonth = currentDate.getMonth() === month;
+      const isToday = currentDate.getTime() === today.getTime();
+
+      // Format date as YYYY-MM-DD for comparison
+      const dateString =
+        currentDate.getFullYear() +
+        "-" +
+        String(currentDate.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(currentDate.getDate()).padStart(2, "0");
+
+      const isSelected = tempDate === dateString;
+      const isDisabled = minDate && currentDate < minDate;
 
       days.push({
-        date,
-        day: date.getDate(),
+        date: currentDate,
+        dateString: dateString,
+        day: currentDate.getDate(),
         isCurrentMonth,
         isToday,
         isSelected,
@@ -83,9 +105,8 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
     return days;
   };
 
-  const handleDateSelect = (date) => {
-    const dateString = date.toISOString().split("T")[0];
-    setTempDate(dateString);
+  const handleDateSelect = (dayObj) => {
+    setTempDate(dayObj.dateString);
     setActiveTab("time");
   };
 
@@ -122,7 +143,20 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
 
   const formatDisplayValue = () => {
     if (!value) return "";
-    const date = new Date(value);
+
+    const [datePart, timePart] = value.split("T");
+    const [year, month, day] = datePart.split("-");
+    const [hour, minute] = timePart.split(":");
+
+    // Create date using local timezone
+    const date = new Date(
+      parseInt(year),
+      parseInt(month) - 1,
+      parseInt(day),
+      parseInt(hour),
+      parseInt(minute)
+    );
+
     return date.toLocaleString("en-IN", {
       day: "2-digit",
       month: "short",
@@ -210,10 +244,7 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
                 <button
                   onClick={() =>
                     setCurrentMonth(
-                      new Date(
-                        currentMonth.getFullYear(),
-                        currentMonth.getMonth() - 1
-                      )
+                      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
                     )
                   }
                   className="p-2 hover:bg-gray-700 rounded-lg text-gray-300 hover:text-white transition-colors"
@@ -221,16 +252,12 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
                   <IoChevronBack />
                 </button>
                 <h3 className="text-white font-medium">
-                  {monthNames[currentMonth.getMonth()]}{" "}
-                  {currentMonth.getFullYear()}
+                  {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
                 </h3>
                 <button
                   onClick={() =>
                     setCurrentMonth(
-                      new Date(
-                        currentMonth.getFullYear(),
-                        currentMonth.getMonth() + 1
-                      )
+                      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
                     )
                   }
                   className="p-2 hover:bg-gray-700 rounded-lg text-gray-300 hover:text-white transition-colors"
@@ -256,9 +283,7 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
                 {generateCalendarDays().map((dayObj, index) => (
                   <button
                     key={index}
-                    onClick={() =>
-                      !dayObj.isDisabled && handleDateSelect(dayObj.date)
-                    }
+                    onClick={() => !dayObj.isDisabled && handleDateSelect(dayObj)}
                     disabled={dayObj.isDisabled}
                     className={`
                       w-8 h-8 text-sm rounded-lg transition-all duration-200 flex items-center justify-center

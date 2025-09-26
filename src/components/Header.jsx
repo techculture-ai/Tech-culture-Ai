@@ -142,14 +142,11 @@ const Header = () => {
           });
         }
 
-    // Get minimum datetime (current time + 1 hour) in Indian timezone
+    // Get minimum datetime (current time + 1 hour)
     const getMinDateTime = () => {
         const now = new Date();
-        // Convert to Indian Standard Time (IST)
-        const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
-        const istTime = new Date(now.getTime() + istOffset);
-        istTime.setHours(istTime.getHours() + 1); // Add 1 hour buffer
-        return istTime.toISOString().slice(0, 16); // Format: YYYY-MM-DDTHH:mm
+        now.setHours(now.getHours() + 1); // Add 1 hour buffer
+        return now.toISOString().slice(0, 16); // Format: YYYY-MM-DDTHH:mm
     };
 
     // Handle date time picker focus with scroll
@@ -186,7 +183,7 @@ const Header = () => {
             setIsSubmitting(false);
             return;
           }
-    
+
           // Email validation
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!emailRegex.test(enquiryForm.email)) {
@@ -202,30 +199,29 @@ const Header = () => {
             setIsSubmitting(false);
             return;
           }
-
-          // const loadingToast = toast.loading("Submitting your enquiry...");
           
           try {
-            // Prepare data for submission
+            // Prepare data for submission - NO TIMEZONE
             const submissionData = {
-              ...enquiryForm,
-              projectName: "General",
-              timezone: "Asia/Kolkata" // Default to Indian timezone
+              name: enquiryForm.name,
+              email: enquiryForm.email,
+              phone: enquiryForm.phone,
+              message: enquiryForm.message,
+              projectName: "General"
             };
 
             // If datetime is provided, split it into date and time for backend
             if (enquiryForm.demoDateTime) {
-                const datetime = new Date(enquiryForm.demoDateTime);
-                submissionData.demoDate = datetime.toISOString().split('T')[0];
-                submissionData.demoTime = datetime.toTimeString().slice(0, 5);
-                // Remove the combined field
-                delete submissionData.demoDateTime;
+              const [datePart, timePart] = enquiryForm.demoDateTime.split('T');
+              submissionData.demoDate = datePart;
+              submissionData.demoTime = timePart;
             }
+
+            console.log('Submitting data:', submissionData); // Debug log
 
             const res = await axios.post(`${apiBaseUrl}/api/enquiries`, submissionData);
             
             if (res.status === 201) {
-              // toast.dismiss(loadingToast);
               toast.success(res.data.message || "Enquiry submitted successfully! We'll get back to you soon.");
               setEnquiryFrom({
                 name: "",
@@ -236,11 +232,9 @@ const Header = () => {
               });
               setShowEnquiryPopup(false);
             } else {
-              // toast.dismiss(loadingToast);
               toast.error("Failed to submit enquiry. Please try again.");
             }
           } catch (error) {
-            // toast.dismiss(loadingToast);
             console.error("Error submitting enquiry form:", error);
             
             if (error.response?.data?.message) {
@@ -606,9 +600,6 @@ const Header = () => {
                   <p className="text-gray-300">
                     Book a personalized demo or just leave your details for a
                     consultation
-                  </p>
-                  <p className="text-xs text-gray-400 mt-2">
-                    * All times are in Indian Standard Time (IST)
                   </p>
                 </div>
 
