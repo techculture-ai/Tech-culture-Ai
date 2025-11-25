@@ -1,6 +1,7 @@
 import WhatsAppChat from "@/components/whatsappChat";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import DirectConsultationPopup from "../components/DirectConsultationPopup";
 import "./globals.css";
 import "./responsive.css";
 import { SiteProvider } from "@/context/siteContext";
@@ -82,6 +83,7 @@ export default function RootLayout({ children }) {
             }}
           />
           <WhatsAppChat />
+          <DirectConsultationPopup />
         </SiteProvider>
       </body>
     </html>
