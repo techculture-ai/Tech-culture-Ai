@@ -63,8 +63,8 @@ const DirectConsultationPopup = () => {
     setIsSubmitting(true);
 
     try {
-      // const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-      const apiUrl =  "http://localhost:8000";
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      // const apiUrl =  "http://localhost:8000";
 
       const response = await fetch(`${apiUrl}/api/messages`, {
         method: "POST",
