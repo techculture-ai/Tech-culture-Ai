@@ -38,7 +38,7 @@ const DirectConsultationPopup = () => {
       // Show popup after component mounts with delay
       const timer = setTimeout(() => {
         setIsOpen(true);
-      }, 10); // 1 seconds delay
+      }, 10000); // 2 minutes delay
 
       return () => clearTimeout(timer);
     }
@@ -106,7 +106,7 @@ const DirectConsultationPopup = () => {
         if (!stillNoMessage) {
           setIsOpen(true);
         }
-      }, 3000);
+      }, 120000);
     }
   };
 
@@ -167,7 +167,7 @@ const DirectConsultationPopup = () => {
               <input
                 type="email"
                 name="email"
-                placeholder="Email Address (Optional) fljgne;rhgoi"
+                placeholder="Email Address (Optional)"
                 value={formData.email}
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
