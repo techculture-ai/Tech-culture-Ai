@@ -189,16 +189,20 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
       {/* Input Field */}
       <div
         onClick={handleInputClick}
-        className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400 cursor-pointer hover:border-gray-600 transition-all duration-200 flex items-center justify-between"
+        className="w-full px-5 py-4 rounded-xl border border-gray-300 bg-gray-200 shadow-md focus:ring-2 focus:ring-blue-500 outline-none text-black placeholder-gray-400 cursor-pointer hover:border-blue-400 transition-all duration-200 flex items-center justify-between"
       >
         <div className="flex items-center gap-3">
-          <IoCalendarOutline className="text-orange-500 text-lg" />
-          <span className={value ? "text-white" : "text-gray-400"}>
-            {value ? formatDisplayValue() : "Select preferred date & time"}
+          <IoCalendarOutline className="text-blue-500 text-xl" />
+          <span className={value ? "text-gray-900 font-semibold" : "text-gray-400 font-medium"}>
+            {value ? (
+              <span className="text-black" style={{ color: '#000' }}>{formatDisplayValue()}</span>
+            ) : (
+              "Select preferred date & time"
+            )}
           </span>
         </div>
         <IoChevronDown
-          className={`text-gray-400 transition-transform duration-200 ${
+          className={`text-blue-400 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
@@ -207,97 +211,61 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
       {/* Dropdown */}
       {isOpen && (
         <div
-          className="absolute top-full left-0 mt-2 w-full bg-gray-800 border border-gray-700 rounded-xl shadow-2xl z-50"
-          style={{ overflow: "hidden" }}
+          className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow z-50 p-2 min-w-[400px]"
         >
-          {/* Header Tabs */}
-          <div className="flex border-b border-gray-700">
+          {/* Tabs */}
+          <div className="flex mb-6 border-b border-gray-100">
             <button
-              onClick={() => setActiveTab("date")}
-              className={`flex-1 py-3 px-4 text-sm font-medium transition-colors duration-200 ${
-                activeTab === "date"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-300 hover:text-white hover:bg-gray-700"
-              }`}
+              className={`flex-1 py-2 text-lg font-semibold rounded-t-xl transition-colors duration-200 ${activeTab === 'date' ? 'bg-blue-50 text-blue-600' : 'bg-transparent text-gray-500'}`}
+              onClick={() => setActiveTab('date')}
             >
-              <IoCalendarOutline className="inline mr-2" />
-              Date
+              <IoCalendarOutline className="inline mr-2" /> Date
             </button>
             <button
-              onClick={() => setActiveTab("time")}
-              className={`flex-1 py-3 px-4 text-sm font-medium transition-colors duration-200 ${
-                activeTab === "time"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-300 hover:text-white hover:bg-gray-700"
-              }`}
+              className={`flex-1 py-2 text-lg font-semibold rounded-t-xl transition-colors duration-200 ${activeTab === 'time' ? 'bg-blue-50 text-blue-600' : 'bg-transparent text-gray-500'}`}
+              onClick={() => setActiveTab('time')}
             >
-              <IoTimeOutline className="inline mr-2" />
-              Time
+              <IoTimeOutline className="inline mr-2" /> Time
             </button>
           </div>
 
           {/* Date Picker */}
-          {activeTab === "date" && (
-            <div className="p-4">
-              {/* Month Navigation */}
+          {activeTab === 'date' && (
+            <div className="mb-6">
+              {/* Month and Year Navigation */}
               <div className="flex items-center justify-between mb-4">
                 <button
-                  onClick={() =>
-                    setCurrentMonth(
-                      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
-                    )
-                  }
-                  className="p-2 hover:bg-gray-700 rounded-lg text-gray-300 hover:text-white transition-colors"
+                  onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
+                  className="p-2 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300"
                 >
                   <IoChevronBack />
                 </button>
-                <h3 className="text-white font-medium">
+                <span className="text-lg font-semibold text-black">
                   {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
-                </h3>
+                </span>
                 <button
-                  onClick={() =>
-                    setCurrentMonth(
-                      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
-                    )
-                  }
-                  className="p-2 hover:bg-gray-700 rounded-lg text-gray-300 hover:text-white transition-colors"
+                  onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
+                  className="p-2 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300"
                 >
                   <IoChevronForward />
                 </button>
               </div>
-
-              {/* Week Days */}
-              <div className="grid grid-cols-7 gap-1 mb-2">
+              <div className="grid grid-cols-7 gap-2 text-center text-gray-500 font-medium mb-2">
                 {weekDays.map((day) => (
-                  <div
-                    key={day}
-                    className="text-center text-xs text-gray-400 py-2"
-                  >
-                    {day}
-                  </div>
+                  <div key={day}>{day}</div>
                 ))}
               </div>
-
-              {/* Calendar Days */}
-              <div className="grid grid-cols-7 gap-1">
-                {generateCalendarDays().map((dayObj, index) => (
+              <div className="grid grid-cols-7 gap-2">
+                {generateCalendarDays().map((dayObj, idx) => (
                   <button
-                    key={index}
-                    onClick={() => !dayObj.isDisabled && handleDateSelect(dayObj)}
+                    key={idx}
                     disabled={dayObj.isDisabled}
-                    className={`
-                      w-8 h-8 text-sm rounded-lg transition-all duration-200 flex items-center justify-center
-                      ${
-                        !dayObj.isCurrentMonth
-                          ? "text-gray-600"
-                          : dayObj.isDisabled
-                          ? "text-gray-600 cursor-not-allowed"
-                          : dayObj.isSelected
-                          ? "bg-blue-600 text-white font-bold"
-                          : dayObj.isToday
-                          ? "bg-orange-500 text-white font-bold"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                      }
+                    onClick={() => handleDateSelect(dayObj)}
+                    className={`w-10 h-10 rounded-full text-base font-semibold transition-colors duration-200
+                      ${dayObj.isSelected ? 'bg-blue-600 text-black shadow-lg' : ''}
+                      ${dayObj.isToday ? 'border-2 border-blue-400' : ''}
+                      ${!dayObj.isCurrentMonth ? 'text-gray-300' : 'text-black'}
+                      ${dayObj.isDisabled ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white'}
                     `}
                   >
                     {dayObj.day}
@@ -308,32 +276,17 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
           )}
 
           {/* Time Picker */}
-          {activeTab === "time" && (
-            <div
-              className="p-4 max-h-60"
-              style={{
-                overflowY: "auto",
-                scrollbarWidth: "none",
-                msOverflowStyle: "none",
-              }}
-              css={`
-                &::-webkit-scrollbar {
-                  display: none;
-                }
-              `}
-            >
-              <div className="grid grid-cols-4 gap-2">
+          {activeTab === 'time' && (
+            <div className="mb-6">
+              <div className="grid grid-cols-4 gap-3">
                 {generateTimeOptions().map((time) => (
                   <button
                     key={time}
                     onClick={() => handleTimeSelect(time)}
-                    className={`
-                      py-2 px-3 text-sm rounded-lg transition-all duration-200
-                      ${
-                        tempTime === time
-                          ? "bg-blue-600 text-white font-bold"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                      }
+                    disabled={false}
+                    className={`py-2 px-4 rounded-full font-medium transition-colors duration-200
+                      ${tempTime === time ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-gray-700 hover:bg-blue-100 hover:text-blue-700'}
+                      ${false ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : ''}
                     `}
                   >
                     {time}
@@ -343,29 +296,21 @@ const ModernDateTimePicker = ({ value, onChange, minDateTime, onFocus }) => {
             </div>
           )}
 
-          {/* Footer Actions */}
-          <div className="flex justify-between items-center p-3 border-t border-gray-700 bg-gray-900/50">
+          {/* Actions */}
+          <div className="flex justify-between items-center mt-4">
             <button
+              className="px-5 py-2 rounded-lg bg-gray-100 text-gray-600 font-semibold hover:bg-gray-200 transition-colors duration-200"
               onClick={handleClear}
-              className="px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors"
             >
               Clear
             </button>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setIsOpen(false)}
-                className="px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleApply}
-                disabled={!tempDate || !tempTime}
-                className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Apply
-              </button>
-            </div>
+            <button
+              className="px-5 py-2 rounded-lg bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition-colors duration-200"
+              onClick={handleApply}
+              disabled={!(tempDate && tempTime)}
+            >
+              Apply
+            </button>
           </div>
         </div>
       )}

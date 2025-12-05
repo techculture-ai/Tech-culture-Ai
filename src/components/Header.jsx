@@ -570,7 +570,7 @@ const Header = () => {
         {showEnquiryPopup && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] flex items-center justify-center p-4">
             <div
-              className="relative w-full max-w-lg bg-gray-900 rounded-2xl shadow-2xl max-h-[90vh] flex flex-col"
+              className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl max-h-[90vh] flex flex-col"
               style={{ overflow: "hidden" }}
             >
               <button
@@ -594,10 +594,10 @@ const Header = () => {
                 `}
               >
                 <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-white mb-2">
+                  <h3 className="text-2xl font-bold text-black mb-2">
                     Schedule a Demo
                   </h3>
-                  <p className="text-gray-300">
+                  <p className="text-black">
                     Book a personalized demo or just leave your details for a
                     consultation
                   </p>
@@ -614,7 +614,7 @@ const Header = () => {
                       value={enquiryForm.name}
                       placeholder="Your Name *"
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/10 focus:ring-2 focus:ring-blue-500 outline-none text-black placeholder-gray-400"
                     />
                   </div>
 
@@ -627,7 +627,7 @@ const Header = () => {
                       type="email"
                       placeholder="Email Address *"
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/10 focus:ring-2 focus:ring-blue-500 outline-none text-black placeholder-gray-400"
                     />
                   </div>
 
@@ -640,7 +640,7 @@ const Header = () => {
                       type="tel"
                       placeholder="Phone Number *"
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/10 focus:ring-2 focus:ring-blue-500 outline-none text-black placeholder-gray-400"
                     />
                   </div>
 
@@ -671,7 +671,7 @@ const Header = () => {
                       value={enquiryForm.message}
                       placeholder="Tell us about your requirements or questions..."
                       rows={3}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-400"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/10 focus:ring-2 focus:ring-blue-500 outline-none text-black placeholder-gray-400"
                     />
                   </div>
 
